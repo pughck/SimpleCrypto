@@ -9,10 +9,16 @@
     </style>
 
     <style name="HomeScreenButtons" parent="@android:style/Widget.Button">
-        <item name="android:textSize">36sp</item>
-        <item name="android:background">@android:color/darker_gray</item>
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:height">36dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:topLeftRadius">20dp</item>
+        <item name="android:topRightRadius">20dp</item>
+        <item name="android:bottomLeftRadius">20dp</item>
+        <item name="android:bottomRightRadius">20dp</item>
+        <item name="android:background">@drawable/round_corners_button</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

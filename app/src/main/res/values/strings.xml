@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SimpleCrypto</string>
+
+    <string name="cryptography_messaging">Crypto Messaging</string>
+    <string name="cryptography_writer">Crypto Writer</string>
+    <string name="scheme_library">Scheme Library</string>
+    <string name="saved_strings">Saved Strings</string>
+    <string name="cryptography_lessons">Crypto Lessons</string>
+    <string name="settings">Settings</string>
+    <string name="about">About</string>
 </resources>
