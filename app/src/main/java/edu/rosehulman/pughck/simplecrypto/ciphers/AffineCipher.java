@@ -5,7 +5,7 @@ import android.util.Log;
 import java.math.BigInteger;
 
 import edu.rosehulman.pughck.simplecrypto.Constants;
-import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.IAlphabet;
+import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 
 /**
  * TODO
@@ -14,9 +14,18 @@ import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.IAlphabet;
  */
 public class AffineCipher implements ICipher {
 
-    private int alpha;
-    private int beta;
-    private IAlphabet alphabet;
+    private Alphabet mAlphabet;
+
+    private int mAlpha;
+    private int mBeta;
+
+    public AffineCipher(int alpha, int beta, Alphabet alphabet) {
+
+        mAlpha = alpha;
+        mBeta = beta;
+
+        mAlphabet = alphabet;
+    }
 
     @Override
     public String encrypt(String message) {
@@ -38,9 +47,9 @@ public class AffineCipher implements ICipher {
      */
     private boolean validAlpha() {
 
-        if (this.alphabet.size() > 0) {
-            BigInteger b1 = BigInteger.valueOf(this.alpha);
-            BigInteger b2 = BigInteger.valueOf(this.alphabet.size());
+        if (mAlphabet.size() > 0) {
+            BigInteger b1 = BigInteger.valueOf(mAlpha);
+            BigInteger b2 = BigInteger.valueOf(mAlphabet.size());
             BigInteger result = b1.gcd(b2);
 
             return result.equals(1);
