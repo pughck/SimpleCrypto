@@ -7,6 +7,10 @@ package edu.rosehulman.pughck.simplecrypto.ciphers;
  */
 public class CaesarCipher implements ICipher {
 
+    private int shiftValue;
+    private String alphabet;
+
+
     @Override
     public String encrypt(String message) {
 
