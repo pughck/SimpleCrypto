@@ -1,5 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.ciphers;
 
+import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.IAlphabet;
+
 /**
  * TODO
  * <p/>
@@ -7,9 +9,8 @@ package edu.rosehulman.pughck.simplecrypto.ciphers;
  */
 public class CaesarCipher implements ICipher {
 
-    private int shiftValue;
-    private String alphabet;
-
+    private int key;
+    private IAlphabet alphabet;
 
     @Override
     public String encrypt(String message) {
