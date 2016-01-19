@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -74,6 +75,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.about:
                 // about fragment
                 Log.d("TTT", "about");
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new AboutFragment());
+                ft.addToBackStack(Constants.menu_added);
+                ft.commit();
+
                 return;
 
             default:

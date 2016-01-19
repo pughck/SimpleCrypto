@@ -13,4 +13,7 @@
         <![CDATA[<font color="#7030a0">Simple</font><font color="#002060">Crypto</font>]]>
     </string>
 
+    <string name="about_content">About the app</string>
+    <string name="send_feedback">Send Feedback</string>
+
 </resources>

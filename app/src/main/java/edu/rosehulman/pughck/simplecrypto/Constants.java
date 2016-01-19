@@ -6,4 +6,6 @@ package edu.rosehulman.pughck.simplecrypto;
 public class Constants {
 
     public static String error = "ERROR";
+
+    public static String menu_added = "MENU FRAGMENT ADDED";
 }
