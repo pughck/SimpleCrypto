@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
 
+    android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -10,48 +11,5 @@
     android:paddingTop="@dimen/activity_vertical_margin"
 
     tools:context="edu.rosehulman.pughck.simplecrypto.MainActivity">
-
-    <!-- TODO put stuff here -->
-
-    <Button
-        android:id="@+id/messaging"
-        style="@style/HomeScreenButtons"
-        android:text="@string/cryptography_messaging" />
-
-    <Button
-        android:id="@+id/writer"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/messaging"
-        android:text="@string/cryptography_writer" />
-
-    <Button
-        android:id="@+id/scheme_library"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/writer"
-        android:text="@string/scheme_library" />
-
-    <Button
-        android:id="@+id/saved_strings"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/scheme_library"
-        android:text="@string/saved_strings" />
-
-    <Button
-        android:id="@+id/lessons"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/saved_strings"
-        android:text="@string/cryptography_lessons" />
-
-    <Button
-        android:id="@+id/settings"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/lessons"
-        android:text="@string/settings" />
-
-    <Button
-        android:id="@+id/about"
-        style="@style/HomeScreenButtons"
-        android:layout_below="@+id/settings"
-        android:text="@string/about" />
 
 </RelativeLayout>
