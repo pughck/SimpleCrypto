@@ -6,4 +6,5 @@
 
     <color name="dark_gray_button_border">#424242</color>
     <color name="button_pressed_border">#9651D4</color>
+    <color name="dark_gray">#777777</color>
 </resources>

@@ -13,12 +13,22 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_margin">10dp</item>
-        <item name="android:topLeftRadius">20dp</item>
-        <item name="android:topRightRadius">20dp</item>
-        <item name="android:bottomLeftRadius">20dp</item>
-        <item name="android:bottomRightRadius">20dp</item>
         <item name="android:background">@drawable/round_corners_button</item>
         <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="TitleBarBanners" parent="@android:style/TextAppearance">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:layout_marginRight">50dp</item>
+        <item name="android:paddingLeft">50dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:background">@drawable/title_bar</item>
+    </style>
+    <style name="SideBar">
+        <item name="android:background">@drawable/side_bar</item>
     </style>
 
 </resources>

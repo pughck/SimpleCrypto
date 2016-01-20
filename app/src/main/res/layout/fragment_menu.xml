@@ -1,50 +1,51 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+                xmlns:tools="http://schemas.android.com/tools"
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="16dp"
 
-    tools:context=".fragments.MenuFragment">
+                tools:context=".fragments.MenuFragment">
 
     <Button
         android:id="@+id/messaging"
         style="@style/HomeScreenButtons"
-        android:text="@string/cryptography_messaging" />
+        android:text="@string/cryptography_messaging"/>
 
     <Button
         android:id="@+id/writer"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/messaging"
-        android:text="@string/cryptography_writer" />
+        android:text="@string/cryptography_writer"/>
 
     <Button
         android:id="@+id/scheme_library"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/writer"
-        android:text="@string/scheme_library" />
+        android:text="@string/scheme_library"/>
 
     <Button
         android:id="@+id/saved_strings"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/scheme_library"
-        android:text="@string/saved_strings" />
+        android:text="@string/saved_strings"/>
 
     <Button
         android:id="@+id/lessons"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/saved_strings"
-        android:text="@string/cryptography_lessons" />
+        android:text="@string/cryptography_lessons"/>
 
     <Button
         android:id="@+id/settings"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/lessons"
-        android:text="@string/settings" />
+        android:text="@string/settings"/>
 
     <Button
         android:id="@+id/about"
         style="@style/HomeScreenButtons"
         android:layout_below="@+id/settings"
-        android:text="@string/about" />
+        android:text="@string/about"/>
 
 </RelativeLayout>
