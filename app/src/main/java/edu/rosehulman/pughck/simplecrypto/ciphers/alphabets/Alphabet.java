@@ -39,6 +39,7 @@ public abstract class Alphabet {
         if (index >= mAlphabet.size()) {
             Log.e(Constants.error, "Invalid index");
 
+            // TODO throw exception ??
             return 0;
         }
 

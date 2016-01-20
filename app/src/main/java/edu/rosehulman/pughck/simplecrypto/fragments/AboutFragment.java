@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.ciphers.AffineCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.CaesarCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
@@ -34,13 +35,6 @@ public class AboutFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-
-        // TODO delete textview / encryption stuff
-        TextView deleteThis = (TextView) view.findViewById(R.id.about_content);
-        String temp = "Hello90";
-        ICipher tempCipher = new CaesarCipher(1, new BasicAlphabet());
-        String tempEncrypt = tempCipher.encrypt(temp) + "\n" + tempCipher.decrypt(tempCipher.encrypt(temp));
-        deleteThis.setText(tempEncrypt);
 
         Button send_feedback = (Button) view.findViewById(R.id.send_feedback_button);
         send_feedback.setOnClickListener(new View.OnClickListener() {

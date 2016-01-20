@@ -19,44 +19,73 @@ public class AffineCipher implements ICipher {
     private int mAlpha;
     private int mBeta;
 
+    private int mAlphaInverse;
+
     public AffineCipher(int alpha, int beta, Alphabet alphabet) {
 
         mAlpha = alpha;
         mBeta = beta;
 
         mAlphabet = alphabet;
+
+        mAlphaInverse = BigInteger.valueOf(mAlpha)
+                .modInverse(BigInteger.valueOf(mAlphabet.size()))
+                .intValue();
+
+        Log.d("TTT", "inverse: " + mAlphaInverse);
     }
 
     @Override
     public String encrypt(String message) {
 
-        return null;
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < message.length(); i++) {
+
+            char c = message.charAt(i);
+            boolean upper = Character.isUpperCase(c);
+            c = Character.toLowerCase(c);
+
+            if (mAlphabet.containsChar(c)) {
+                int index = mAlphabet.getIndex(c);
+                int newIndex = (mAlpha * index + mBeta) % mAlphabet.size();
+                c = mAlphabet.getCharacter(newIndex);
+            }
+
+            if (upper) {
+                c = Character.toUpperCase(c);
+            }
+
+            result.append(c);
+        }
+
+        return result.toString();
     }
 
     @Override
     public String decrypt(String message) {
 
-        return null;
-    }
+        StringBuilder result = new StringBuilder();
 
-    /**
-     * Determines if the alpha is valid for the cipher
-     *
-     * @return - True if the alpha is valid for the cipher, false if not or the alphabet was not
-     * of size greater than 0.
-     */
-    private boolean validAlpha() {
+        for (int i = 0; i < message.length(); i++) {
 
-        if (mAlphabet.size() > 0) {
-            BigInteger b1 = BigInteger.valueOf(mAlpha);
-            BigInteger b2 = BigInteger.valueOf(mAlphabet.size());
-            BigInteger result = b1.gcd(b2);
+            char c = message.charAt(i);
+            boolean upper = Character.isUpperCase(c);
+            c = Character.toLowerCase(c);
 
-            return result.equals(1);
-        } else {
-            Log.e(Constants.error, "Alphabet did not have any size");
+            if (mAlphabet.containsChar(c)) {
+                int index = mAlphabet.getIndex(c);
+                int newIndex = (mAlphaInverse * (index - mBeta)) % mAlphabet.size();
+                c = mAlphabet.getCharacter(newIndex);
+            }
 
-            return false;
+            if (upper) {
+                c = Character.toUpperCase(c);
+            }
+
+            result.append(c);
         }
+
+        return result.toString();
     }
 }
