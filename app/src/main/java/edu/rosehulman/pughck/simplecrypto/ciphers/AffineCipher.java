@@ -1,10 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.ciphers;
 
-import android.util.Log;
-
 import java.math.BigInteger;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 
 /**
@@ -31,8 +28,6 @@ public class AffineCipher implements ICipher {
         mAlphaInverse = BigInteger.valueOf(mAlpha)
                 .modInverse(BigInteger.valueOf(mAlphabet.size()))
                 .intValue();
-
-        Log.d("TTT", "inverse: " + mAlphaInverse);
     }
 
     @Override
