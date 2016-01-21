@@ -17,7 +17,8 @@
     <string name="about_content">About the app</string>
     <string name="send_feedback">Send Feedback</string>
 
-    <string name="login">Please Login</string>
+    <string name="login">Please Sign In</string>
+    <string name="logging_in">Signing In...</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Login</string>

@@ -27,11 +27,15 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import java.io.IOException;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.CreateAccountFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.LoginFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
+import edu.rosehulman.pughck.simplecrypto.models.User;
 
 public class MainActivity extends AppCompatActivity
-        implements LoginFragment.OnLoginListener, View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+        implements LoginFragment.OnLoginListener,
+        CreateAccountFragment.CreateAccountListener,
+        View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 1;
 
@@ -89,6 +93,12 @@ public class MainActivity extends AppCompatActivity
     private boolean isExpired(AuthData authData) {
 
         return (System.currentTimeMillis() / 1000) >= authData.getExpires();
+    }
+
+    @Override
+    public void onCreateAccount(User user) {
+
+        // push user to firebase and login / go to main menu
     }
 
     // For login fragment

@@ -3,6 +3,7 @@ package edu.rosehulman.pughck.simplecrypto.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -16,12 +17,15 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
 
+import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 
 /**
  *
  */
 public class LoginFragment extends Fragment {
+
+    private TextView mLoginTitle;
 
     private EditText mPasswordView;
     private EditText mEmailView;
@@ -52,10 +56,14 @@ public class LoginFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_login, container, false);
 
+        mLoginTitle = (TextView) rootView.findViewById(R.id.fragment_login_title);
+
         mEmailView = (EditText) rootView.findViewById(R.id.email);
         mPasswordView = (EditText) rootView.findViewById(R.id.password);
         mLoginForm = rootView.findViewById(R.id.login_form);
         mProgressSpinner = rootView.findViewById(R.id.login_progress);
+
+        View createAccountButton = rootView.findViewById(R.id.create_account_button);
 
         View loginButton = rootView.findViewById(R.id.email_sign_in_button);
 
@@ -110,6 +118,19 @@ public class LoginFragment extends Fragment {
             }
         });
 
+        createAccountButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // launch creat account fragment
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, new CreateAccountFragment());
+                ft.addToBackStack(Constants.login_added);
+                ft.commit();
+            }
+        });
+
         return rootView;
     }
 
@@ -120,10 +141,12 @@ public class LoginFragment extends Fragment {
             return;
         }
 
+        mLoginTitle.setText(R.string.logging_in);
+
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
-        showProgress(false);
+        showProgress(true);
         mLoggingIn = true;
         mListener.onGoogleLogin();
         hideKeyboard();
@@ -134,6 +157,8 @@ public class LoginFragment extends Fragment {
         if (mLoggingIn) {
             return;
         }
+
+        mLoginTitle.setText(R.string.logging_in);
 
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -165,7 +190,7 @@ public class LoginFragment extends Fragment {
             focusView.requestFocus();
         } else {
             // show progress spinner, and start background task to login
-            showProgress(false);
+            showProgress(true);
             mLoggingIn = true;
             mListener.onLogin(email, password);
             hideKeyboard();

@@ -7,6 +7,7 @@ public class Constants {
 
     public static final String error = "ERROR";
 
+    public static final String login_added = "LOGIN FRAGMENT ADDED";
     public static final String menu_added = "MENU FRAGMENT ADDED";
 
     public static final String login_fragment_tag = "login";
