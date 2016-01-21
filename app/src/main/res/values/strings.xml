@@ -29,5 +29,6 @@
     <string name="field_required">This field is required</string>
     <string name="login_error">Login Error!</string>
     <string name="create_account">Create an Account</string>
+    <string name="create">Create</string>
 
 </resources>

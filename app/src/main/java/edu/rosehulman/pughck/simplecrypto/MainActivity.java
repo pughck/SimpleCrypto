@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 1;
 
+    private Firebase mFirebaseRef;
     private GoogleApiClient mGoogleApiClient;
 
     @Override
@@ -72,12 +73,12 @@ public class MainActivity extends AppCompatActivity
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+        mFirebaseRef = new Firebase(Constants.FIREBASE_URL);
 
         // TODO remove and add logout
-        firebase.unauth();
+        mFirebaseRef.unauth();
 
-        if (firebase.getAuth() == null || isExpired(firebase.getAuth())) {
+        if (mFirebaseRef.getAuth() == null || isExpired(mFirebaseRef.getAuth())) {
             // go to login
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fragment_container, new LoginFragment(), Constants.login_fragment_tag);
@@ -96,9 +97,25 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCreateAccount(User user) {
+    public void onCreateAccount(User user, String password) {
 
-        // push user to firebase and login / go to main menu
+        // auth user and push user to firebase and login / go to main menu
+        mFirebaseRef.createUser(user.getEmail(), password, new Firebase.ResultHandler() {
+
+            @Override
+            public void onSuccess() {
+
+                // add user to users list
+                // authenticate ??
+                // switch to main menu
+            }
+
+            @Override
+            public void onError(FirebaseError firebaseError) {
+
+                // error message and return to create account
+            }
+        });
     }
 
     // For login fragment

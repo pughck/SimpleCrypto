@@ -34,7 +34,21 @@ public class CreateAccountFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_account, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_create_account, container, false);
+
+        final User user = new User();
+
+        View createButton = rootView.findViewById(R.id.create_button);
+        createButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                mListener.onCreateAccount(user, "pass");
+            }
+        });
+
+        return rootView;
     }
 
     @Override
@@ -63,6 +77,6 @@ public class CreateAccountFragment extends Fragment {
      */
     public interface CreateAccountListener {
 
-        void onCreateAccount(User user);
+        void onCreateAccount(User user, String password);
     }
 }
