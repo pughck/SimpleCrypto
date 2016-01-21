@@ -37,6 +37,6 @@
         android:textColorHint="@android:color/darker_gray"
         android:textColorLink="@android:color/darker_gray" />
 
-    <!-- TODO add more stuff for user -->
+    <!-- TODO add more stuff for user model info -->
 
 </FrameLayout>
