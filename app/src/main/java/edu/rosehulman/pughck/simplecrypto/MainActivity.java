@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.LoginFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity
+        implements LoginFragment.OnLoginListener, View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.add(R.id.fragment_container, new LoginFragment());
+            ft.commit();
+        } else {
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.add(R.id.fragment_container, new MenuFragment());
             ft.commit();
         }
     }
 
+    // For login fragment
+    @Override
+    public void onLogin(String email, String password) {
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, new MenuFragment());
+        ft.commit();
+    }
+
+    @Override
+    public void onGoogleLogin() {
+
+    }
+
+    // For main menu fragment
     @Override
     public void onClick(View v) {
 
