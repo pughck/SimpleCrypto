@@ -9,13 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.R;
-import edu.rosehulman.pughck.simplecrypto.ciphers.AffineCipher;
-import edu.rosehulman.pughck.simplecrypto.ciphers.CaesarCipher;
-import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
-import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
 
 /**
  *
