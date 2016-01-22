@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCreateAccount(User user, String password) {
+    public void onCreateAccount(final User user, final String password) {
 
         // auth user and push user to firebase and login / go to main menu
         mFirebaseRef.createUser(user.getEmail(), password, new Firebase.ResultHandler() {
@@ -105,30 +105,43 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess() {
 
-                // add user to users list
-                // authenticate ??
-                // switch to main menu
+                // add user to users list (push)
+                Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
+                usersRef.push().setValue(user);
+
+                // authenticate and switch to main menu
+                mFirebaseRef.authWithPassword(user.getEmail(), password, new MyAuthResultHandler());
             }
 
             @Override
             public void onError(FirebaseError firebaseError) {
 
-                // error message and return to create account
+                showCreateAccountError(firebaseError.getMessage());
             }
         });
+    }
+
+    private void showCreateAccountError(String message) {
+
+        CreateAccountFragment createAccountFragment = (CreateAccountFragment)
+                getSupportFragmentManager()
+                        .findFragmentByTag(Constants.create_account_fragment_tag);
+
+        createAccountFragment.onCreateAccountError(message);
     }
 
     // For login fragment
     @Override
     public void onLogin(String email, String password) {
 
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container, new MenuFragment());
-        ft.commit();
+        // authenticate user
+        mFirebaseRef.authWithPassword(email, password, new MyAuthResultHandler());
     }
 
     @Override
     public void onGoogleLogin() {
+
+        // TODO add google user to list of users (push)
 
         // Log user in with Google Account
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -142,16 +155,18 @@ public class MainActivity extends AppCompatActivity
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
-                String emailAddress = account.getEmail();
+                if (account != null) {
+                    User user = new User(account.getEmail(), "", "", account.getDisplayName());
 
-                getGoogleOAuthToken(emailAddress);
+                    getGoogleOAuthToken(user);
+                }
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void getGoogleOAuthToken(final String emailAddress) {
+    private void getGoogleOAuthToken(final User user) {
 
         AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
 
@@ -163,7 +178,7 @@ public class MainActivity extends AppCompatActivity
                 String token = null;
                 try {
                     String scope = "oauth2:profile email";
-                    token = GoogleAuthUtil.getToken(MainActivity.this, emailAddress, scope);
+                    token = GoogleAuthUtil.getToken(MainActivity.this, user.getEmail(), scope);
                 } catch (IOException transientEx) {
                 /* Network or server error */
                     errorMessage = "Network error: " + transientEx.getMessage();
@@ -192,11 +207,10 @@ public class MainActivity extends AppCompatActivity
         task.execute();
     }
 
-    private void onGoogleLoginWithToken(String oAuthToken) {
+    private void onGoogleLoginWithToken(String token) {
 
         // Log user in with Google OAuth Token
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
-        firebase.authWithOAuthToken(Constants.google, oAuthToken, new MyAuthResultHandler());
+        mFirebaseRef.authWithOAuthToken(Constants.google, token, new MyAuthResultHandler());
     }
 
     @Override
@@ -205,10 +219,24 @@ public class MainActivity extends AppCompatActivity
         Log.e(Constants.error, "Connection Failed");
     }
 
+    private void showLoginError(String message) {
+
+        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager()
+                .findFragmentByTag(Constants.login_fragment_tag);
+
+        loginFragment.onLoginError(message);
+    }
+
     class MyAuthResultHandler implements Firebase.AuthResultHandler {
 
         @Override
         public void onAuthenticated(AuthData authData) {
+
+            // clear backstack
+            int nEntries = getSupportFragmentManager().getBackStackEntryCount();
+            for (int i = 0; i < nEntries; i++) {
+                getSupportFragmentManager().popBackStackImmediate();
+            }
 
             // switch to main menu fragment
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -221,14 +249,6 @@ public class MainActivity extends AppCompatActivity
 
             showLoginError(firebaseError.getMessage());
         }
-    }
-
-    private void showLoginError(String message) {
-
-        LoginFragment loginFragment = (LoginFragment) getSupportFragmentManager()
-                .findFragmentByTag(Constants.login_fragment_tag);
-
-        loginFragment.onLoginError(message);
     }
 
     // For main menu fragment

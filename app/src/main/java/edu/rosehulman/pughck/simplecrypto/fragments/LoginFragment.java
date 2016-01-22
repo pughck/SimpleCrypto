@@ -79,6 +79,7 @@ public class LoginFragment extends Fragment {
 
                     return true;
                 }
+
                 return false;
             }
         });
@@ -124,8 +125,11 @@ public class LoginFragment extends Fragment {
             public void onClick(View v) {
 
                 // launch creat account fragment
-                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, new CreateAccountFragment());
+                FragmentTransaction ft = getActivity().getSupportFragmentManager()
+                        .beginTransaction();
+                ft.replace(R.id.fragment_container,
+                        new CreateAccountFragment(),
+                        Constants.create_account_fragment_tag);
                 ft.addToBackStack(Constants.login_added);
                 ft.commit();
             }
@@ -213,11 +217,13 @@ public class LoginFragment extends Fragment {
                 .create()
                 .show();
 
+        mPasswordView.setText("");
+
         showProgress(false);
+
         mLoggingIn = false;
     }
 
-    // TODO call this correctly
     private void showProgress(boolean show) {
 
         mProgressSpinner.setVisibility(show ? View.VISIBLE : View.GONE);

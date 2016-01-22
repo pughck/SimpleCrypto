@@ -14,10 +14,21 @@ public class User {
     private String username;
     private String fistName;
     private String lastName;
+    private String profilePic;
 
     public User() {
 
         // empty default constructor for jackson
+    }
+
+    public User(String email, String fistName, String lastName, String username) {
+
+        this.email = email;
+        this.fistName = fistName;
+        this.lastName = lastName;
+        this.username = username;
+
+        this.profilePic = "";
     }
 
     public String getKey() {
@@ -68,5 +79,15 @@ public class User {
     public void setLastName(String lastName) {
 
         this.lastName = lastName;
+    }
+
+    public String getProfilePic() {
+
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+
+        this.profilePic = profilePic;
     }
 }
