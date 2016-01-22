@@ -1,6 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -12,8 +13,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.GoogleAuthUtil;
 import com.google.android.gms.auth.UserRecoverableAuthException;
@@ -105,12 +108,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSuccess() {
 
-                // add user to users list (push)
-                Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
-                usersRef.push().setValue(user);
-
                 // authenticate and switch to main menu
-                mFirebaseRef.authWithPassword(user.getEmail(), password, new MyAuthResultHandler());
+                mFirebaseRef.authWithPassword(user.getEmail(), password, new MyAuthResultHandler(user));
             }
 
             @Override
@@ -156,7 +155,11 @@ public class MainActivity extends AppCompatActivity
             if (result.isSuccess()) {
                 GoogleSignInAccount account = result.getSignInAccount();
                 if (account != null) {
-                    User user = new User(account.getEmail(), "", "", account.getDisplayName());
+                    Uri photo = account.getPhotoUrl();
+
+                    User user = new User(account.getEmail(), "", "",
+                            account.getDisplayName(),
+                            photo != null ? photo.toString() : Uri.EMPTY.toString());
 
                     getGoogleOAuthToken(user);
                 }
@@ -168,12 +171,12 @@ public class MainActivity extends AppCompatActivity
 
     private void getGoogleOAuthToken(final User user) {
 
-        AsyncTask<Void, Void, String> task = new AsyncTask<Void, Void, String>() {
+        AsyncTask<Void, Void, UserWithToken> task = new AsyncTask<Void, Void, UserWithToken>() {
 
             String errorMessage = null;
 
             @Override
-            protected String doInBackground(Void... params) {
+            protected UserWithToken doInBackground(Void... params) {
 
                 String token = null;
                 try {
@@ -190,16 +193,16 @@ public class MainActivity extends AppCompatActivity
                     errorMessage = "Error authenticating with Google: " + authEx.getMessage();
                 }
 
-                return token;
+                return new UserWithToken(user, token);
             }
 
             @Override
-            protected void onPostExecute(String token) {
+            protected void onPostExecute(UserWithToken uwt) {
 
-                if (token == null) {
+                if (uwt == null) {
                     showLoginError(errorMessage);
                 } else {
-                    onGoogleLoginWithToken(token);
+                    onGoogleLoginWithToken(uwt);
                 }
             }
         };
@@ -207,10 +210,12 @@ public class MainActivity extends AppCompatActivity
         task.execute();
     }
 
-    private void onGoogleLoginWithToken(String token) {
+    private void onGoogleLoginWithToken(UserWithToken uwt) {
 
         // Log user in with Google OAuth Token
-        mFirebaseRef.authWithOAuthToken(Constants.google, token, new MyAuthResultHandler());
+        mFirebaseRef.authWithOAuthToken(Constants.google,
+                uwt.getToken(),
+                new MyAuthResultHandler(uwt.getUser()));
     }
 
     @Override
@@ -227,10 +232,74 @@ public class MainActivity extends AppCompatActivity
         loginFragment.onLoginError(message);
     }
 
+    private class UserWithToken {
+
+        private User user;
+        private String token;
+
+        public UserWithToken(User u, String t) {
+
+            user = u;
+            token = t;
+        }
+
+        public User getUser() {
+
+            return user;
+        }
+
+        public String getToken() {
+
+            return token;
+        }
+    }
+
     class MyAuthResultHandler implements Firebase.AuthResultHandler {
 
+        private User user;
+
+        public MyAuthResultHandler() {
+
+            this(null);
+        }
+
+        public MyAuthResultHandler(User u) {
+
+            user = u;
+        }
+
         @Override
-        public void onAuthenticated(AuthData authData) {
+        public void onAuthenticated(final AuthData authData) {
+
+            // TODO I don't know if this is a good way to do this...
+            // create user in forge if does not exists
+            if (user != null) {
+                final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL + "/" + authData.getUid());
+                ValueEventListener userCheckListener = new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        if (dataSnapshot.getValue() == null) {
+
+                            // add user to firebase (push)
+                            userRef.setValue(user);
+                        }
+
+                        userRef.removeEventListener(this);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                        // does nothing
+                    }
+                };
+
+                userRef.addValueEventListener(userCheckListener);
+            }
+
+            Log.d("TTT", authData.getUid());
 
             // clear backstack
             int nEntries = getSupportFragmentManager().getBackStackEntryCount();

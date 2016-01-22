@@ -1,5 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.models;
 
+import android.net.Uri;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
@@ -21,14 +23,13 @@ public class User {
         // empty default constructor for jackson
     }
 
-    public User(String email, String fistName, String lastName, String username) {
+    public User(String email, String fistName, String lastName, String username, String profilePic) {
 
         this.email = email;
         this.fistName = fistName;
         this.lastName = lastName;
         this.username = username;
-
-        this.profilePic = "";
+        this.profilePic = profilePic;
     }
 
     public String getKey() {

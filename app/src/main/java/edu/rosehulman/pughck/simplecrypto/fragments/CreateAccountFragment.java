@@ -1,6 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -186,7 +187,7 @@ public class CreateAccountFragment extends Fragment {
                 }
             }
 
-            User user = new User(email, firstName, lastName, username);
+            User user = new User(email, firstName, lastName, username, Uri.EMPTY.toString());
 
             mListener.onCreateAccount(user, password);
 
