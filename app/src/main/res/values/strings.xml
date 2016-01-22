@@ -17,6 +17,25 @@
     <string name="about_content">About the app</string>
     <string name="send_feedback">Send Feedback</string>
 
+    <string name="login">Please Sign In</string>
+    <string name="logging_in">Signing In . . .</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Login</string>
+    <string name="action_sign_in_with_google">Sign in with Google</string>
+    <string name="invalid_email">This email address is invalid</string>
+    <string name="invalid_password">Password is too short</string>
+    <string name="incorrect_password">Password is incorrect</string>
+    <string name="field_required">This field is required</string>
+    <string name="login_error">Login Error!</string>
+    <string name="create_account">Create an Account</string>
+    <string name="create">Create</string>
+    <string name="prompt_first_name">First</string>
+    <string name="prompt_last_name">Last</string>
+    <string name="prompt_username">Username</string>
+    <string name="action_create_account">Create Account</string>
+    <string name="create_account_error">Error creating account!</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="writer_title">Writer</string>
