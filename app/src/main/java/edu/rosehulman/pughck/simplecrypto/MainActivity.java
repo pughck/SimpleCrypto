@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -50,6 +51,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.writer:
                 //writer fragment
                 Log.d("TTT", "writer");
+                FragmentTransaction cwft = getSupportFragmentManager().beginTransaction();
+                cwft.replace(R.id.fragment_container, new CryptoWriterFragment());
+                cwft.addToBackStack(Constants.menu_added);
+                cwft.commit();
                 return;
 
             case R.id.scheme_library:

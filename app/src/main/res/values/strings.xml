@@ -19,5 +19,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="writer_title">Writer</string>
+    <string name="insert_text_here">Insert text here</string>
 
 </resources>
