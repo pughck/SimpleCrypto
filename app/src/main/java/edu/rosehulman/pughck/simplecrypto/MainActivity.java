@@ -343,12 +343,8 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.writer:
                 //writer fragment
-                Log.d("TTT", "writer");
-                FragmentTransaction cwft = getSupportFragmentManager().beginTransaction();
-                cwft.replace(R.id.fragment_container, new CryptoWriterFragment());
-                cwft.addToBackStack(Constants.menu_added);
-                cwft.commit();
-                return;
+                fragment = new CryptoWriterFragment();
+                break;
 
             case R.id.scheme_library:
                 // scheme library fragment

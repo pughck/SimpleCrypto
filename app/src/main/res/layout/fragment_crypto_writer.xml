@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
 
     <View
         android:id="@+id/side_bar"
@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/side_bar"/>
+        android:background="@drawable/side_bar" />
 
     <TextView
         android:id="@+id/title_bar_writer"
@@ -20,26 +20,27 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:text="@string/writer_title"/>
+        android:text="@string/writer_title" />
 
     <EditText
-        android:background="@drawable/black_border_solid"
         android:id="@+id/about_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/title_bar_writer"
+        android:layout_alignRight="@+id/title_bar_writer"
         android:layout_below="@+id/title_bar_writer"
-        android:minLines="5"
-        android:maxLines="5"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="-15dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="-15dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:background="@drawable/black_border_solid"
         android:hint="@string/insert_text_here"
-        android:layout_alignRight="@+id/title_bar_writer"
-        android:layout_alignEnd="@+id/title_bar_writer"/>
+        android:maxLines="5"
+        android:minLines="5"
+        android:padding="5dp" />
 
 </RelativeLayout>
