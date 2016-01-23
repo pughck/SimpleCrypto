@@ -3,6 +3,7 @@ package edu.rosehulman.pughck.simplecrypto;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -31,8 +32,13 @@ import java.io.IOException;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.CreateAccountFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.CryptoLessonsFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.CryptoMessagingFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.LoginFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.SavedStringsFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.SchemeLibraryFragment;
+import edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment;
 import edu.rosehulman.pughck.simplecrypto.models.User;
 
 public class MainActivity extends AppCompatActivity
@@ -324,12 +330,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
 
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment fragment = null;
+
         switch (v.getId()) {
 
             case R.id.messaging:
                 // messaging fragment
-                Log.d("TTT", "messaging");
-                return;
+                fragment = new CryptoMessagingFragment();
+                break;
 
             case R.id.writer:
                 //writer fragment
@@ -338,37 +347,36 @@ public class MainActivity extends AppCompatActivity
 
             case R.id.scheme_library:
                 // scheme library fragment
-                Log.d("TTT", "scheme library");
-                return;
+                fragment = new SchemeLibraryFragment();
+                break;
 
             case R.id.saved_strings:
                 //saved strings fragment
-                Log.d("TTT", "saved strings");
-                return;
+                fragment = new SavedStringsFragment();
+                break;
 
             case R.id.lessons:
                 // lessons fragment
-                Log.d("TTT", "lessons");
-                return;
+                fragment = new CryptoLessonsFragment();
+                break;
 
             case R.id.settings:
                 // settings fragment
-                Log.d("TTT", "settings");
-                return;
+                fragment = new SettingsFragment();
+                break;
 
             case R.id.about:
                 // about fragment
-                Log.d("TTT", "about");
-
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, new AboutFragment());
-                ft.addToBackStack(Constants.menu_added);
-                ft.commit();
-
-                return;
+                fragment = new AboutFragment();
+                break;
 
             default:
                 Log.e(Constants.error, "invalid main menu click");
+                return;
         }
+
+        ft.replace(R.id.fragment_container, fragment);
+        ft.addToBackStack(Constants.menu_added);
+        ft.commit();
     }
 }
