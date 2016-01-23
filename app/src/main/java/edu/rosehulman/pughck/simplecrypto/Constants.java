@@ -17,4 +17,10 @@ public class Constants {
     public static final String FIREBASE_USERS_URL = FIREBASE_URL + "/users";
 
     public static final String google = "google";
+
+    public static final String feedback_subject = "SimpleCrypto Feedback";
+    public static final String[] send_to = new String[]
+            {"pughck@rose-hulman.edu", "gateslm@rose-hulman.edu"};
+    public static final String[] cc_to = new String[]{};
+    public static final String[] bcc_to = new String[]{};
 }
