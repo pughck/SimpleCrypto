@@ -262,6 +262,9 @@ public class LoginFragment extends Fragment {
         mListener = null;
     }
 
+    /**
+     *
+     */
     public interface OnLoginListener {
 
         void onLogin(String email, String password);
