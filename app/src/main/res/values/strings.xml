@@ -40,5 +40,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="writer_title">Writer</string>
     <string name="insert_text_here">Insert text here</string>
+    <string name="output_text">Output</string>
+    <string name="store_text">Store Text</string>
+    <string name="export_string">Export</string>
+    <string name="toggle_button_encrypt">Encrypt</string>
+    <string name="run_cipher_button">Run Cipher</string>
 
 </resources>
