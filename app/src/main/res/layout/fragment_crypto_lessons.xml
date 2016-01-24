@@ -1,9 +1,114 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoLessonsFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoLessonsFragment">
 
-    <!-- TODO -->
+    <View
+        android:id="@+id/side_bar"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/side_bar"/>
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/title_bar_lessons"
+        style="@style/TitleBarBanners"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/side_bar"
+        android:layout_toRightOf="@+id/side_bar"
+        android:text="@string/writer_title"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/side_bar"
+        android:layout_alignEnd="@+id/title_bar_lessons"
+        android:layout_alignRight="@+id/title_bar_lessons"
+        android:layout_below="@id/title_bar_lessons"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="-15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="-15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/side_bar"
+        android:layout_toRightOf="@+id/side_bar"
+        android:padding="5dp"
+        android:background="@drawable/stroke_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/caesar_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/caesar_cipher_lesson"
+                android:textSize="32sp"
+                />
+
+            <Button
+                android:id="@+id/affine_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/affine_lessons"
+                android:textSize="32sp"/>
+
+            <Button
+                android:id="@+id/vigenere_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/vigenere_lessons"
+                android:textSize="32sp"/>
+
+            <Button
+                android:id="@+id/rsa_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/rsa_lessons"
+                android:textSize="32sp"/>
+
+            <Button
+                android:id="@+id/mod_arith_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/mod_arith_lessons"
+                android:textSize="24sp"/>
+
+            <Button
+                android:id="@+id/inverse_lessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/inverse_lessons"
+                android:textSize="32sp"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

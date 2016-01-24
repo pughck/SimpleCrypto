@@ -45,5 +45,11 @@
     <string name="export_string">Export</string>
     <string name="toggle_button_encrypt">Encrypt</string>
     <string name="run_cipher_button">Run Cipher</string>
+    <string name="caesar_cipher_lesson">Caesar Lessons</string>
+    <string name="vigenere_lessons">Vigenere Lessons</string>
+    <string name="affine_lessons">Affine Lessons</string>
+    <string name="rsa_lessons">RSA Lessons</string>
+    <string name="mod_arith_lessons">Modular Arithmatic Lessons</string>
+    <string name="inverse_lessons">Inverse Lessons</string>
 
 </resources>
