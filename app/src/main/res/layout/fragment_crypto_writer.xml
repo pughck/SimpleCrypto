@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
-    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
 
     <View
         android:id="@+id/side_bar"
@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/side_bar" />
+        android:background="@drawable/side_bar"/>
 
     <TextView
         android:id="@+id/title_bar_writer"
@@ -20,10 +20,10 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:text="@string/writer_title" />
+        android:text="@string/writer_title"/>
 
     <EditText
-        android:id="@+id/about_content"
+        android:id="@+id/top_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignEnd="@+id/title_bar_writer"
@@ -41,6 +41,92 @@
         android:hint="@string/insert_text_here"
         android:maxLines="5"
         android:minLines="5"
-        android:padding="5dp" />
+        android:padding="5dp"/>
+
+
+    <EditText
+        android:id="@+id/bottom_output"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/title_bar_writer"
+        android:layout_alignRight="@+id/title_bar_writer"
+        android:layout_below="@+id/middle_bar"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="-15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="-15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@+id/side_bar"
+        android:layout_toRightOf="@+id/side_bar"
+        android:background="@drawable/black_border_solid"
+        android:hint="@string/output_text"
+        android:maxLines="5"
+        android:minLines="5"
+        android:padding="5dp"/>
+
+
+    <Button
+        android:id="@+id/store_text_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/bottom_output"
+        android:layout_alignStart="@+id/bottom_output"
+        android:layout_below="@+id/bottom_output"
+        android:background="@drawable/round_corners_button_gray"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/store_text"/>
+
+    <Button
+        android:id="@+id/export_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/bottom_output"
+        android:layout_alignRight="@+id/bottom_output"
+        android:layout_alignTop="@+id/store_text_button"
+        android:background="@drawable/round_corners_button_gray"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="@string/export_string"/>
+
+    <RelativeLayout
+        android:id="@+id/middle_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/top_input"
+        android:layout_alignLeft="@+id/bottom_output"
+        android:layout_alignRight="@+id/top_input"
+        android:layout_alignStart="@+id/bottom_output"
+        android:layout_below="@+id/top_input">
+
+        <ToggleButton
+            android:id="@+id/toggleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="@string/toggle_button_encrypt"/>
+
+        <Spinner
+            android:id="@+id/drop_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/toggleButton"
+            android:layout_toLeftOf="@+id/toggleButton"
+            android:layout_toStartOf="@id/toggleButton"
+            android:spinnerMode="dropdown"
+            />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/run_cipher_button"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"/>
+
+    </RelativeLayout>
+
 
 </RelativeLayout>
