@@ -4,11 +4,14 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.adapters.SavedStringsAdapter;
 
 /**
  *
@@ -16,6 +19,8 @@ import edu.rosehulman.pughck.simplecrypto.R;
 public class SavedStringsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
+
+    private SavedStringsAdapter mAdapter;
 
     public SavedStringsFragment() {
 
@@ -33,11 +38,14 @@ public class SavedStringsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_saved_strings, container, false);
+        RecyclerView view = (RecyclerView) inflater
+                .inflate(R.layout.fragment_saved_strings, container, false);
+        mAdapter = new SavedStringsAdapter();
+        view.setAdapter(mAdapter);
+        view.setLayoutManager(new LinearLayoutManager(getContext()));
+        view.setHasFixedSize(true);
 
-        // TODO
-
-        return rootView;
+        return view;
     }
 
     @Override
