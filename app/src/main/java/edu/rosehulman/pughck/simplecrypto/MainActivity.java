@@ -85,9 +85,6 @@ public class MainActivity extends AppCompatActivity
 
         mFirebaseRef = new Firebase(Constants.FIREBASE_URL);
 
-        // TODO remove and add logout
-        mFirebaseRef.unauth();
-
         if (mFirebaseRef.getAuth() == null || isExpired(mFirebaseRef.getAuth())) {
             // go to login
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -146,8 +143,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGoogleLogin() {
-
-        // TODO add google user to list of users (push)
 
         // Log user in with Google Account
         Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
@@ -278,10 +273,10 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onAuthenticated(final AuthData authData) {
 
-            // TODO I don't know if this is a good way to do this...
             // create user in forge if does not exists
             if (user != null) {
-                final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL + "/" + authData.getUid());
+                final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
+                        + "/" + authData.getUid());
                 ValueEventListener userCheckListener = new ValueEventListener() {
 
                     @Override
@@ -292,8 +287,6 @@ public class MainActivity extends AppCompatActivity
                             // add user to firebase (push)
                             userRef.setValue(user);
                         }
-
-                        userRef.removeEventListener(this);
                     }
 
                     @Override
@@ -303,10 +296,8 @@ public class MainActivity extends AppCompatActivity
                     }
                 };
 
-                userRef.addValueEventListener(userCheckListener);
+                userRef.addListenerForSingleValueEvent(userCheckListener);
             }
-
-            Log.d("TTT", authData.getUid());
 
             // clear backstack
             int nEntries = getSupportFragmentManager().getBackStackEntryCount();
@@ -371,13 +362,22 @@ public class MainActivity extends AppCompatActivity
                 fragment = new AboutFragment();
                 break;
 
+            case R.id.logout:
+                // logout  button
+                mFirebaseRef.unauth();
+
+                fragment = new LoginFragment();
+                break;
+
             default:
                 Log.e(Constants.error, "invalid main menu click");
                 return;
         }
 
         ft.replace(R.id.fragment_container, fragment);
-        ft.addToBackStack(Constants.menu_added);
+        if (v.getId() != R.id.logout) {
+            ft.addToBackStack(Constants.menu_added);
+        }
         ft.commit();
     }
 }

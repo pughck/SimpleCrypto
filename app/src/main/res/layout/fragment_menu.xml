@@ -48,4 +48,15 @@
         android:layout_below="@+id/settings"
         android:text="@string/about" />
 
+    <TextView
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/about"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/logout"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="16sp" />
+
 </RelativeLayout>

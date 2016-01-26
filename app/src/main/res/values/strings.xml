@@ -28,6 +28,7 @@
     <string name="incorrect_password">Password is incorrect</string>
     <string name="field_required">This field is required</string>
     <string name="login_error">Login Error!</string>
+
     <string name="create_account">Create an Account</string>
     <string name="create">Create</string>
     <string name="prompt_first_name">First</string>
@@ -36,8 +37,8 @@
     <string name="action_create_account">Create Account</string>
     <string name="create_account_error">Error creating account!</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="logout">Logout</string>
+
     <string name="writer_title">Writer</string>
     <string name="insert_text_here">Insert text here</string>
     <string name="output_text">Output</string>
@@ -45,6 +46,7 @@
     <string name="export_string">Export</string>
     <string name="toggle_button_encrypt">Encrypt</string>
     <string name="run_cipher_button">Run Cipher</string>
+
     <string name="caesar_cipher_lesson">Caesar Lessons</string>
     <string name="vigenere_lessons">Vigenere Lessons</string>
     <string name="affine_lessons">Affine Lessons</string>

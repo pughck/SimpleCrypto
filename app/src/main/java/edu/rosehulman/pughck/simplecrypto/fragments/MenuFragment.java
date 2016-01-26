@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -71,6 +72,9 @@ public class MenuFragment extends Fragment {
 
         Button about = (Button) view.findViewById(R.id.about);
         about.setOnClickListener(mClickListener);
+
+        View logout = view.findViewById(R.id.logout);
+        logout.setOnClickListener(mClickListener);
 
         return view;
     }
