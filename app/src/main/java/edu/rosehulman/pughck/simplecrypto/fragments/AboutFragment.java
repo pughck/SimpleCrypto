@@ -1,23 +1,22 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 
 /**
  *
  */
 public class AboutFragment extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
 
     public AboutFragment() {
 
@@ -37,41 +36,22 @@ public class AboutFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                // send email
-                Log.d("TTT", "clicked send feedback button");
+                // launch text dialog fragment and send email
+                Intent email = new Intent(Intent.ACTION_SEND);
+                email.setType("message/rfc822");
+
+                email.putExtra(Intent.EXTRA_EMAIL, Constants.send_to);
+                email.putExtra(Intent.EXTRA_CC, Constants.cc_to);
+                email.putExtra(Intent.EXTRA_BCC, Constants.bcc_to);
+
+                email.putExtra(Intent.EXTRA_SUBJECT, Constants.feedback_subject);
+
+                email.putExtra(Intent.EXTRA_TEXT, "replace with your feedback");
+
+                startActivity(Intent.createChooser(email, "Choose an Email client :"));
             }
         });
 
         return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-
-//        mListener = null;
-    }
-
-    /**
-     *
-     */
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
