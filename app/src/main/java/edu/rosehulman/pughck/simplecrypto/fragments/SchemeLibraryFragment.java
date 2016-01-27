@@ -4,63 +4,33 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.adapters.SchemeLibraryAdapter;
 
 /**
  *
  */
 public class SchemeLibraryFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+
+    private SchemeLibraryAdapter mAdapter;
 
     public SchemeLibraryFragment() {
 
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SchemeLibraryFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SchemeLibraryFragment newInstance(String param1, String param2) {
-
-        SchemeLibraryFragment fragment = new SchemeLibraryFragment();
-
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -70,7 +40,11 @@ public class SchemeLibraryFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_scheme_library, container, false);
 
-        // TODO
+        RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.scheme_library_recycler_view);
+        mAdapter = new SchemeLibraryAdapter();
+        rView.setAdapter(mAdapter);
+        rView.setLayoutManager(new LinearLayoutManager(getContext()));
+        rView.setHasFixedSize(true);
 
         return rootView;
     }

@@ -16,6 +16,7 @@ public class Constants {
     public static final String FIREBASE_URL = "https://csse483-simple-crypto.firebaseio.com";
     public static final String FIREBASE_USERS_URL = FIREBASE_URL + "/users";
     public static final String FIREBASE_SAVED_STRINGS = "/saved-strings";
+    public static final String FIREBASE_SAVED_SCHEMES = "/saved-schemes";
 
     public static final String google = "google";
 
