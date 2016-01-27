@@ -38,14 +38,15 @@ public class SavedStringsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        RecyclerView view = (RecyclerView) inflater
-                .inflate(R.layout.fragment_saved_strings, container, false);
-        mAdapter = new SavedStringsAdapter();
-        view.setAdapter(mAdapter);
-        view.setLayoutManager(new LinearLayoutManager(getContext()));
-        view.setHasFixedSize(true);
+        View rootView = inflater.inflate(R.layout.fragment_saved_strings, container, false);
 
-        return view;
+        RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.saved_strings_recycler_view);
+        mAdapter = new SavedStringsAdapter();
+        rView.setAdapter(mAdapter);
+        rView.setLayoutManager(new LinearLayoutManager(getContext()));
+        rView.setHasFixedSize(true);
+
+        return rootView;
     }
 
     @Override
