@@ -14,9 +14,8 @@ public class SavedSchemeModel {
 
     private String name;
     private String type;
-    private int key1;
-    private int key2;
-    private String key3;
+    private String key1;
+    private String key2;
 
     public SavedSchemeModel() {
 
@@ -53,34 +52,24 @@ public class SavedSchemeModel {
         this.type = type;
     }
 
-    public int getKey1() {
+    public String getKey1() {
 
         return key1;
     }
 
-    public void setKey1(int key1) {
+    public void setKey1(String key1) {
 
         this.key1 = key1;
     }
 
-    public int getKey2() {
+    public String getKey2() {
 
         return key2;
     }
 
-    public void setKey2(int key2) {
+    public void setKey2(String key2) {
 
         this.key2 = key2;
-    }
-
-    public String getKey3() {
-
-        return key3;
-    }
-
-    public void setKey3(String key3) {
-
-        this.key3 = key3;
     }
 
     public void setValues(SavedSchemeModel newScheme) {
@@ -89,6 +78,22 @@ public class SavedSchemeModel {
         this.type = newScheme.type;
         this.key1 = newScheme.key1;
         this.key2 = newScheme.key2;
-        this.key3 = newScheme.key3;
+    }
+
+    public String getInfoString() {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.type).append("\n");
+
+        if (this.key1 != null) {
+            sb.append(this.key1).append("\n");
+        }
+
+
+        if (this.key2 != null) {
+            sb.append(this.key2).append("\n");
+        }
+
+        return sb.toString();
     }
 }

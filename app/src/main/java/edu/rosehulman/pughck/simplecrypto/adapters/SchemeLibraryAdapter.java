@@ -1,5 +1,10 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
+import android.app.Dialog;
+import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +29,13 @@ import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
  */
 public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdapter.ViewHolder> {
 
+    private AppCompatActivity mActivity;
+
     private List<SavedSchemeModel> mSchemes;
 
-    public SchemeLibraryAdapter() {
+    public SchemeLibraryAdapter(AppCompatActivity activity) {
+
+        mActivity = activity;
 
         Firebase firebase = new Firebase(Constants.FIREBASE_URL);
         Firebase schemeLibraryRef = new Firebase(Constants.FIREBASE_USERS_URL
@@ -63,11 +72,47 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
 
         private TextView mSchemeName;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
 
             super(itemView);
 
             mSchemeName = (TextView) itemView.findViewById(R.id.scheme_name);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    // show details
+                    Log.d("TTT", "click - show details");
+                    DialogFragment df = new DialogFragment() {
+
+                        @Override
+                        public Dialog onCreateDialog(Bundle savedInstance) {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                            builder.setTitle((CharSequence) mSchemeName);
+                            builder.setMessage(mSchemes.get(getAdapterPosition()).getInfoString());
+
+                            return builder.create();
+                        }
+                    };
+
+                    df.show(mActivity.getSupportFragmentManager(), "details");
+                }
+            });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+
+                @Override
+                public boolean onLongClick(View v) {
+
+                    // edit
+                    Log.d("TTT", "long click - edit");
+                    return true;
+                }
+            });
         }
     }
 
