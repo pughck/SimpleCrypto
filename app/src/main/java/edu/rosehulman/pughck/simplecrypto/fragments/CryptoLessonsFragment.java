@@ -43,7 +43,7 @@ public class CryptoLessonsFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_crypto_lessons, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_crypto_lessons, container, false);
         this.mDocs = DocUtils.loadDocs(rootView.getContext());
         // TODO
         List<Button> lessonButtons = new ArrayList<>();
@@ -63,6 +63,7 @@ public class CryptoLessonsFragment extends Fragment {
                     Log.d("NAME", button.getText().toString());
                     Log.d("CONTENTS", mDocs.get(loopI).getText());
                     launchDialogFragment(Html.fromHtml(mDocs.get(loopI).getText()));
+
                 }
             });
         }
@@ -74,11 +75,13 @@ public class CryptoLessonsFragment extends Fragment {
             @NonNull
             @Override
             public Dialog onCreateDialog(Bundle b) {
+
                 setRetainInstance(true);
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(spanned);
                 return builder.create();
             }
+
 
             @Override
             public void onDestroyView() {
@@ -88,6 +91,7 @@ public class CryptoLessonsFragment extends Fragment {
                 super.onDestroyView();
             }
         };
+
         setRetainInstance(true);
         df.show(getFragmentManager(), "lessons");
     }

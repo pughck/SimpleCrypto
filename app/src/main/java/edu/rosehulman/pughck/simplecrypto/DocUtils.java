@@ -7,11 +7,8 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.TreeMap;
 
 import edu.rosehulman.pughck.simplecrypto.models.Doc;
-import edu.rosehulman.pughck.simplecrypto.R;
 
 /**
  * Created by boutell on 12/1/2015.
@@ -19,7 +16,7 @@ import edu.rosehulman.pughck.simplecrypto.R;
 public class DocUtils {
 
     public static ArrayList<Doc> loadDocs(Context context) {
-        Map<String, Integer> docResources = new TreeMap<>();
+//        Map<String, Integer> docResources = new TreeMap<>();
         String[] titles = new String[]{
                 "Affine Lessons",
                 "Caesar Lessons",
@@ -51,5 +48,20 @@ public class DocUtils {
             docs.add(doc);
         }
         return docs;
+    }
+
+    public static Doc getAbout(Context context) {
+        String title = "About";
+        Integer resource = R.raw.about;
+        InputStream is = context.getResources().openRawResource(resource);
+        String s = null;
+        try {
+            s = IOUtils.toString(is);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        IOUtils.closeQuietly(is);
+        Doc doc = new Doc(title, s);
+        return doc;
     }
 }
