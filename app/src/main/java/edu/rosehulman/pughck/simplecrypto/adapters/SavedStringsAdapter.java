@@ -11,6 +11,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import java.util.List;
 import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 import edu.rosehulman.pughck.simplecrypto.models.SavedStringModel;
 
 /**
@@ -82,11 +85,33 @@ public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapte
 
         private TextView mString;
 
+        private boolean showPlain;
+
         public ViewHolder(View itemView) {
 
             super(itemView);
 
             mString = (TextView) itemView.findViewById(R.id.string);
+
+            showPlain = false;
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    SavedStringModel string = mSavedStrings.get(getAdapterPosition());
+
+                    if (showPlain) {
+                        ICipher cipher = string.getCipher();
+                        mString.setText(cipher.decrypt(string.getString()));
+                    } else {
+                        mString.setText(string.getString());
+                    }
+
+                    showPlain = !showPlain;
+                }
+            });
         }
     }
 
@@ -95,8 +120,28 @@ public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapte
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            SavedStringModel string = dataSnapshot.getValue(SavedStringModel.class);
+            final SavedStringModel string = dataSnapshot.getValue(SavedStringModel.class);
             string.setKey(dataSnapshot.getKey());
+
+            // get scheme and create cipher
+            Firebase schemeRef = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + string.getEncryption());
+            schemeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+                    ICipher cipher = scheme.convertToCipher();
+
+                    string.setCipher(cipher);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                    Log.e(Constants.error, firebaseError.getMessage());
+                }
+            });
 
             mSavedStrings.add(string);
 

@@ -2,6 +2,11 @@ package edu.rosehulman.pughck.simplecrypto.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import edu.rosehulman.pughck.simplecrypto.ciphers.AffineCipher;
+import edu.rosehulman.pughck.simplecrypto.ciphers.CaesarCipher;
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
+
 /**
  * TODO
  * <p/>
@@ -107,5 +112,19 @@ public class SavedSchemeModel {
         }
 
         return sb.toString();
+    }
+
+    public ICipher convertToCipher() {
+
+        ICipher cipher;
+
+        // TODO make this better code
+        if (this.type.equals("caesar")) {
+            cipher = new CaesarCipher(Integer.parseInt(this.key1), new BasicAlphabet());
+        } else {
+            cipher = new AffineCipher(Integer.parseInt(this.key1), Integer.parseInt(this.key2), new BasicAlphabet());
+        }
+
+        return cipher;
     }
 }

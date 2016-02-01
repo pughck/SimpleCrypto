@@ -2,6 +2,8 @@ package edu.rosehulman.pughck.simplecrypto.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+
 /**
  * TODO
  * <p/>
@@ -14,6 +16,9 @@ public class SavedStringModel {
 
     private String string;
     private String encryption;
+
+    @JsonIgnore
+    private ICipher cipher;
 
     public SavedStringModel() {
 
@@ -54,5 +59,15 @@ public class SavedStringModel {
 
         this.string = newString.string;
         this.encryption = newString.encryption;
+    }
+
+    public ICipher getCipher() {
+
+        return cipher;
+    }
+
+    public void setCipher(ICipher cipher) {
+
+        this.cipher = cipher;
     }
 }
