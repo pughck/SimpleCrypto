@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +24,9 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.adapters.SchemeLibraryAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 
@@ -36,19 +35,9 @@ import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
  */
 public class SchemeLibraryFragment extends Fragment {
 
-    private OnFragmentInteractionListener mListener;
-
-    private SchemeLibraryAdapter mAdapter;
-
     public SchemeLibraryFragment() {
 
         // Required empty public constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -59,10 +48,14 @@ public class SchemeLibraryFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_scheme_library, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.scheme_library_recycler_view);
-        mAdapter = new SchemeLibraryAdapter(getActivity());
-        rView.setAdapter(mAdapter);
+        SchemeLibraryAdapter adapter = new SchemeLibraryAdapter(getActivity());
+        rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
+
+        ItemTouchHelper.Callback callback = new SwipeCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rView);
 
         Button createButton = (Button) rootView.findViewById(R.id.create_scheme_button);
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -100,8 +93,6 @@ public class SchemeLibraryFragment extends Fragment {
                         key2Prompt.setVisibility(View.INVISIBLE);
                         key1.setVisibility(View.INVISIBLE);
                         key2.setVisibility(View.INVISIBLE);
-
-                        final List<String> entries = new ArrayList<>();
 
                         final Spinner choose = (Spinner) view.findViewById(R.id.create_scheme_drop_down);
                         choose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -170,35 +161,5 @@ public class SchemeLibraryFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-
-        mListener = null;
-    }
-
-    /**
-     *
-     */
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }

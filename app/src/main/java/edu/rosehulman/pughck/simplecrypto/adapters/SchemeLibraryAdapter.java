@@ -18,19 +18,20 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 
 /**
  * Created by pughck on 1/26/2016.
  */
-public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdapter.ViewHolder> {
+public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdapter.ViewHolder>
+        implements SwipeCallback.ItemTouchHelperAdapter {
 
     private FragmentActivity mActivity;
 
@@ -69,6 +70,23 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
     public int getItemCount() {
 
         return mSchemes.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+        String key = mSchemes.get(position).getKey();
+
+        Firebase firebase = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + key);
+        firebase.removeValue();
+
+        // TODO delete saved strings that use this cipher (warn too)
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
