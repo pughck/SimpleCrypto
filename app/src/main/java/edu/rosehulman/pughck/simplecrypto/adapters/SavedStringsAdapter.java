@@ -17,12 +17,14 @@ import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.models.SavedStringModel;
 
 /**
  * Created by pughck on 1/26/2016.
  */
-public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapter.ViewHolder> {
+public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapter.ViewHolder>
+        implements SwipeCallback.ItemTouchHelperAdapter {
 
     private Firebase savedStringsRef;
 
@@ -59,6 +61,21 @@ public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapte
     public int getItemCount() {
 
         return mSavedStrings.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+
+        return false;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+
+        String key = mSavedStrings.get(position).getKey();
+
+        Firebase firebase = savedStringsRef.child(key);
+        firebase.removeValue();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
