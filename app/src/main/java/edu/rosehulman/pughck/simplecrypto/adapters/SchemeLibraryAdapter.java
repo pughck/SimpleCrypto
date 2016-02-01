@@ -98,8 +98,6 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
 
                 if (dataSnapshot.getValue() != null) {
 
-                    Log.d("TTT", dataSnapshot.toString());
-
                     DialogFragment df = new DialogFragment() {
 
                         @NonNull
