@@ -41,6 +41,7 @@ import edu.rosehulman.pughck.simplecrypto.fragments.SavedStringsFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SchemeLibraryFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment;
 import edu.rosehulman.pughck.simplecrypto.models.User;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 public class MainActivity extends AppCompatActivity
         implements LoginFragment.OnLoginListener,

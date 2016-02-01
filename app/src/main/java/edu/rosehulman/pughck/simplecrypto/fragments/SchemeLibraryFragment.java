@@ -1,9 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -24,9 +22,9 @@ import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
-import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
+import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.adapters.SchemeLibraryAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 

@@ -16,9 +16,9 @@ import com.firebase.client.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
-import edu.rosehulman.pughck.simplecrypto.SwipeCallback;
+import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 import edu.rosehulman.pughck.simplecrypto.models.SavedStringModel;

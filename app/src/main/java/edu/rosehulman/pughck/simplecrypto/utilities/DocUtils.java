@@ -1,4 +1,4 @@
-package edu.rosehulman.pughck.simplecrypto;
+package edu.rosehulman.pughck.simplecrypto.utilities;
 
 import android.content.Context;
 
@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.Doc;
 
 /**

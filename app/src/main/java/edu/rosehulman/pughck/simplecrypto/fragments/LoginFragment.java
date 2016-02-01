@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.SignInButton;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 
 /**

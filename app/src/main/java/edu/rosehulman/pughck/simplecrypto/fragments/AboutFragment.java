@@ -1,8 +1,6 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -12,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
-import edu.rosehulman.pughck.simplecrypto.DocUtils;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.DocUtils;
 import edu.rosehulman.pughck.simplecrypto.R;
 
 /**

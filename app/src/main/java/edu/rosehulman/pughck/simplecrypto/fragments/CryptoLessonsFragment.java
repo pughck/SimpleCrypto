@@ -17,7 +17,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.rosehulman.pughck.simplecrypto.DocUtils;
+import edu.rosehulman.pughck.simplecrypto.utilities.DocUtils;
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.Doc;
 

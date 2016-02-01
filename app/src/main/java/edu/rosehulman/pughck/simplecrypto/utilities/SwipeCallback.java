@@ -1,4 +1,4 @@
-package edu.rosehulman.pughck.simplecrypto;
+package edu.rosehulman.pughck.simplecrypto.utilities;
 
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;

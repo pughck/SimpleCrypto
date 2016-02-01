@@ -4,7 +4,7 @@ import android.util.Log;
 
 import java.util.List;
 
-import edu.rosehulman.pughck.simplecrypto.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 /**
  * Created by pughck on 1/18/2016.

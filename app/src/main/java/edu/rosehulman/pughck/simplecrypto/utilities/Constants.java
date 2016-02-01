@@ -1,4 +1,4 @@
-package edu.rosehulman.pughck.simplecrypto;
+package edu.rosehulman.pughck.simplecrypto.utilities;
 
 /**
  * Created by pughck on 1/18/2016.
