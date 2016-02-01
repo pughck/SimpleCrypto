@@ -3,6 +3,7 @@ package edu.rosehulman.pughck.simplecrypto.adapters;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,11 +31,11 @@ import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
  */
 public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdapter.ViewHolder> {
 
-    private AppCompatActivity mActivity;
+    private FragmentActivity mActivity;
 
     private List<SavedSchemeModel> mSchemes;
 
-    public SchemeLibraryAdapter(AppCompatActivity activity) {
+    public SchemeLibraryAdapter(FragmentActivity activity) {
 
         mActivity = activity;
 
@@ -92,7 +94,7 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
 
                             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-                            builder.setTitle((CharSequence) mSchemeName);
+                            builder.setTitle(mSchemeName.getText().toString());
                             builder.setMessage(mSchemes.get(getAdapterPosition()).getInfoString());
 
                             return builder.create();
@@ -121,12 +123,28 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
-            scheme.setKey(dataSnapshot.getKey());
+            String scheme = (String) dataSnapshot.getValue();
 
-            mSchemes.add(scheme);
+            Firebase firebase = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + scheme);
+            firebase.addValueEventListener(new ValueEventListener() {
 
-            notifyDataSetChanged();
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+                    scheme.setKey(dataSnapshot.getKey());
+
+                    mSchemes.add(scheme);
+
+                    notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                    // nothing here
+                }
+            });
         }
 
         @Override

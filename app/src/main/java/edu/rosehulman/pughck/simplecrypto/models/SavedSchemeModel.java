@@ -83,15 +83,14 @@ public class SavedSchemeModel {
     public String getInfoString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append(this.type).append("\n");
+        sb.append("\t").append(this.type).append("\n");
 
         if (this.key1 != null) {
-            sb.append(this.key1).append("\n");
+            sb.append("\tkey: ").append(this.key1);
         }
 
-
         if (this.key2 != null) {
-            sb.append(this.key2).append("\n");
+            sb.append("\t").append(this.key2).append("\n");
         }
 
         return sb.toString();
