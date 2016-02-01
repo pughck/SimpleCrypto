@@ -1,6 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -18,9 +19,11 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import edu.rosehulman.pughck.simplecrypto.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
@@ -83,10 +86,70 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
 
         String key = mSchemes.get(position).getKey();
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + key);
-        firebase.removeValue();
+        final Firebase schemeRef = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + key);
 
-        // TODO delete saved strings that use this cipher (warn too)
+        final Firebase savedStringsRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + schemeRef.getAuth().getUid() + Constants.FIREBASE_SAVED_STRINGS);
+        Query savedStringsQuery = savedStringsRef.orderByChild("encryption").equalTo(key);
+        savedStringsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(final DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.getValue() != null) {
+
+                    Log.d("TTT", dataSnapshot.toString());
+
+                    DialogFragment df = new DialogFragment() {
+
+                        @NonNull
+                        @Override
+                        public Dialog onCreateDialog(Bundle savedInstance) {
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                            builder.setTitle(mActivity.getString(R.string.delete_scheme_warning));
+                            builder.setMessage(mActivity.getString(R.string.delete_scheme_warning_message));
+
+                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    schemeRef.removeValue();
+
+                                    Map<String, Map<String, String>> values = (Map) dataSnapshot.getValue();
+                                    for (String key : values.keySet()) {
+                                        savedStringsRef.child(key).removeValue();
+                                    }
+                                }
+                            });
+
+                            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    notifyDataSetChanged();
+                                }
+                            });
+
+                            return builder.create();
+                        }
+                    };
+
+                    df.show(mActivity.getSupportFragmentManager(), "warning");
+                } else {
+                    schemeRef.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

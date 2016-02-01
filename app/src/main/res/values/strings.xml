@@ -68,6 +68,8 @@
     <string name="key1_prompt_affine">Please enter a value for alpha:</string>
     <string name="key2_prompt_affine">Please enter a value for beta:</string>
     <string name="create_scheme_name_hint">Enter a name</string>
+    <string name="delete_scheme_warning">Warning!!!</string>
+    <string name="delete_scheme_warning_message">Strings using this scheme will be deleted. Are you sure you want to continue?</string>
 
     <string-array name="cipher_options">
         <item>Caesar</item>
