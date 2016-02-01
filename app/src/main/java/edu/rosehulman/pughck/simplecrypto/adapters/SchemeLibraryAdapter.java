@@ -2,10 +2,10 @@ package edu.rosehulman.pughck.simplecrypto.adapters;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +17,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
@@ -39,10 +40,10 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
 
         mActivity = activity;
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
-        Firebase schemeLibraryRef = new Firebase(Constants.FIREBASE_USERS_URL
-                + "/" + firebase.getAuth().getUid() + Constants.FIREBASE_SAVED_SCHEMES);
-        schemeLibraryRef.addChildEventListener(new SchemeLibraryChildEventListener());
+        Firebase schemeLibraryRef = new Firebase(Constants.FIREBASE_SCHEMES_URL);
+        Query mySchemes = schemeLibraryRef.orderByChild("uid")
+                .equalTo(schemeLibraryRef.getAuth().getUid());
+        mySchemes.addChildEventListener(new SchemeLibraryChildEventListener());
 
         mSchemes = new ArrayList<>();
     }
@@ -86,9 +87,9 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
                 public void onClick(View v) {
 
                     // show details
-                    Log.d("TTT", "click - show details");
                     DialogFragment df = new DialogFragment() {
 
+                        @NonNull
                         @Override
                         public Dialog onCreateDialog(Bundle savedInstance) {
 
@@ -123,28 +124,12 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            String scheme = (String) dataSnapshot.getValue();
+            SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+            scheme.setKey(dataSnapshot.getKey());
 
-            Firebase firebase = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + scheme);
-            firebase.addValueEventListener(new ValueEventListener() {
+            mSchemes.add(scheme);
 
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
-                    scheme.setKey(dataSnapshot.getKey());
-
-                    mSchemes.add(scheme);
-
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-
-                    // nothing here
-                }
-            });
+            notifyDataSetChanged();
         }
 
         @Override

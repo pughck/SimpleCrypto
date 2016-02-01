@@ -2,6 +2,7 @@
 
     <string name="app_name">SimpleCrypto</string>
 
+    <!-- main menu strings -->
     <string name="cryptography_messaging">Crypto Messaging</string>
     <string name="cryptography_writer">Crypto Writer</string>
     <string name="scheme_library">Scheme Library</string>
@@ -14,9 +15,11 @@
         <![CDATA[<font color="#7030a0">Simple</font><font color="#002060">Crypto</font>]]>
     </string>
 
+    <!-- about strings -->
     <string name="about_content">About the app</string>
     <string name="send_feedback">Send Feedback</string>
 
+    <!-- login strings -->
     <string name="login">Please Sign In</string>
     <string name="logging_in">Signing In . . .</string>
     <string name="prompt_email">Email</string>
@@ -29,6 +32,7 @@
     <string name="field_required">This field is required</string>
     <string name="login_error">Login Error!</string>
 
+    <!-- create account strings -->
     <string name="create_account">Create an Account</string>
     <string name="create">Create</string>
     <string name="prompt_first_name">First</string>
@@ -39,6 +43,7 @@
 
     <string name="logout">Logout</string>
 
+    <!-- crypto writer strings -->
     <string name="writer_title">Writer</string>
     <string name="insert_text_here">Insert text here</string>
     <string name="output_text">Output</string>
@@ -47,7 +52,7 @@
     <string name="toggle_button_encrypt">Encrypt</string>
     <string name="run_cipher_button">Run Cipher</string>
 
-    <!-- Lessons Strings-->
+    <!-- lessons Strings-->
     <string name="caesar_cipher_lesson">Caesar Lessons</string>
     <string name="vigenere_lessons">Vigenere Lessons</string>
     <string name="affine_lessons">Affine Lessons</string>
@@ -55,5 +60,18 @@
     <string name="mod_arith_lessons">Modular Arithmetic Lessons</string>
     <string name="inverse_lessons">Inverse Lessons</string>
     <string name="one_time_pad_cipher">One Time Pad Cipher</string>
+
+    <!-- scheme library strings -->
+    <string name="choose_cipher">Choose a Cipher</string>
+    <string name="choose_cipher_prompt">Choose…</string>
+    <string name="key1_prompt_caesar">Please enter a shift amount:</string>
+    <string name="key1_prompt_affine">Please enter a value for alpha:</string>
+    <string name="key2_prompt_affine">Please enter a value for beta:</string>
+    <string name="create_scheme_name_hint">Enter a name</string>
+
+    <string-array name="cipher_options">
+        <item>Caesar</item>
+        <item>Affine</item>
+    </string-array>
 
 </resources>

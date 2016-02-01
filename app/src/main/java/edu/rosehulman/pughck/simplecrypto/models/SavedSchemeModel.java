@@ -16,6 +16,7 @@ public class SavedSchemeModel {
     private String type;
     private String key1;
     private String key2;
+    private String uid;
 
     public SavedSchemeModel() {
 
@@ -72,14 +73,26 @@ public class SavedSchemeModel {
         this.key2 = key2;
     }
 
+    public String getUid() {
+
+        return uid;
+    }
+
+    public void setUid(String uid) {
+
+        this.uid = uid;
+    }
+
     public void setValues(SavedSchemeModel newScheme) {
 
         this.name = newScheme.name;
         this.type = newScheme.type;
         this.key1 = newScheme.key1;
         this.key2 = newScheme.key2;
+        this.uid = newScheme.uid;
     }
 
+    @JsonIgnore
     public String getInfoString() {
 
         StringBuilder sb = new StringBuilder();
@@ -90,7 +103,7 @@ public class SavedSchemeModel {
         }
 
         if (this.key2 != null) {
-            sb.append("\t").append(this.key2).append("\n");
+            sb.append("\t\t").append(this.key2).append("\n");
         }
 
         return sb.toString();
