@@ -1,0 +1,85 @@
+<html>
+<p>
+    The Caesar Cipher, also known as Shift Cipher, is considered one of the earliest cryptosystems.
+    The cryptosystem is often attributed to Julius Caesar. This was during the time Julius Caesar
+    wanted to send a message but did not want Brutus to read it. To protect the plain text, each
+    character in the alphabet was shifted by a certain amount, making the next look like gibberish.
+    Thus hiding the message and people not thinking anything of it.
+</p>
+
+<p>
+    The way the system works is by using modular arithmetic. For more information on modular
+    arithmetic,
+    please refer to the lessons page about modular arithmetic.
+</p>
+
+<p>
+    Label the alphabet, starting at zero to the end of the alphabet. So, for the English alphabet,
+    the
+    numbering would be 0 to 25, with <em>a</em> being number 0 and <em>z</em> being number 25. To
+    encrypt the string of character, take the corresponding character and transform into a number
+    and
+    add the shift factor to produce the new number that represents the character. If the number goes
+    pass the end, use modular arithmetic with the length of the alphabet to wrapped around to the
+    beginning.
+</p>
+
+<p>
+    The encryption formula would be
+</p>
+
+<p align="center">
+    <em>x &#8594; x + k (mod a) </em>
+</p>
+
+<p>
+    where <em>k</em> is the shift factor and <em>a</em> is the length of the alphabet.
+</p>
+<p>
+    The encryption formula would be
+</p>
+
+<p align="center">
+    <em>x &#8594; x - k (mod a) </em>
+</p>
+
+<p>
+    where <em>k</em> is the shift factor and <em>a</em> is the length of the alphabet again.
+</p>
+<p>
+    To attack the cryptosystem, there are four different types of attacks: Ciphertext only, Known
+    plaintext, Chosen plaintext, and Chosen ciphertext.
+</p>
+<hr/>
+<p>
+    <strong>Cipher only</strong>
+    <br/>
+    If only given ciphertext, a brute force search is required to make the message into something
+    readable. To do so, every possible shift factor must be done on the string, and find a
+    meaningful
+    message in the string.
+</p>
+<hr/>
+<p>
+    <strong>Known plaintext</strong>
+    <br/>
+    If you know just one letter plaintext and corresponding ciphertext, then decrypting the message
+    is
+    simple, since all other letters will have the same shift factor.
+</p>
+<hr/>
+<p>
+    <strong>Chosen plaintext</strong>
+    <br/>
+    Give the system a single plaintext letter, then the output will be ciphertext, and find the
+    difference in values will give the key.
+</p>
+<hr/>
+<p>
+    <strong>Chosen ciphertext</strong>
+    <br/>
+    Give the system a single ciphertext letter, the system will output the plaintext, then you can
+    find
+    the negative of the key.
+</p>
+</html>
