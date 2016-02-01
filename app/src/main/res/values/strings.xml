@@ -62,18 +62,24 @@
     <string name="one_time_pad_cipher">One Time Pad Cipher</string>
 
     <!-- scheme library strings -->
-    <string name="choose_cipher">Choose a Cipher</string>
-    <string name="choose_cipher_prompt">Choose…</string>
+    <string name="choose_cipher">Choose a Cipher:</string>
+    <string name="choose_prompt">Choose…</string>
     <string name="key1_prompt_caesar">Please enter a shift amount:</string>
     <string name="key1_prompt_affine">Please enter a value for alpha:</string>
     <string name="key2_prompt_affine">Please enter a value for beta:</string>
     <string name="create_scheme_name_hint">Enter a name</string>
     <string name="delete_scheme_warning">Warning!!!</string>
     <string name="delete_scheme_warning_message">Strings using this scheme will be deleted. Are you sure you want to continue?</string>
+    <string name="choose_alphabet">Choose an Alphabet:</string>
 
     <string-array name="cipher_options">
         <item>Caesar</item>
         <item>Affine</item>
+    </string-array>
+
+    <string-array name="alphabet_options">
+        <item>Basic</item>
+        <item>Extended</item>
     </string-array>
 
 </resources>

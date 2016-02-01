@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.rosehulman.pughck.simplecrypto.ciphers.AffineCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.CaesarCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
+import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.ExtendedAlphabet;
 
 /**
  * TODO
@@ -22,6 +24,7 @@ public class SavedSchemeModel {
     private String key1;
     private String key2;
     private String uid;
+    private String alphabet;
 
     public SavedSchemeModel() {
 
@@ -88,6 +91,16 @@ public class SavedSchemeModel {
         this.uid = uid;
     }
 
+    public String getAlphabet() {
+
+        return alphabet;
+    }
+
+    public void setAlphabet(String alphabet) {
+
+        this.alphabet = alphabet;
+    }
+
     public void setValues(SavedSchemeModel newScheme) {
 
         this.name = newScheme.name;
@@ -119,10 +132,17 @@ public class SavedSchemeModel {
         ICipher cipher;
 
         // TODO make this better code
-        if (this.type.equals("caesar")) {
-            cipher = new CaesarCipher(Integer.parseInt(this.key1), new BasicAlphabet());
+        Alphabet alphabet;
+        if (this.alphabet.equals("basic")) {
+            alphabet = new BasicAlphabet();
         } else {
-            cipher = new AffineCipher(Integer.parseInt(this.key1), Integer.parseInt(this.key2), new BasicAlphabet());
+            alphabet = new ExtendedAlphabet();
+        }
+
+        if (this.type.equals("caesar")) {
+            cipher = new CaesarCipher(Integer.parseInt(this.key1), alphabet);
+        } else {
+            cipher = new AffineCipher(Integer.parseInt(this.key1), Integer.parseInt(this.key2), alphabet);
         }
 
         return cipher;

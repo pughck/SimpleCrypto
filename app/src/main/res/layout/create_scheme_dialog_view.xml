@@ -23,11 +23,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="48dp"
         android:layout_toEndOf="@+id/create_choose_prompt"
         android:layout_toRightOf="@+id/create_choose_prompt"
         android:entries="@array/cipher_options"
-        android:prompt="@string/choose_cipher_prompt"
+        android:prompt="@string/choose_prompt"
         android:spinnerMode="dropdown" />
 
     <TextView
@@ -35,33 +35,59 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_choose_prompt"
-        android:layout_margin="10dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:id="@+id/create_scheme_key1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_choose_prompt"
+        android:layout_marginTop="-15dp"
         android:layout_toEndOf="@+id/create_scheme_key1_prompt"
         android:layout_toRightOf="@+id/create_scheme_key1_prompt"
-        android:inputType="number"
-        android:paddingBottom="8dp" />
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/create_scheme_key2_prompt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_scheme_key1_prompt"
-        android:layout_margin="10dp" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp" />
 
     <EditText
         android:id="@+id/create_scheme_key2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/create_scheme_key1_prompt"
+        android:layout_marginTop="-15dp"
         android:layout_toEndOf="@+id/create_scheme_key2_prompt"
         android:layout_toRightOf="@+id/create_scheme_key2_prompt"
-        android:inputType="number"
-        android:paddingBottom="8dp" />
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/create_choose_alphabet_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/create_scheme_key2"
+        android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/choose_alphabet" />
+
+    <Spinner
+        android:id="@+id/create_scheme_alphabet_drop_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="138dp"
+        android:layout_toEndOf="@+id/create_choose_alphabet_prompt"
+        android:layout_toRightOf="@+id/create_choose_alphabet_prompt"
+        android:entries="@array/alphabet_options"
+        android:prompt="@string/choose_prompt"
+        android:spinnerMode="dropdown" />
 
 </RelativeLayout>

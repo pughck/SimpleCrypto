@@ -94,8 +94,8 @@ public class SchemeLibraryFragment extends Fragment {
                         key1.setVisibility(View.INVISIBLE);
                         key2.setVisibility(View.INVISIBLE);
 
-                        final Spinner choose = (Spinner) view.findViewById(R.id.create_scheme_drop_down);
-                        choose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        final Spinner cipherChooser = (Spinner) view.findViewById(R.id.create_scheme_drop_down);
+                        cipherChooser.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -125,6 +125,9 @@ public class SchemeLibraryFragment extends Fragment {
                             }
                         });
 
+                        final Spinner alphabetChooser = (Spinner)
+                                view.findViewById(R.id.create_scheme_alphabet_drop_down);
+
                         builder.setPositiveButton(android.R.string.ok,
                                 new DialogInterface.OnClickListener() {
 
@@ -132,15 +135,19 @@ public class SchemeLibraryFragment extends Fragment {
                                     public void onClick(DialogInterface dialog, int which) {
 
                                         String nameVal = name.getText().toString();
-                                        String typeVal = choose.getSelectedItem().toString().toLowerCase();
+                                        String typeVal = cipherChooser.getSelectedItem()
+                                                .toString().toLowerCase();
                                         String key1Val = key1.getText().toString();
                                         String key2Val = key2.getText().toString();
+                                        String alphabetVal = alphabetChooser.getSelectedItem()
+                                                .toString().toLowerCase();
 
                                         SavedSchemeModel newModel = new SavedSchemeModel();
                                         newModel.setName(nameVal);
                                         newModel.setType(typeVal);
                                         newModel.setKey1(key1Val);
                                         newModel.setKey2(key2Val);
+                                        newModel.setAlphabet(alphabetVal);
 
                                         Firebase firebase = new Firebase(Constants.FIREBASE_SCHEMES_URL);
 
