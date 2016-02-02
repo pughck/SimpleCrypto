@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+
+    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.CryptoWriterFragment">
 
     <View
         android:id="@+id/side_bar"
@@ -12,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/side_bar"/>
+        android:background="@drawable/side_bar" />
 
     <TextView
         android:id="@+id/title_bar_writer"
@@ -20,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:text="@string/writer_title"/>
+        android:text="@string/writer_title" />
 
     <EditText
         android:id="@+id/top_input"
@@ -41,10 +43,9 @@
         android:hint="@string/insert_text_here"
         android:maxLines="5"
         android:minLines="5"
-        android:padding="5dp"/>
+        android:padding="5dp" />
 
-
-    <EditText
+    <TextView
         android:id="@+id/bottom_output"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,8 +64,7 @@
         android:hint="@string/output_text"
         android:maxLines="5"
         android:minLines="5"
-        android:padding="5dp"/>
-
+        android:padding="5dp" />
 
     <Button
         android:id="@+id/store_text_button"
@@ -76,7 +76,7 @@
         android:background="@drawable/round_corners_button_gray"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/store_text"/>
+        android:text="@string/store_text" />
 
     <Button
         android:id="@+id/export_button"
@@ -88,7 +88,7 @@
         android:background="@drawable/round_corners_button_gray"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="@string/export_string"/>
+        android:text="@string/export_string" />
 
     <RelativeLayout
         android:id="@+id/middle_bar"
@@ -101,32 +101,30 @@
         android:layout_below="@+id/top_input">
 
         <ToggleButton
-            android:id="@+id/toggleButton"
+            android:id="@+id/writer_toggle_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:text="@string/toggle_button_encrypt"/>
+            android:layout_centerHorizontal="true" />
 
         <Spinner
-            android:id="@+id/drop_down"
+            android:id="@+id/writer_drop_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/toggleButton"
-            android:layout_toLeftOf="@+id/toggleButton"
-            android:layout_toStartOf="@id/toggleButton"
-            android:spinnerMode="dropdown"
-            />
+            android:layout_alignTop="@+id/writer_toggle_button"
+            android:layout_toLeftOf="@+id/writer_toggle_button"
+            android:layout_toStartOf="@id/writer_toggle_button"
+            android:prompt="@string/choose_prompt"
+            android:spinnerMode="dropdown" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/run_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/run_cipher_button"
-            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"/>
+            android:layout_alignParentTop="true"
+            android:text="@string/run_cipher_button" />
 
     </RelativeLayout>
-
 
 </RelativeLayout>

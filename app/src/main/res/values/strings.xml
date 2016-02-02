@@ -50,6 +50,7 @@
     <string name="store_text">Store Text</string>
     <string name="export_string">Export</string>
     <string name="toggle_button_encrypt">Encrypt</string>
+    <string name="toggle_button_decrypt">Decrypt</string>
     <string name="run_cipher_button">Run Cipher</string>
 
     <!-- lessons Strings-->
