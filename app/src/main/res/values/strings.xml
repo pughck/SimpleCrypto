@@ -73,6 +73,18 @@
     <string name="delete_scheme_warning_message">Strings using this scheme will be deleted. Are you sure you want to continue?</string>
     <string name="choose_alphabet">Choose an Alphabet:</string>
 
+
+    <!-- Settings String -->
+    <string name="change_user_info">Change User Info</string>
+
+    <!-- Change names dialog -->
+    <string name="first_name">First Name:</string>
+    <string name="enter_f_name">Enter first name</string>
+    <string name="last_name">Last Name:</string>
+    <string name="enter_l_name">Enter Last Name</string>
+    <string name="user_name">Username:</string>
+    <string name="enter_uname">Enter Username</string>
+
     <string-array name="cipher_options">
         <item>Caesar</item>
         <item>Affine</item>
