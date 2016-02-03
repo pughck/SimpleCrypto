@@ -93,7 +93,7 @@ public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapte
 
             mString = (TextView) itemView.findViewById(R.id.string);
 
-            showPlain = false;
+            showPlain = true;
 
             itemView.setOnClickListener(new View.OnClickListener() {
 

@@ -1,5 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.ciphers;
 
+import android.util.Log;
+
 import java.math.BigInteger;
 
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
@@ -71,6 +73,8 @@ public class AffineCipher implements ICipher {
             if (mAlphabet.containsChar(c)) {
                 int index = mAlphabet.getIndex(c);
                 int newIndex = (mAlphaInverse * (index - mBeta)) % mAlphabet.size();
+                newIndex = newIndex < 0 ? newIndex + mAlphabet.size() : newIndex;
+
                 c = mAlphabet.getCharacter(newIndex);
             }
 
