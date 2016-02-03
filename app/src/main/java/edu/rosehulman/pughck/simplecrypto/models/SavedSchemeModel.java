@@ -120,7 +120,7 @@ public class SavedSchemeModel {
     public String getInfoString() {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("\t").append(this.type).append("\n");
+        sb.append("\ttype: ").append(this.type).append("\n");
 
         if (this.key1 != null) {
             sb.append("\tkey: ").append(this.key1);
@@ -129,6 +129,8 @@ public class SavedSchemeModel {
         if (this.key2 != null) {
             sb.append("\t\t").append(this.key2).append("\n");
         }
+
+        sb.append("\talphabet: ").append(this.alphabet);
 
         return sb.toString();
     }
