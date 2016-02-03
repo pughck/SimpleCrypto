@@ -110,6 +110,12 @@ public class SavedSchemeModel {
         this.uid = newScheme.uid;
     }
 
+    @Override
+    public String toString() {
+
+        return this.name;
+    }
+
     @JsonIgnore
     public String getInfoString() {
 
