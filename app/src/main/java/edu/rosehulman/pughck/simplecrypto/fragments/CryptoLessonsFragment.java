@@ -47,11 +47,11 @@ public class CryptoLessonsFragment extends Fragment {
         this.mDocs = DocUtils.loadDocs(rootView.getContext());
         // TODO
         List<Button> lessonButtons = new ArrayList<>();
-        lessonButtons.add((Button) rootView.findViewById(R.id.caesar_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.affine_lessons));
-        lessonButtons.add((Button) rootView.findViewById(R.id.vigenere_lessons));
-        lessonButtons.add((Button) rootView.findViewById(R.id.rsa_lessons));
+        lessonButtons.add((Button) rootView.findViewById(R.id.caesar_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.mod_arith_lessons));
+        lessonButtons.add((Button) rootView.findViewById(R.id.rsa_lessons));
+        lessonButtons.add((Button) rootView.findViewById(R.id.vigenere_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.inverse_lessons));
         for (int i = 0; i < lessonButtons.size(); i++) {
             final int loopI = i;

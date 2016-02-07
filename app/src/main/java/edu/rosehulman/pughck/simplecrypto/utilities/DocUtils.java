@@ -22,7 +22,6 @@ public class DocUtils {
                 "Affine Lessons",
                 "Caesar Lessons",
                 "Modular Arithmetic Lessons",
-                "One Time Pad Cipher",
                 "RSA Lessons",
                 "Vigenere Lessons",
                 "Inverse Lessons"};
@@ -30,7 +29,6 @@ public class DocUtils {
                 R.raw.affine_cipher,
                 R.raw.caesar_cipher,
                 R.raw.modular_arithmetic,
-                R.raw.one_time_pad_cipher,
                 R.raw.rsa_algorith,
                 R.raw.vigenere_cipher,
                 R.raw.inverse
