@@ -20,7 +20,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:text="@string/writer_title"/>
+        android:text="@string/cryptography_lessons"/>
 
     <ScrollView
         android:id="@+id/scrollView"
