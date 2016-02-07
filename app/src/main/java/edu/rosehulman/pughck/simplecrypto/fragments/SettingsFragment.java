@@ -4,8 +4,8 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -31,9 +31,7 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 public class SettingsFragment extends Fragment {
 
     //    private OnFragmentInteractionListener mListener;
-    private Firebase mFirebase;
     private User mUser;
-    private Query mQuery;
 
     public SettingsFragment() {
 
@@ -52,9 +50,17 @@ public class SettingsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
-        mFirebase = new Firebase(Constants.FIREBASE_USERS_URL);
+        Button changeNameButton = (Button) rootView.findViewById(R.id.user_change);
+        changeUserInfo(changeNameButton);
+
+
+        return rootView;
+    }
+
+    private void changeUserInfo(Button changeNameButton) {
+        final Firebase mFirebase = new Firebase(Constants.FIREBASE_USERS_URL);
 //        Log.d("CHILD", mFirebase.child(mFirebase.getAuth().getUid()).toString());
-        mQuery = mFirebase.orderByKey().equalTo(mFirebase.getAuth().getUid());
+        Query mQuery = mFirebase.orderByKey().equalTo(mFirebase.getAuth().getUid());
 //        Log.d("HELP", mQuery.toString()+"");
         mQuery.addChildEventListener(new ChildEventListener() {
             @Override
@@ -65,17 +71,14 @@ public class SettingsFragment extends Fragment {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Log.d("CHANGED", dataSnapshot.toString());
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                // TODO
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                // TODO
             }
 
             @Override
@@ -84,13 +87,14 @@ public class SettingsFragment extends Fragment {
             }
         });
 //        Log.d("USER", mFirebase.getAuth().getUid());
-        Button changeNameButton = (Button) rootView.findViewById(R.id.user_change);
+
         changeNameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // TODO
                 Log.d("CLICKED", "Clicked " + ((Button) v).getText().toString());
                 DialogFragment df = new DialogFragment() {
+                    @NonNull
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState) {
 //                        Log.d("FIREBASE", mFirebase.child(mFirebase.getAuth().getUid()).toString());
@@ -128,10 +132,6 @@ public class SettingsFragment extends Fragment {
 
             }
         });
-
-        // TODO
-
-        return rootView;
     }
 
     @Override
