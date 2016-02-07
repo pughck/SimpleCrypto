@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/first_name"
@@ -12,21 +11,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="@string/first_name"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/first_name_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/first_name"
+        android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/first_name"
         android:layout_toRightOf="@+id/first_name"
         android:hint="@string/enter_f_name"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/last_name"
@@ -35,21 +32,19 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/first_name"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="@string/last_name"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/last_name_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/last_name"
+        android:layout_below="@+id/first_name_edit"
         android:layout_toEndOf="@+id/last_name"
         android:layout_toRightOf="@+id/last_name"
         android:hint="@string/enter_l_name"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/user_name"
@@ -58,19 +53,18 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/last_name"
-        android:layout_marginEnd="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_margin="10dp"
         android:text="@string/user_name"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
 
     <EditText
         android:id="@+id/username_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/user_name"
+        android:layout_below="@+id/last_name_edit"
         android:layout_toEndOf="@+id/user_name"
         android:layout_toRightOf="@+id/user_name"
         android:hint="@string/enter_uname"
-        android:textSize="24sp"/>
+        android:textSize="20sp" />
+
 </RelativeLayout>

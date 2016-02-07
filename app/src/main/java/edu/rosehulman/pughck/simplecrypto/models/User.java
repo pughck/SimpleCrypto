@@ -4,6 +4,9 @@ import android.net.Uri;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by pughck on 1/21/2016.
  */
@@ -18,6 +21,8 @@ public class User {
     private String lastName;
     private String profilePic;
 
+    private Map<String, SavedStringModel> saved_strings;
+
     public User() {
 
         // empty default constructor for jackson
@@ -30,6 +35,8 @@ public class User {
         this.lastName = lastName;
         this.username = username;
         this.profilePic = profilePic;
+
+        this.saved_strings = new HashMap<>();
     }
 
     public String getKey() {
@@ -90,5 +97,15 @@ public class User {
     public void setProfilePic(String profilePic) {
 
         this.profilePic = profilePic;
+    }
+
+    public Map<String, SavedStringModel> getSaved_strings() {
+
+        return saved_strings;
+    }
+
+    public void setSaved_strings(Map<String, SavedStringModel> saved_strings) {
+
+        this.saved_strings = saved_strings;
     }
 }

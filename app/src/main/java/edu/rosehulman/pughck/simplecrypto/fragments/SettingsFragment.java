@@ -2,7 +2,6 @@ package edu.rosehulman.pughck.simplecrypto.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +14,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.User;
@@ -30,7 +29,6 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
  */
 public class SettingsFragment extends Fragment {
 
-    //    private OnFragmentInteractionListener mListener;
     private User mUser;
 
     public SettingsFragment() {
@@ -39,120 +37,86 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+
         Button changeNameButton = (Button) rootView.findViewById(R.id.user_change);
         changeUserInfo(changeNameButton);
-
 
         return rootView;
     }
 
     private void changeUserInfo(Button changeNameButton) {
-        final Firebase mFirebase = new Firebase(Constants.FIREBASE_USERS_URL);
-//        Log.d("CHILD", mFirebase.child(mFirebase.getAuth().getUid()).toString());
-        Query mQuery = mFirebase.orderByKey().equalTo(mFirebase.getAuth().getUid());
-//        Log.d("HELP", mQuery.toString()+"");
-        mQuery.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Log.d("DATA", dataSnapshot.toString());
-                mUser = (User) dataSnapshot.getValue(User.class);
-            }
+
+        Firebase firebase = new Firebase(Constants.FIREBASE_USERS_URL);
+        final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL + "/" + firebase.getAuth().getUid());
+
+        userRef.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-            }
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                mUser = dataSnapshot.getValue(User.class);
             }
 
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
+                Log.e(Constants.error, firebaseError.getMessage());
             }
         });
-//        Log.d("USER", mFirebase.getAuth().getUid());
 
         changeNameButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                // TODO
-                Log.d("CLICKED", "Clicked " + ((Button) v).getText().toString());
-                DialogFragment df = new DialogFragment() {
-                    @NonNull
-                    @Override
-                    public Dialog onCreateDialog(Bundle savedInstanceState) {
-//                        Log.d("FIREBASE", mFirebase.child(mFirebase.getAuth().getUid()).toString());
-//                        Log.d("USER", mUser.getFistName());
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        View view = getActivity().getLayoutInflater().inflate(R.layout
-                                .account_name_change_dialog, null, false);
-                        builder.setView(view);
-                        final EditText fName = (EditText) view.findViewById(R.id.first_name_edit);
-                        fName.setText(mUser.getFistName());
-                        final EditText lName = (EditText) view.findViewById(R.id.last_name_edit);
-                        lName.setText(mUser.getLastName());
-                        final EditText userName = (EditText) view.findViewById(R.id.username_edit);
-                        userName.setText(mUser.getUsername());
 
-                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String firstN = fName.getText().toString();
-                                String lastN = lName.getText().toString();
-                                String uName = userName.getText().toString();
-                                mUser.setFistName(firstN);
-                                mUser.setLastName(lastN);
-                                mUser.setUsername(uName);
-                                Log.d("WHERE", mFirebase.getAuth().getUid());
-                                mFirebase.child(mFirebase.getAuth().getUid()).setValue(mUser);
-                            }
-                        });
-                        builder.setNegativeButton(android.R.string.cancel, null);
+                if (mUser != null) {
+                    DialogFragment df = new DialogFragment() {
 
-                        return builder.create();
-                    }
-                };
-                df.show(getActivity().getSupportFragmentManager(), "edit");
+                        @NonNull
+                        @Override
+                        public Dialog onCreateDialog(Bundle savedInstanceState) {
 
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                            View view = getActivity().getLayoutInflater().inflate(R.layout
+                                    .account_name_change_dialog, null, false);
+
+                            builder.setView(view);
+
+                            final EditText fName = (EditText) view.findViewById(R.id.first_name_edit);
+                            fName.setText(mUser.getFistName());
+                            final EditText lName = (EditText) view.findViewById(R.id.last_name_edit);
+                            lName.setText(mUser.getLastName());
+                            final EditText userName = (EditText) view.findViewById(R.id.username_edit);
+                            userName.setText(mUser.getUsername());
+
+                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    mUser.setFistName(fName.getText().toString());
+                                    mUser.setLastName(lName.getText().toString());
+                                    mUser.setUsername(userName.getText().toString());
+
+                                    userRef.setValue(mUser);
+                                }
+                            });
+
+                            builder.setNegativeButton(android.R.string.cancel, null);
+
+                            return builder.create();
+                        }
+                    };
+
+                    df.show(getActivity().getSupportFragmentManager(), "edit user info");
+                }
             }
         });
     }
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-
-//        mListener = null;
-    }
-
 }
