@@ -22,6 +22,7 @@ public class User {
     private String profilePic;
 
     private Map<String, SavedStringModel> saved_strings;
+    private Map<String, ConversationModel> conversations;
 
     public User() {
 
@@ -37,6 +38,7 @@ public class User {
         this.profilePic = profilePic;
 
         this.saved_strings = new HashMap<>();
+        this.conversations = new HashMap<>();
     }
 
     public String getKey() {
@@ -107,5 +109,15 @@ public class User {
     public void setSaved_strings(Map<String, SavedStringModel> saved_strings) {
 
         this.saved_strings = saved_strings;
+    }
+
+    public Map<String, ConversationModel> getConversations() {
+
+        return conversations;
+    }
+
+    public void setConversations(Map<String, ConversationModel> conversations) {
+
+        this.conversations = conversations;
     }
 }
