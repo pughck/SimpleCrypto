@@ -1,9 +1,66 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
+                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment">
 
+    <View
+        android:id="@+id/side_bar"
+        android:layout_width="10dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/side_bar"/>
+
+    <TextView
+        android:id="@+id/title_bar_settings"
+        style="@style/TitleBarBanners"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/side_bar"
+        android:layout_toRightOf="@+id/side_bar"
+        android:text="@string/settings"/>
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/side_bar"
+        android:layout_alignEnd="@+id/title_bar_settings"
+        android:layout_alignRight="@+id/title_bar_settings"
+        android:layout_below="@id/title_bar_settings"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="-15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="-15dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@+id/side_bar"
+        android:layout_toRightOf="@+id/side_bar"
+        android:background="@drawable/stroke_bg"
+        android:padding="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/user_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:height="75dp"
+                android:background="@drawable/black_border_solid"
+                android:text="@string/change_user_info"
+                android:textAllCaps="false"
+                android:textSize="32sp"
+                />
+
+        </LinearLayout>
+
+    </ScrollView>
     <!-- TODO -->
 
-</FrameLayout>
+</RelativeLayout>
