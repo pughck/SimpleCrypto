@@ -49,7 +49,7 @@ public class CryptoLessonsFragment extends Fragment {
         List<Button> lessonButtons = new ArrayList<>();
         lessonButtons.add((Button) rootView.findViewById(R.id.affine_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.caesar_lessons));
-        lessonButtons.add((Button) rootView.findViewById(R.id.mod_arith_lessons));
+//        lessonButtons.add((Button) rootView.findViewById(R.id.mod_arith_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.rsa_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.vigenere_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.inverse_lessons));

@@ -91,16 +91,16 @@
                 android:text="@string/rsa_lessons"
                 android:textSize="32sp"/>
 
-            <Button
-                android:textAllCaps="false"
-                android:id="@+id/mod_arith_lessons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:height="75dp"
-                android:background="@drawable/black_border_solid"
-                android:text="@string/mod_arith_lessons"
-                android:textSize="24sp"/>
+            <!--<Button-->
+                <!--android:textAllCaps="false"-->
+                <!--android:id="@+id/mod_arith_lessons"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:height="75dp"-->
+                <!--android:background="@drawable/black_border_solid"-->
+                <!--android:text="@string/mod_arith_lessons"-->
+                <!--android:textSize="24sp"/>-->
 
             <Button
                 android:textAllCaps="false"

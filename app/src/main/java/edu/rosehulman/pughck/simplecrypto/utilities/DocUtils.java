@@ -21,14 +21,12 @@ public class DocUtils {
         String[] titles = new String[]{
                 "Affine Lessons",
                 "Caesar Lessons",
-                "Modular Arithmetic Lessons",
                 "RSA Lessons",
                 "Vigenere Lessons",
                 "Inverse Lessons"};
         Integer[] resources = new Integer[]{
                 R.raw.affine_cipher,
                 R.raw.caesar_cipher,
-                R.raw.modular_arithmetic,
                 R.raw.rsa_algorith,
                 R.raw.vigenere_cipher,
                 R.raw.inverse
