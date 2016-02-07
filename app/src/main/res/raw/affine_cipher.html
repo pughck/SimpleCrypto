@@ -1,1 +1,59 @@
-The Affine Cipher is a strenghted version of the Caesar Cipher. Using the two integers....
+<html>
+<p>
+    The Affine Cipher is a strengthened version of the Caesar Cipher. Using the two
+    integers, &#945; and &#946;, where we have <em>gcd(&#945;, |alphabet|)</em> =1.
+</p>
+<p>
+    The <em>affine</em> function is defined as below:
+</p>
+<p align="center">
+    <em>x &#8594; &#945;x + &#946; (mod |alphabet|)</em>
+</p>
+<p>
+    If we take the letter <em>h</em>, which is 7, and multiply it by an &#945;, lets say 11,
+    assuming the length of the alphabet is 26, and set a &#946; to 2, resulting in the equation.
+</p>
+<p align="center">
+    9*7 + 2 (mod 26) = 65 &#8801; 13
+</p>
+<p>
+    And the 13<sup>th</sup> letter of the alphabet is <em>n</em>.
+</p>
+<p>
+    To decrypt, we have to solve the equation, y = 9 * x + 2, x = 1 / 9 (y - 2). But we have to
+    handle the modular arithmetic. We have to gcd(9, 26) = 1, there is a multiplicative inverse
+    for 9 is 9 * 3 &#8801; 1 (mod 26). We now have the inverse, and substitute in the 1/9 with 3,
+    and get the decryption of
+</p>
+<p align="center">
+    x &#8801; 3(y - 2) &#8801; 3y -6 &#8801; 3y + 20 (mod 26)
+</p>
+<p align="center">
+    3 * 13 + 20 &#8801; 7
+</p>
+<p>
+    Resulting in the value of <em>h</em>
+</p>
+<p>
+    We can look at the possible attacks of <em>affine ciphers</em>:
+</p>
+<p>
+    ~ <strong>Ciphertext only</strong>: We can do exhaustive search through all 312 keys.
+    Comparing the values with one cipher text can show the result.
+</p>
+<p>
+    ~ <strong>Known plaintext</strong>: If we have 2 letters of the plaintext and the
+    corresponding letters of the ciphertext suffices to find the key.
+</p>
+<p>
+    ~ <strong>Chosen plaintext</strong>: Choose <em>ab</em> as the plaintext. The first character
+    of the ciphertext will be &#945; * 0 + &#946; = &#946;, and the second will be &#945; +
+    &#946;. Therefore, we can find the key.
+</p>
+<p>
+    ~ <strong>Chosen ciphertext</strong>: Choose <em>AB</em> as the ciphertext. This yields the
+    decryption function of the form <em>x = &#945;<sub>1</sub>y + &#946;<sub>1</sub></em>. We
+    could solve for <em>y</em> and obtain the encryption key. We also have the decryption
+    function, which is what we want.
+</p>
+</html>
