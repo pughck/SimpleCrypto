@@ -29,13 +29,8 @@ public class CryptoLessonsFragment extends Fragment {
     private List<Doc> mDocs;
 
     public CryptoLessonsFragment() {
-        // Required empty public constructor
-    }
 
-    // TODO remove ??
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        // Required empty public constructor
     }
 
     @Override
@@ -44,55 +39,60 @@ public class CryptoLessonsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_crypto_lessons, container, false);
+
         this.mDocs = DocUtils.loadDocs(rootView.getContext());
-        // TODO
+
         List<Button> lessonButtons = new ArrayList<>();
         lessonButtons.add((Button) rootView.findViewById(R.id.affine_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.caesar_lessons));
-//        lessonButtons.add((Button) rootView.findViewById(R.id.mod_arith_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.rsa_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.vigenere_lessons));
         lessonButtons.add((Button) rootView.findViewById(R.id.inverse_lessons));
+
         for (int i = 0; i < lessonButtons.size(); i++) {
-            final int loopI = i;
+            final int index = i;
             Button b = lessonButtons.get(i);
             b.setOnClickListener(new View.OnClickListener() {
+
                 @Override
                 public void onClick(View v) {
-                    Button button = (Button) v;
-                    Log.d("NAME", button.getText().toString());
-                    Log.d("CONTENTS", mDocs.get(loopI).getText());
-                    launchDialogFragment(Html.fromHtml(mDocs.get(loopI).getText()));
 
+                    Button button = (Button) v;
+                    launchDialogFragment(Html.fromHtml(mDocs.get(index).getText()));
                 }
             });
         }
+
         return rootView;
     }
 
     private void launchDialogFragment(final Spanned spanned) {
+
         DialogFragment df = new DialogFragment() {
+
             @NonNull
             @Override
             public Dialog onCreateDialog(Bundle b) {
 
                 setRetainInstance(true);
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setMessage(spanned);
+
                 return builder.create();
             }
 
-
             @Override
             public void onDestroyView() {
+
                 if (getDialog() != null && getRetainInstance()) {
                     getDialog().setDismissMessage(null);
                 }
+
                 super.onDestroyView();
             }
         };
 
-        setRetainInstance(true);
         df.show(getFragmentManager(), "lessons");
     }
 }
