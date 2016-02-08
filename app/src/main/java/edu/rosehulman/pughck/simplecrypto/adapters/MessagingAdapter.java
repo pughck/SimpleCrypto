@@ -1,6 +1,8 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import com.firebase.client.FirebaseError;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.rosehulman.pughck.simplecrypto.fragments.ConversationFragment;
 import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
@@ -154,6 +157,23 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
             super(itemView);
 
             mUser = (TextView) itemView.findViewById(R.id.user);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    // go to that conversation fragment
+                    String conversationKey = mConversations.get(getAdapterPosition())
+                            .getConversation();
+
+                    FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
+                    Fragment fragment = ConversationFragment.newInstance(conversationKey);
+                    ft.replace(R.id.fragment_container, fragment);
+                    ft.addToBackStack(Constants.conversations_added);
+                    ft.commit();
+                }
+            });
         }
     }
 
