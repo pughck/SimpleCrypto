@@ -118,4 +118,17 @@ public class UserModel {
 
         this.conversations = conversations;
     }
+
+    @JsonIgnore
+    public void setValues(UserModel user) {
+
+        this.email = user.email;
+        this.username = user.username;
+        this.fistName = user.fistName;
+        this.lastName = user.lastName;
+        this.profilePic = user.profilePic;
+
+        this.saved_strings = user.saved_strings;
+        this.conversations = user.conversations;
+    }
 }

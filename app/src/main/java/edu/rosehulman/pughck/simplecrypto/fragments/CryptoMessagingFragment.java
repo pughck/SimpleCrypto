@@ -16,8 +16,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,10 +29,12 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 
+import java.lang.reflect.Array;
+
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
-import edu.rosehulman.pughck.simplecrypto.adapters.SchemeLibraryAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
+import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
@@ -91,14 +93,19 @@ public class CryptoMessagingFragment extends Fragment {
 
                         builder.setView(view);
 
-                        EditText username = (EditText) view.findViewById(R.id.other_user);
-                        // TODO make this autopopulate
+                        ArrayAdapter<String> possibleUsers =
+                                new UsersArrayAdapter(getContext(), R.layout.drop_down_view);
+                        populatePossibleUsers(possibleUsers);
+
+                        AutoCompleteTextView username = (AutoCompleteTextView)
+                                view.findViewById(R.id.other_user);
+                        username.setAdapter(possibleUsers);
 
                         EditText message = (EditText) view.findViewById(R.id.initial_message);
                         // TODO enable / disable ok button based on this or equivalent
 
                         ArrayAdapter<SavedSchemeModel> possibleSchemes =
-                                new MyArrayAdapter(getContext(), R.layout.writer_drop_down_view);
+                                new SchemesArrayAdapter(getContext(), R.layout.drop_down_view);
                         populatePossibleSchemes(possibleSchemes);
 
                         Spinner chooseScheme = (Spinner) view.findViewById(R.id.new_message_scheme_drop_down);
@@ -126,6 +133,71 @@ public class CryptoMessagingFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void populatePossibleUsers(final ArrayAdapter<String> possibleUsers) {
+
+        Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
+        usersRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+                user.setKey(dataSnapshot.getKey());
+
+                possibleUsers.add(user.getUsername());
+
+                possibleUsers.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // not used
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                possibleUsers.remove(user.getUsername());
+
+                possibleUsers.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                // not used
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
+    }
+
+    private class UsersArrayAdapter extends ArrayAdapter<String> {
+
+        public UsersArrayAdapter(Context context, int resource) {
+
+            super(context, resource);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+
+            TextView user = (TextView) getLayoutInflater(null)
+                    .inflate(R.layout.drop_down_view, parent, false);
+
+            user.setText(getItem(position));
+
+            return user;
+        }
     }
 
     private void populatePossibleSchemes(final ArrayAdapter<SavedSchemeModel> possibleSchemes) {
@@ -175,9 +247,9 @@ public class CryptoMessagingFragment extends Fragment {
         });
     }
 
-    private class MyArrayAdapter extends ArrayAdapter<SavedSchemeModel> {
+    private class SchemesArrayAdapter extends ArrayAdapter<SavedSchemeModel> {
 
-        public MyArrayAdapter(Context context, int resource) {
+        public SchemesArrayAdapter(Context context, int resource) {
 
             super(context, resource);
         }
@@ -186,14 +258,13 @@ public class CryptoMessagingFragment extends Fragment {
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
 
             TextView schemeName = (TextView) getLayoutInflater(null)
-                    .inflate(R.layout.writer_drop_down_view, parent, false);
+                    .inflate(R.layout.drop_down_view, parent, false);
 
             schemeName.setText(getItem(position).getName());
 
             return schemeName;
         }
     }
-
 
     @Override
     public void onAttach(Context context) {

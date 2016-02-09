@@ -51,7 +51,7 @@ public class CryptoWriterFragment extends Fragment {
 
         super.onCreate(savedInstanceState);
 
-        mPossibleSchemes = new MyArrayAdapter(getContext(), R.layout.writer_drop_down_view);
+        mPossibleSchemes = new MyArrayAdapter(getContext(), R.layout.drop_down_view);
         populatePossibleSchemes();
 
         mSelectedScheme = 0;
@@ -211,7 +211,7 @@ public class CryptoWriterFragment extends Fragment {
         public View getDropDownView(int position, View convertView, ViewGroup parent) {
 
             TextView schemeName = (TextView) getLayoutInflater(null)
-                    .inflate(R.layout.writer_drop_down_view, parent, false);
+                    .inflate(R.layout.drop_down_view, parent, false);
 
             schemeName.setText(mPossibleSchemes.getItem(position).getName());
 
