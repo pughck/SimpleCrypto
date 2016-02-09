@@ -3,7 +3,6 @@ package edu.rosehulman.pughck.simplecrypto.fragments;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -29,8 +28,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 
-import java.lang.reflect.Array;
-
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
@@ -42,8 +39,6 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
  *
  */
 public class CryptoMessagingFragment extends Fragment {
-
-    private OnFragmentInteractionListener mListener;
 
     public CryptoMessagingFragment() {
 
@@ -264,35 +259,5 @@ public class CryptoMessagingFragment extends Fragment {
 
             return schemeName;
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-
-        mListener = null;
-    }
-
-    /**
-     *
-     */
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
