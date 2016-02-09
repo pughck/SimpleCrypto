@@ -28,7 +28,7 @@
         android:id="@+id/messaging_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/create_scheme_button"
+        android:layout_above="@+id/new_conversation_button"
         android:layout_alignEnd="@+id/title_bar_messaging"
         android:layout_alignRight="@+id/title_bar_messaging"
         android:layout_below="@+id/title_bar_messaging"
@@ -43,7 +43,7 @@
         android:background="@drawable/stroke_bg" />
 
     <Button
-        android:id="@+id/create_scheme_button"
+        android:id="@+id/new_conversation_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

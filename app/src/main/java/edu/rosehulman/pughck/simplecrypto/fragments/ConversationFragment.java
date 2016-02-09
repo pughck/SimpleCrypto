@@ -4,11 +4,17 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.adapters.ConversationAdapter;
+import edu.rosehulman.pughck.simplecrypto.adapters.SavedStringsAdapter;
+import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
  *
@@ -55,7 +61,25 @@ public class ConversationFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
 
-        // TODO
+        RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.conversation_recycler_view);
+        ConversationAdapter adapter = new ConversationAdapter(mConversationKey);
+        rView.setAdapter(adapter);
+        rView.setLayoutManager(new LinearLayoutManager(getContext()));
+        rView.setHasFixedSize(true);
+
+        ItemTouchHelper.Callback callback = new SwipeCallback(adapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(rView);
+
+        View send = rootView.findViewById(R.id.send_message);
+        send.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // TODO send message etc...
+            }
+        });
 
         return rootView;
     }

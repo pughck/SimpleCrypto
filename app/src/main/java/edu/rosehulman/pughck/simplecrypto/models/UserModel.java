@@ -1,7 +1,5 @@
 package edu.rosehulman.pughck.simplecrypto.models;
 
-import android.net.Uri;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
@@ -10,7 +8,7 @@ import java.util.Map;
 /**
  * Created by pughck on 1/21/2016.
  */
-public class User {
+public class UserModel {
 
     @JsonIgnore
     private String key;
@@ -22,14 +20,14 @@ public class User {
     private String profilePic;
 
     private Map<String, SavedStringModel> saved_strings;
-    private Map<String, ConversationModel> conversations;
+    private Map<String, MessagesModel> conversations;
 
-    public User() {
+    public UserModel() {
 
         // empty default constructor for jackson
     }
 
-    public User(String email, String fistName, String lastName, String username, String profilePic) {
+    public UserModel(String email, String fistName, String lastName, String username, String profilePic) {
 
         this.email = email;
         this.fistName = fistName;
@@ -111,12 +109,12 @@ public class User {
         this.saved_strings = saved_strings;
     }
 
-    public Map<String, ConversationModel> getConversations() {
+    public Map<String, MessagesModel> getConversations() {
 
         return conversations;
     }
 
-    public void setConversations(Map<String, ConversationModel> conversations) {
+    public void setConversations(Map<String, MessagesModel> conversations) {
 
         this.conversations = conversations;
     }

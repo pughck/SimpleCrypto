@@ -12,16 +12,22 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
@@ -53,7 +59,7 @@ public class CryptoMessagingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_crypto_messaging, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_crypto_messaging, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.messaging_recycler_view);
         MessagingAdapter adapter = new MessagingAdapter(getActivity());
@@ -65,7 +71,7 @@ public class CryptoMessagingFragment extends Fragment {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rView);
 
-        Button createButton = (Button) rootView.findViewById(R.id.create_scheme_button);
+        Button createButton = (Button) rootView.findViewById(R.id.new_conversation_button);
         createButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -85,7 +91,19 @@ public class CryptoMessagingFragment extends Fragment {
 
                         builder.setView(view);
 
-                        // TODO
+                        EditText username = (EditText) view.findViewById(R.id.other_user);
+                        // TODO make this autopopulate
+
+                        EditText message = (EditText) view.findViewById(R.id.initial_message);
+                        // TODO enable / disable ok button based on this or equivalent
+
+                        ArrayAdapter<SavedSchemeModel> possibleSchemes =
+                                new MyArrayAdapter(getContext(), R.layout.writer_drop_down_view);
+                        populatePossibleSchemes(possibleSchemes);
+
+                        Spinner chooseScheme = (Spinner) view.findViewById(R.id.new_message_scheme_drop_down);
+                        chooseScheme.setAdapter(possibleSchemes);
+                        // TODO add on item selected listener ??
 
                         builder.setPositiveButton(android.R.string.ok,
                                 new DialogInterface.OnClickListener() {
@@ -109,6 +127,73 @@ public class CryptoMessagingFragment extends Fragment {
 
         return rootView;
     }
+
+    private void populatePossibleSchemes(final ArrayAdapter<SavedSchemeModel> possibleSchemes) {
+
+        Firebase schemesRef = new Firebase(Constants.FIREBASE_SCHEMES_URL);
+        Query mySchemes = schemesRef.orderByChild("uid").equalTo(schemesRef.getAuth().getUid());
+        mySchemes.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+                scheme.setKey(dataSnapshot.getKey());
+
+                possibleSchemes.add(scheme);
+
+                possibleSchemes.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // not used - shouldn't be relevant
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+
+                possibleSchemes.remove(scheme);
+
+                possibleSchemes.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                // not used
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
+    }
+
+    private class MyArrayAdapter extends ArrayAdapter<SavedSchemeModel> {
+
+        public MyArrayAdapter(Context context, int resource) {
+
+            super(context, resource);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+
+            TextView schemeName = (TextView) getLayoutInflater(null)
+                    .inflate(R.layout.writer_drop_down_view, parent, false);
+
+            schemeName.setText(getItem(position).getName());
+
+            return schemeName;
+        }
+    }
+
 
     @Override
     public void onAttach(Context context) {

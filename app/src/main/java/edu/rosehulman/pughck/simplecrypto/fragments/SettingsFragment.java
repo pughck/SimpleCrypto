@@ -17,11 +17,10 @@ import android.widget.EditText;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
 import edu.rosehulman.pughck.simplecrypto.R;
-import edu.rosehulman.pughck.simplecrypto.models.User;
+import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 /**
@@ -29,7 +28,7 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
  */
 public class SettingsFragment extends Fragment {
 
-    private User mUser;
+    private UserModel mUser;
 
     public SettingsFragment() {
 
@@ -59,7 +58,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                mUser = dataSnapshot.getValue(User.class);
+                mUser = dataSnapshot.getValue(UserModel.class);
             }
 
             @Override

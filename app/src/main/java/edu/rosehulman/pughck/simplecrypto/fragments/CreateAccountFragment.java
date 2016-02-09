@@ -16,7 +16,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.R;
-import edu.rosehulman.pughck.simplecrypto.models.User;
+import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 
 /**
  *
@@ -187,7 +187,7 @@ public class CreateAccountFragment extends Fragment {
                 }
             }
 
-            User user = new User(email, firstName, lastName, username, Uri.EMPTY.toString());
+            UserModel user = new UserModel(email, firstName, lastName, username, Uri.EMPTY.toString());
 
             mListener.onCreateAccount(user, password);
 
@@ -260,6 +260,6 @@ public class CreateAccountFragment extends Fragment {
      */
     public interface CreateAccountListener {
 
-        void onCreateAccount(User user, String password);
+        void onCreateAccount(UserModel user, String password);
     }
 }

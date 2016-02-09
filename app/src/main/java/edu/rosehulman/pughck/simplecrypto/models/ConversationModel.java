@@ -2,16 +2,22 @@ package edu.rosehulman.pughck.simplecrypto.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import java.util.Map;
+
 /**
- * Created by gateslm on 1/17/2016.
+ * Created by pughck on 2/8/2016.
  */
 public class ConversationModel {
 
     @JsonIgnore
     private String key;
 
-    private String user;
-    private String conversation;
+    private String encryption;
+
+    private String user1;
+    private String user2;
+
+    private Map<String, MessageModel> messages;
 
     public ConversationModel() {
 
@@ -28,29 +34,43 @@ public class ConversationModel {
         this.key = key;
     }
 
-    public String getUser() {
+    public String getEncryption() {
 
-        return user;
+        return encryption;
     }
 
-    public void setUser(String user) {
+    public void setEncryption(String encryption) {
 
-        this.user = user;
+        this.encryption = encryption;
     }
 
-    public String getConversation() {
+    public String getUser1() {
 
-        return conversation;
+        return user1;
     }
 
-    public void setConversation(String conversation) {
+    public void setUser1(String user1) {
 
-        this.conversation = conversation;
+        this.user1 = user1;
     }
 
-    public void setValues(ConversationModel conversation) {
+    public String getUser2() {
 
-        this.user = conversation.user;
-        this.conversation = conversation.conversation;
+        return user2;
+    }
+
+    public void setUser2(String user2) {
+
+        this.user2 = user2;
+    }
+
+    public Map<String, MessageModel> getMessages() {
+
+        return messages;
+    }
+
+    public void setMessages(Map<String, MessageModel> messages) {
+
+        this.messages = messages;
     }
 }

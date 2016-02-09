@@ -40,7 +40,7 @@ import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SavedStringsFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SchemeLibraryFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment;
-import edu.rosehulman.pughck.simplecrypto.models.User;
+import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 public class MainActivity extends AppCompatActivity
@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCreateAccount(final User user, final String password) {
+    public void onCreateAccount(final UserModel user, final String password) {
 
         // auth user and push user to firebase and login / go to main menu
         mFirebaseRef.createUser(user.getEmail(), password, new Firebase.ResultHandler() {
@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
                 if (account != null) {
                     Uri photo = account.getPhotoUrl();
 
-                    User user = new User(account.getEmail(), "", "",
+                    UserModel user = new UserModel(account.getEmail(), "", "",
                             account.getDisplayName(),
                             photo != null ? photo.toString() : Uri.EMPTY.toString());
 
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void getGoogleOAuthToken(final User user) {
+    private void getGoogleOAuthToken(final UserModel user) {
 
         AsyncTask<Void, Void, UserWithToken> task = new AsyncTask<Void, Void, UserWithToken>() {
 
@@ -237,16 +237,16 @@ public class MainActivity extends AppCompatActivity
 
     private class UserWithToken {
 
-        private User user;
+        private UserModel user;
         private String token;
 
-        public UserWithToken(User u, String t) {
+        public UserWithToken(UserModel u, String t) {
 
             user = u;
             token = t;
         }
 
-        public User getUser() {
+        public UserModel getUser() {
 
             return user;
         }
@@ -259,14 +259,14 @@ public class MainActivity extends AppCompatActivity
 
     class MyAuthResultHandler implements Firebase.AuthResultHandler {
 
-        private User user;
+        private UserModel user;
 
         public MyAuthResultHandler() {
 
             this(null);
         }
 
-        public MyAuthResultHandler(User u) {
+        public MyAuthResultHandler(UserModel u) {
 
             user = u;
         }

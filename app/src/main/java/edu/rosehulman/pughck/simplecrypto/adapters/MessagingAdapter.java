@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.ConversationFragment;
-import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
+import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
@@ -32,7 +32,7 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
     private FragmentActivity mActivity;
 
-    private List<ConversationModel> mConversations;
+    private List<MessagesModel> mConversations;
 
     public MessagingAdapter(FragmentActivity activity) {
 
@@ -58,9 +58,9 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
     @Override
     public void onBindViewHolder(MessagingAdapter.ViewHolder holder, int position) {
 
-        ConversationModel conversationModel = mConversations.get(position);
+        MessagesModel messagesModel = mConversations.get(position);
 
-        holder.mUser.setText(conversationModel.getUser());
+        holder.mUser.setText(messagesModel.getUser());
     }
 
     @Override
@@ -182,10 +182,10 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            ConversationModel conversationModel = dataSnapshot.getValue(ConversationModel.class);
-            conversationModel.setKey(dataSnapshot.getKey());
+            MessagesModel messagesModel = dataSnapshot.getValue(MessagesModel.class);
+            messagesModel.setKey(dataSnapshot.getKey());
 
-            mConversations.add(conversationModel);
+            mConversations.add(messagesModel);
 
             notifyDataSetChanged();
         }
@@ -195,10 +195,10 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
             String key = dataSnapshot.getKey();
 
-            ConversationModel newConversation = dataSnapshot.getValue(ConversationModel.class);
+            MessagesModel newConversation = dataSnapshot.getValue(MessagesModel.class);
 
             for (int i = 0; i < mConversations.size(); i++) {
-                ConversationModel conversation = mConversations.get(i);
+                MessagesModel conversation = mConversations.get(i);
                 if (conversation.getKey().equals(key)) {
                     conversation.setValues(newConversation);
 
@@ -214,7 +214,7 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
             String key = dataSnapshot.getKey();
 
-            for (ConversationModel conversation : mConversations) {
+            for (MessagesModel conversation : mConversations) {
                 if (key.equals(conversation.getKey())) {
                     mConversations.remove(conversation);
 

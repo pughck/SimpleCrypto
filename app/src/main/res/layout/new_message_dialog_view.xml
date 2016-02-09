@@ -3,6 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO -->
+    <EditText
+        android:id="@+id/other_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:hint="@string/enter_username_hint" />
+
+    <Spinner
+        android:id="@+id/new_message_scheme_drop_down"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/other_user"
+        android:layout_margin="10dp"
+        android:prompt="@string/choose_prompt"
+        android:spinnerMode="dropdown" />
+
+    <EditText
+        android:id="@+id/initial_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_message_scheme_drop_down"
+        android:layout_margin="10dp"
+        android:hint="@string/enter_message_hint" />
 
 </RelativeLayout>
