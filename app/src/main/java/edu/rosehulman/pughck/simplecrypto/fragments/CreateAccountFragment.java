@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 /**
  *
@@ -187,7 +188,8 @@ public class CreateAccountFragment extends Fragment {
                 }
             }
 
-            UserModel user = new UserModel(email, firstName, lastName, username, Uri.EMPTY.toString());
+            UserModel user = new UserModel(email, firstName, lastName, username, Constants
+                    .DEFAULT_PROFILE_PIC);
 
             mListener.onCreateAccount(user, password);
 

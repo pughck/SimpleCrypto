@@ -170,6 +170,7 @@ public class CryptoMessagingFragment extends Fragment {
                                         newConversation.setUser1(conversationsRef.getAuth().getUid());
 
                                         String usernameVal = username.getText().toString().trim();
+                                        // TODO always picks first user ??
                                         int index = possibleUsers.getPosition(usernameVal);
                                         if (index == -1) {
                                             // TODO error - notify that user does not exist

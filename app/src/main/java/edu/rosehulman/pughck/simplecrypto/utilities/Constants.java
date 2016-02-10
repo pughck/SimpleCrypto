@@ -28,4 +28,5 @@ public class Constants {
             {"pughck@rose-hulman.edu", "gateslm@rose-hulman.edu"};
     public static final String[] cc_to = new String[]{};
     public static final String[] bcc_to = new String[]{};
+    public static final String DEFAULT_PROFILE_PIC = "https://www.bankofenglandearlycareers.co.uk/media/2747/blank-profile.jpg";
 }

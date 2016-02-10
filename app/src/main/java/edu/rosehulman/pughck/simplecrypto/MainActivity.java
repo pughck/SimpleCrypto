@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity
 
                     UserModel user = new UserModel(account.getEmail(), "", "",
                             account.getDisplayName(),
-                            photo != null ? photo.toString() : Uri.EMPTY.toString());
+                            photo != null ? photo.toString() : Constants.DEFAULT_PROFILE_PIC);
 
                     getGoogleOAuthToken(user);
                 }

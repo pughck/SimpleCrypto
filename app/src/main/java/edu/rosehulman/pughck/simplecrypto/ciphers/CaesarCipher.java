@@ -61,6 +61,7 @@ public class CaesarCipher implements ICipher {
             if (mAlphabet.containsChar(c)) {
                 int index = mAlphabet.getIndex(c);
                 int newIndex = (index - mKey) % mAlphabet.size();
+                newIndex = newIndex < 0 ? newIndex + mAlphabet.size() : newIndex;
                 c = mAlphabet.getCharacter(newIndex);
             }
 
