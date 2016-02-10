@@ -60,7 +60,7 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
         MessagesModel messagesModel = mConversations.get(position);
 
-        holder.mUser.setText(messagesModel.getUser());
+        holder.mUser.setText(messagesModel.getUsername());
     }
 
     @Override
@@ -80,72 +80,12 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
         String key = mConversations.get(position).getKey();
 
-        // TODO
+        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+        Firebase conversationRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + firebase.getAuth().getUid()
+                + Constants.FIREBASE_USER_CONVERSATIONS + "/" + key);
 
-        /*
-        final Firebase schemeRef = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + key);
-
-        final Firebase savedStringsRef = new Firebase(Constants.FIREBASE_USERS_URL
-                + "/" + schemeRef.getAuth().getUid() + Constants.FIREBASE_SAVED_STRINGS);
-        Query savedStringsQuery = savedStringsRef.orderByChild("encryption").equalTo(key);
-        savedStringsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(final DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getValue() != null) {
-
-                    DialogFragment df = new DialogFragment() {
-
-                        @NonNull
-                        @Override
-                        public Dialog onCreateDialog(Bundle savedInstance) {
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                            builder.setTitle(mActivity.getString(R.string.delete_scheme_warning));
-                            builder.setMessage(mActivity.getString(R.string.delete_scheme_warning_message));
-
-                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    schemeRef.removeValue();
-
-                                    Map<String, Map<String, String>> values = (Map) dataSnapshot.getValue();
-                                    for (String key : values.keySet()) {
-                                        savedStringsRef.child(key).removeValue();
-                                    }
-                                }
-                            });
-
-                            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    notifyDataSetChanged();
-                                }
-                            });
-
-                            return builder.create();
-                        }
-                    };
-
-                    df.show(mActivity.getSupportFragmentManager(), "warning");
-                } else {
-                    schemeRef.removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-                Log.e(Constants.error, firebaseError.getMessage());
-            }
-        });
-        */
+        conversationRef.removeValue();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

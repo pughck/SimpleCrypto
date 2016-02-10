@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -27,9 +28,17 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import edu.rosehulman.pughck.simplecrypto.MainActivity;
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
+import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
+import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
+import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
@@ -40,6 +49,8 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
  */
 public class CryptoMessagingFragment extends Fragment {
 
+    private String mUsername;
+
     public CryptoMessagingFragment() {
 
         // Required empty public constructor
@@ -49,6 +60,24 @@ public class CryptoMessagingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+        Firebase myRef = new Firebase(Constants.FIREBASE_USERS_URL + "/" + firebase.getAuth().getUid());
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserModel myUser = dataSnapshot.getValue(UserModel.class);
+                mUsername = myUser.getUsername();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -75,6 +104,8 @@ public class CryptoMessagingFragment extends Fragment {
             public void onClick(View v) {
                 DialogFragment df = new DialogFragment() {
 
+                    private int mSelectedScheme;
+
                     @NonNull
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstance) {
@@ -92,20 +123,33 @@ public class CryptoMessagingFragment extends Fragment {
                                 new UsersArrayAdapter(getContext(), R.layout.drop_down_view);
                         populatePossibleUsers(possibleUsers);
 
-                        AutoCompleteTextView username = (AutoCompleteTextView)
+                        final AutoCompleteTextView username = (AutoCompleteTextView)
                                 view.findViewById(R.id.other_user);
                         username.setAdapter(possibleUsers);
 
-                        EditText message = (EditText) view.findViewById(R.id.initial_message);
+                        final EditText message = (EditText) view.findViewById(R.id.initial_message);
                         // TODO enable / disable ok button based on this or equivalent
 
-                        ArrayAdapter<SavedSchemeModel> possibleSchemes =
+                        final ArrayAdapter<SavedSchemeModel> possibleSchemes =
                                 new SchemesArrayAdapter(getContext(), R.layout.drop_down_view);
                         populatePossibleSchemes(possibleSchemes);
 
                         Spinner chooseScheme = (Spinner) view.findViewById(R.id.new_message_scheme_drop_down);
                         chooseScheme.setAdapter(possibleSchemes);
-                        // TODO add on item selected listener ??
+                        chooseScheme.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                mSelectedScheme = position;
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                                // no used
+                            }
+                        });
 
                         builder.setPositiveButton(android.R.string.ok,
                                 new DialogInterface.OnClickListener() {
@@ -113,7 +157,69 @@ public class CryptoMessagingFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        // TODO
+                                        final Firebase conversationsRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL);
+
+                                        final ConversationModel newConversation = new ConversationModel();
+                                        newConversation.setEncryption(
+                                                possibleSchemes.getItem(mSelectedScheme).getKey());
+
+                                        newConversation.setUser1(conversationsRef.getAuth().getUid());
+
+                                        Map<String, MessageModel> messages = new HashMap<>();
+                                        messages.put(newConversation.getUser1(),
+                                                new MessageModel(newConversation.getUser1(),
+                                                        message.getText().toString()));
+                                        // TODO encrypt message
+                                        newConversation.setMessages(messages);
+
+                                        final Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
+                                        Query usersQuery = usersRef.orderByChild("username")
+                                                .equalTo(username.getText().toString().trim());
+                                        usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                String uid = "";
+                                                String username = "";
+                                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+
+                                                    uid = child.getKey();
+                                                    username = child.getValue(UserModel.class).getUsername();
+                                                }
+
+                                                // TODO if username null notify that user does not exist
+
+                                                newConversation.setUser2(uid);
+
+                                                Firebase conversationRef = conversationsRef.push();
+                                                conversationRef.setValue(newConversation);
+
+                                                // add to both users' conversations
+                                                MessagesModel messageModel = new MessagesModel();
+
+                                                messageModel.setConversation(conversationRef.getKey());
+                                                messageModel.setUid(newConversation.getUser2());
+                                                messageModel.setUsername(username);
+                                                usersRef.child(newConversation.getUser1())
+                                                        .child(Constants.FIREBASE_USER_CONVERSATIONS)
+                                                        .push()
+                                                        .setValue(messageModel);
+
+                                                messageModel.setUid(newConversation.getUser1());
+                                                messageModel.setUsername(mUsername);
+                                                usersRef.child(newConversation.getUser2())
+                                                        .child(Constants.FIREBASE_USER_CONVERSATIONS)
+                                                        .push()
+                                                        .setValue(messageModel);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(FirebaseError firebaseError) {
+
+                                                Log.e(Constants.error, firebaseError.getMessage());
+                                            }
+                                        });
                                     }
                                 });
 

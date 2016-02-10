@@ -10,7 +10,8 @@ public class MessagesModel {
     @JsonIgnore
     private String key;
 
-    private String user;
+    private String uid;
+    private String username;
     private String conversation;
 
     public MessagesModel() {
@@ -28,14 +29,24 @@ public class MessagesModel {
         this.key = key;
     }
 
-    public String getUser() {
+    public String getUid() {
 
-        return user;
+        return uid;
     }
 
-    public void setUser(String user) {
+    public void setUid(String uid) {
 
-        this.user = user;
+        this.uid = uid;
+    }
+
+    public String getUsername() {
+
+        return username;
+    }
+
+    public void setUsername(String username) {
+
+        this.username = username;
     }
 
     public String getConversation() {
@@ -50,7 +61,8 @@ public class MessagesModel {
 
     public void setValues(MessagesModel conversation) {
 
-        this.user = conversation.user;
+        this.uid = conversation.uid;
+        this.username = conversation.username;
         this.conversation = conversation.conversation;
     }
 }

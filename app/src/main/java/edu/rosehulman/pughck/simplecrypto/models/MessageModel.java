@@ -10,12 +10,18 @@ public class MessageModel {
     @JsonIgnore
     private String key;
 
-    private String message;
     private String user;
+    private String message;
 
     public MessageModel() {
 
         // empty default constructor
+    }
+
+    public MessageModel(String user, String message) {
+
+        this.user = user;
+        this.message = message;
     }
 
     public String getKey() {
