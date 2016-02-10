@@ -178,14 +178,15 @@ public class CryptoMessagingFragment extends Fragment {
                                         newConversation.setUser2(uidVal);
 
                                         // TODO encrypt message
-                                        Map<String, MessageModel> messages = new HashMap<>();
-                                        messages.put(newConversation.getUser1(),
-                                                new MessageModel(newConversation.getUser1(),
-                                                        message.getText().toString()));
-                                        newConversation.setMessages(messages);
+                                        MessageModel firstMessage = new MessageModel(
+                                                newConversation.getUser1(),
+                                                message.getText().toString());
 
                                         Firebase conversationRef = conversationsRef.push();
                                         conversationRef.setValue(newConversation);
+
+                                        conversationRef.child(Constants.FIREBASE_MESSAGES_URL)
+                                                .push().setValue(firstMessage);
 
                                         Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
 

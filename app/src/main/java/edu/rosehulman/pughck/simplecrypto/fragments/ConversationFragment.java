@@ -10,10 +10,15 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.firebase.client.Firebase;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.ConversationAdapter;
 import edu.rosehulman.pughck.simplecrypto.adapters.SavedStringsAdapter;
+import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
@@ -71,13 +76,32 @@ public class ConversationFragment extends Fragment {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rView);
 
+        final EditText messageText = (EditText) rootView.findViewById(R.id.message_edit_text);
+
         View send = rootView.findViewById(R.id.send_message);
         send.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                // TODO send message etc...
+                String messageVal = messageText.getText().toString();
+
+                if (messageVal.isEmpty()) {
+                    return;
+                }
+
+                // TODO encrypt
+
+                Firebase messagesRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
+                        + "/" + mConversationKey + Constants.FIREBASE_MESSAGES_URL);
+
+                String user = messagesRef.getAuth().getUid();
+
+                MessageModel message = new MessageModel(user, messageVal);
+
+                messagesRef.push().setValue(message);
+
+                messageText.setText("");
             }
         });
 

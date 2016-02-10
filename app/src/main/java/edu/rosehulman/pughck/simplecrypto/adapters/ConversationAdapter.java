@@ -84,11 +84,17 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-                MessageModel message = dataSnapshot.getValue(MessageModel.class);
+                String key = dataSnapshot.getKey();
 
-                mMessages.remove(message);
+                for (MessageModel message : mMessages) {
+                    if (key.equals(message.getKey())) {
+                        mMessages.remove(message);
 
-                notifyDataSetChanged();
+                        notifyDataSetChanged();
+
+                        return;
+                    }
+                }
             }
 
             @Override
