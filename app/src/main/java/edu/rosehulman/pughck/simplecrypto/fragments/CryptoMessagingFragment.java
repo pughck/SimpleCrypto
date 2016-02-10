@@ -30,7 +30,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import edu.rosehulman.pughck.simplecrypto.MainActivity;
@@ -50,6 +52,8 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 public class CryptoMessagingFragment extends Fragment {
 
     private String mUsername;
+
+    private List<UserModel> possibleUsersModels;
 
     public CryptoMessagingFragment() {
 
@@ -119,7 +123,7 @@ public class CryptoMessagingFragment extends Fragment {
 
                         builder.setView(view);
 
-                        ArrayAdapter<String> possibleUsers =
+                        final ArrayAdapter<String> possibleUsers =
                                 new UsersArrayAdapter(getContext(), R.layout.drop_down_view);
                         populatePossibleUsers(possibleUsers);
 
@@ -165,61 +169,46 @@ public class CryptoMessagingFragment extends Fragment {
 
                                         newConversation.setUser1(conversationsRef.getAuth().getUid());
 
+                                        String usernameVal = username.getText().toString().trim();
+                                        int index = possibleUsers.getPosition(usernameVal);
+                                        if (index == -1) {
+                                            // TODO error - notify that user does not exist
+                                            Log.e(Constants.error, "user does not exist");
+                                        }
+
+                                        UserModel userVal = possibleUsersModels.get(index);
+                                        String uidVal = userVal.getKey();
+                                        newConversation.setUser2(uidVal);
+
+                                        // TODO encrypt message
                                         Map<String, MessageModel> messages = new HashMap<>();
                                         messages.put(newConversation.getUser1(),
                                                 new MessageModel(newConversation.getUser1(),
                                                         message.getText().toString()));
-                                        // TODO encrypt message
                                         newConversation.setMessages(messages);
 
-                                        final Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
-                                        Query usersQuery = usersRef.orderByChild("username")
-                                                .equalTo(username.getText().toString().trim());
-                                        usersQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        Firebase conversationRef = conversationsRef.push();
+                                        conversationRef.setValue(newConversation);
 
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
 
-                                                String uid = "";
-                                                String username = "";
-                                                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                                        // add to both users' conversations
+                                        MessagesModel messageModel = new MessagesModel();
 
-                                                    uid = child.getKey();
-                                                    username = child.getValue(UserModel.class).getUsername();
-                                                }
+                                        messageModel.setConversation(conversationRef.getKey());
+                                        messageModel.setUid(newConversation.getUser2());
+                                        messageModel.setUsername(usernameVal);
+                                        usersRef.child(newConversation.getUser1())
+                                                .child(Constants.FIREBASE_USER_CONVERSATIONS)
+                                                .push()
+                                                .setValue(messageModel);
 
-                                                // TODO if username null notify that user does not exist
-
-                                                newConversation.setUser2(uid);
-
-                                                Firebase conversationRef = conversationsRef.push();
-                                                conversationRef.setValue(newConversation);
-
-                                                // add to both users' conversations
-                                                MessagesModel messageModel = new MessagesModel();
-
-                                                messageModel.setConversation(conversationRef.getKey());
-                                                messageModel.setUid(newConversation.getUser2());
-                                                messageModel.setUsername(username);
-                                                usersRef.child(newConversation.getUser1())
-                                                        .child(Constants.FIREBASE_USER_CONVERSATIONS)
-                                                        .push()
-                                                        .setValue(messageModel);
-
-                                                messageModel.setUid(newConversation.getUser1());
-                                                messageModel.setUsername(mUsername);
-                                                usersRef.child(newConversation.getUser2())
-                                                        .child(Constants.FIREBASE_USER_CONVERSATIONS)
-                                                        .push()
-                                                        .setValue(messageModel);
-                                            }
-
-                                            @Override
-                                            public void onCancelled(FirebaseError firebaseError) {
-
-                                                Log.e(Constants.error, firebaseError.getMessage());
-                                            }
-                                        });
+                                        messageModel.setUid(newConversation.getUser1());
+                                        messageModel.setUsername(mUsername);
+                                        usersRef.child(newConversation.getUser2())
+                                                .child(Constants.FIREBASE_USER_CONVERSATIONS)
+                                                .push()
+                                                .setValue(messageModel);
                                     }
                                 });
 
@@ -238,6 +227,8 @@ public class CryptoMessagingFragment extends Fragment {
 
     private void populatePossibleUsers(final ArrayAdapter<String> possibleUsers) {
 
+        possibleUsersModels = new ArrayList<>();
+
         Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
         usersRef.addChildEventListener(new ChildEventListener() {
 
@@ -246,6 +237,8 @@ public class CryptoMessagingFragment extends Fragment {
 
                 UserModel user = dataSnapshot.getValue(UserModel.class);
                 user.setKey(dataSnapshot.getKey());
+
+                possibleUsersModels.add(user);
 
                 possibleUsers.add(user.getUsername());
 
@@ -262,6 +255,8 @@ public class CryptoMessagingFragment extends Fragment {
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                possibleUsersModels.remove(user);
 
                 possibleUsers.remove(user.getUsername());
 
