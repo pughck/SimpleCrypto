@@ -1,16 +1,28 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
+import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
+import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
@@ -19,7 +31,10 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
 
+    private Firebase mMessagesRef;
+
     private String mConversationKey;
+    private String myUid;
 
     private List<MessageModel> mMessages;
 
@@ -27,9 +42,66 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         mConversationKey = conversationKey;
 
-        // TODO firebase
-
         mMessages = new ArrayList<>();
+
+        mMessagesRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
+                + "/" + mConversationKey + Constants.FIREBASE_MESSAGES_URL);
+
+        myUid = mMessagesRef.getAuth().getUid();
+
+        mMessagesRef.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                MessageModel message = dataSnapshot.getValue(MessageModel.class);
+                message.setKey(dataSnapshot.getKey());
+
+                mMessages.add(message);
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                // TODO fix this
+                MessageModel message = dataSnapshot.getValue(MessageModel.class);
+                String key = dataSnapshot.getKey();
+
+                for (MessageModel md : mMessages) {
+                    if (key.equals(md.getKey())) {
+                        md = message;
+
+                        notifyDataSetChanged();
+
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                MessageModel message = dataSnapshot.getValue(MessageModel.class);
+
+                mMessages.remove(message);
+
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                // not used
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -48,7 +120,17 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         holder.mMessage.setText(message.getMessage());
 
-        // TODO color etc... based on user
+        if (message.getUser().equals(myUid)) {
+            holder.mMessage.setBackgroundColor(Color.CYAN);
+        } else {
+            holder.mMessage.setBackgroundColor(Color.RED);
+
+            // TODO doesn't actually work
+            int width = holder.mWrapper.getMeasuredWidth();
+            int textWidth = holder.mMessage.getMeasuredWidth();
+
+            holder.mWrapper.setPadding(width - textWidth, 0, 0, 0);
+        }
     }
 
     @Override
@@ -68,84 +150,21 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
         String key = mMessages.get(position).getKey();
 
-        // TODO
-
-        /*
-        final Firebase schemeRef = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + key);
-
-        final Firebase savedStringsRef = new Firebase(Constants.FIREBASE_USERS_URL
-                + "/" + schemeRef.getAuth().getUid() + Constants.FIREBASE_SAVED_STRINGS);
-        Query savedStringsQuery = savedStringsRef.orderByChild("encryption").equalTo(key);
-        savedStringsQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(final DataSnapshot dataSnapshot) {
-
-                if (dataSnapshot.getValue() != null) {
-
-                    DialogFragment df = new DialogFragment() {
-
-                        @NonNull
-                        @Override
-                        public Dialog onCreateDialog(Bundle savedInstance) {
-
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                            builder.setTitle(mActivity.getString(R.string.delete_scheme_warning));
-                            builder.setMessage(mActivity.getString(R.string.delete_scheme_warning_message));
-
-                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    schemeRef.removeValue();
-
-                                    Map<String, Map<String, String>> values = (Map) dataSnapshot.getValue();
-                                    for (String key : values.keySet()) {
-                                        savedStringsRef.child(key).removeValue();
-                                    }
-                                }
-                            });
-
-                            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-
-                                    notifyDataSetChanged();
-                                }
-                            });
-
-                            return builder.create();
-                        }
-                    };
-
-                    df.show(mActivity.getSupportFragmentManager(), "warning");
-                } else {
-                    schemeRef.removeValue();
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-                Log.e(Constants.error, firebaseError.getMessage());
-            }
-        });
-        */
+        mMessagesRef.child(key).removeValue();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        public View mWrapper;
         private TextView mMessage;
 
         public ViewHolder(final View itemView) {
 
             super(itemView);
 
-            mMessage = (TextView) itemView.findViewById(R.id.message);
+            mWrapper = itemView.findViewById(R.id.message_view_wrapper);
 
+            mMessage = (TextView) itemView.findViewById(R.id.message);
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override

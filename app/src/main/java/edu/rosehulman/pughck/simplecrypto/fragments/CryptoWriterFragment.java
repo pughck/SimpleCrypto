@@ -32,9 +32,6 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
  */
 public class CryptoWriterFragment extends Fragment {
 
-//    private List<SavedSchemeModel> mPossibleSchemes;
-//    private List<String> mPossibleSchemesNames;
-
     private ArrayAdapter<SavedSchemeModel> mPossibleSchemes;
 
     private int mSelectedScheme;

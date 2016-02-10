@@ -30,12 +30,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.client.ValueEventListener;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import edu.rosehulman.pughck.simplecrypto.MainActivity;
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
@@ -53,7 +50,7 @@ public class CryptoMessagingFragment extends Fragment {
 
     private String mUsername;
 
-    private List<UserModel> possibleUsersModels;
+    private Map<String, UserModel> possibleUsersModels;
 
     public CryptoMessagingFragment() {
 
@@ -170,14 +167,13 @@ public class CryptoMessagingFragment extends Fragment {
                                         newConversation.setUser1(conversationsRef.getAuth().getUid());
 
                                         String usernameVal = username.getText().toString().trim();
-                                        // TODO always picks first user ??
-                                        int index = possibleUsers.getPosition(usernameVal);
-                                        if (index == -1) {
+
+                                        UserModel userVal = possibleUsersModels.get(usernameVal);
+                                        if (userVal == null) {
                                             // TODO error - notify that user does not exist
                                             Log.e(Constants.error, "user does not exist");
                                         }
 
-                                        UserModel userVal = possibleUsersModels.get(index);
                                         String uidVal = userVal.getKey();
                                         newConversation.setUser2(uidVal);
 
@@ -228,7 +224,7 @@ public class CryptoMessagingFragment extends Fragment {
 
     private void populatePossibleUsers(final ArrayAdapter<String> possibleUsers) {
 
-        possibleUsersModels = new ArrayList<>();
+        possibleUsersModels = new HashMap<>();
 
         Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
         usersRef.addChildEventListener(new ChildEventListener() {
@@ -239,7 +235,7 @@ public class CryptoMessagingFragment extends Fragment {
                 UserModel user = dataSnapshot.getValue(UserModel.class);
                 user.setKey(dataSnapshot.getKey());
 
-                possibleUsersModels.add(user);
+                possibleUsersModels.put(user.getUsername(), user);
 
                 possibleUsers.add(user.getUsername());
 
