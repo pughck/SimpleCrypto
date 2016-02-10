@@ -53,4 +53,10 @@ public class MessageModel {
 
         this.user = user;
     }
+
+    public void setValues(MessageModel message) {
+
+        this.user = message.user;
+        this.message = message.message;
+    }
 }

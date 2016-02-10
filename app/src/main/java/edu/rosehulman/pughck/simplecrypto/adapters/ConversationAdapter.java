@@ -65,15 +65,16 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                // TODO fix this
-                MessageModel message = dataSnapshot.getValue(MessageModel.class);
                 String key = dataSnapshot.getKey();
 
-                for (MessageModel md : mMessages) {
-                    if (key.equals(md.getKey())) {
-                        md = message;
+                MessageModel newMessage = dataSnapshot.getValue(MessageModel.class);
 
-                        notifyDataSetChanged();
+                for (int i = 0; i < mMessages.size(); i++) {
+                    MessageModel message = mMessages.get(i);
+                    if (message.getKey().equals(key)) {
+                        message.setValues(newMessage);
+
+                        notifyItemChanged(i);
 
                         return;
                     }
@@ -124,12 +125,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             holder.mMessage.setBackgroundColor(Color.CYAN);
         } else {
             holder.mMessage.setBackgroundColor(Color.RED);
-
-            // TODO doesn't actually work
-            int width = holder.mWrapper.getMeasuredWidth();
-            int textWidth = holder.mMessage.getMeasuredWidth();
-
-            holder.mWrapper.setPadding(width - textWidth, 0, 0, 0);
+            holder.mWrapper.setGravity(Gravity.END);
         }
     }
 
@@ -155,14 +151,14 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public View mWrapper;
+        public LinearLayout mWrapper;
         private TextView mMessage;
 
         public ViewHolder(final View itemView) {
 
             super(itemView);
 
-            mWrapper = itemView.findViewById(R.id.message_view_wrapper);
+            mWrapper = (LinearLayout) itemView.findViewById(R.id.message_view_wrapper);
 
             mMessage = (TextView) itemView.findViewById(R.id.message);
             itemView.setOnClickListener(new View.OnClickListener() {
