@@ -19,12 +19,16 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
+import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
@@ -40,16 +44,55 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     private String myUid;
 
+    private ConversationModel mConversation;
+
     private List<MessageModel> mMessages;
 
     public ConversationAdapter(Context context, String conversationKey) {
 
         mContext = context;
 
+        // cipher
+        Firebase conversationRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
+                + "/" + conversationKey);
+        conversationRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mConversation = dataSnapshot.getValue(ConversationModel.class);
+                String encryption = mConversation.getEncryption();
+
+                Firebase schemeRef = new Firebase(Constants.FIREBASE_SCHEMES_URL + "/" + encryption);
+                schemeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+                        ICipher cipher = scheme.convertToCipher();
+
+                        mConversation.setCipher(cipher);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                        Log.e(Constants.error, firebaseError.getMessage());
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
+
         mMessages = new ArrayList<>();
 
-        mMessagesRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
-                + "/" + conversationKey + Constants.FIREBASE_MESSAGES_URL);
+        mMessagesRef = conversationRef.child(Constants.FIREBASE_MESSAGES_URL);
 
         myUid = mMessagesRef.getAuth().getUid();
 
@@ -113,6 +156,15 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 Log.e(Constants.error, firebaseError.getMessage());
             }
         });
+    }
+
+    public void sendMessage(String message) {
+
+        String encryptedMessage = mConversation.getCipher().encrypt(message);
+
+        MessageModel messageModel = new MessageModel(mMessagesRef.getAuth().getUid(), encryptedMessage);
+
+        mMessagesRef.push().setValue(messageModel);
     }
 
     @Override

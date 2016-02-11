@@ -35,6 +35,7 @@ import java.util.Map;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.MessagingAdapter;
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
 import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
@@ -158,7 +159,8 @@ public class CryptoMessagingFragment extends Fragment {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        final Firebase conversationsRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL);
+                                        final Firebase conversationsRef = new Firebase(
+                                                Constants.FIREBASE_CONVERSATIONS_URL);
 
                                         final ConversationModel newConversation = new ConversationModel();
                                         newConversation.setEncryption(
@@ -177,20 +179,12 @@ public class CryptoMessagingFragment extends Fragment {
                                         String uidVal = userVal.getKey();
                                         newConversation.setUser2(uidVal);
 
-                                        // TODO encrypt message
-                                        MessageModel firstMessage = new MessageModel(
-                                                newConversation.getUser1(),
-                                                message.getText().toString());
-
-                                        Firebase conversationRef = conversationsRef.push();
+                                        final Firebase conversationRef = conversationsRef.push();
                                         conversationRef.setValue(newConversation);
 
-                                        conversationRef.child(Constants.FIREBASE_MESSAGES_URL)
-                                                .push().setValue(firstMessage);
-
+                                        // add to both users' conversations
                                         Firebase usersRef = new Firebase(Constants.FIREBASE_USERS_URL);
 
-                                        // add to both users' conversations
                                         MessagesModel messageModel = new MessagesModel();
 
                                         messageModel.setConversation(conversationRef.getKey());
@@ -207,6 +201,37 @@ public class CryptoMessagingFragment extends Fragment {
                                                 .child(Constants.FIREBASE_USER_CONVERSATIONS)
                                                 .push()
                                                 .setValue(messageModel);
+
+
+                                        // encrypt and send message
+                                        Firebase schemeRef = new Firebase(
+                                                Constants.FIREBASE_SCHEMES_URL
+                                                        + "/" + newConversation.getEncryption());
+                                        schemeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                                            @Override
+                                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                                SavedSchemeModel scheme = dataSnapshot.getValue(SavedSchemeModel.class);
+                                                ICipher cipher = scheme.convertToCipher();
+
+                                                String encryptedMessage = cipher.encrypt(
+                                                        message.getText().toString());
+
+                                                MessageModel firstMessage = new MessageModel(
+                                                        newConversation.getUser1(),
+                                                        encryptedMessage);
+
+                                                conversationRef.child(Constants.FIREBASE_MESSAGES_URL)
+                                                        .push().setValue(firstMessage);
+                                            }
+
+                                            @Override
+                                            public void onCancelled(FirebaseError firebaseError) {
+
+                                                Log.e(Constants.error, firebaseError.getMessage());
+                                            }
+                                        });
                                     }
                                 });
 

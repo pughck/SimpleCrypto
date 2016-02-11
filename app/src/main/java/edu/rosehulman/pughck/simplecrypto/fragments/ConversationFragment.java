@@ -62,7 +62,7 @@ public class ConversationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.conversation_recycler_view);
-        ConversationAdapter adapter = new ConversationAdapter(getContext(), mConversationKey);
+        final ConversationAdapter adapter = new ConversationAdapter(getContext(), mConversationKey);
         rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
@@ -85,16 +85,7 @@ public class ConversationFragment extends Fragment {
                     return;
                 }
 
-                // TODO encrypt
-
-                Firebase messagesRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
-                        + "/" + mConversationKey + Constants.FIREBASE_MESSAGES_URL);
-
-                String user = messagesRef.getAuth().getUid();
-
-                MessageModel message = new MessageModel(user, messageVal);
-
-                messagesRef.push().setValue(message);
+                adapter.sendMessage(messageVal);
 
                 messageText.setText("");
             }

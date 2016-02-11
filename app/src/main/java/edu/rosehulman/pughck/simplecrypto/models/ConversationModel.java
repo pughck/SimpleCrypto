@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Map;
 
+import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+
 /**
  * Created by pughck on 2/8/2016.
  */
@@ -18,6 +20,9 @@ public class ConversationModel {
     private String user2;
 
     private Map<String, MessageModel> messages;
+
+    @JsonIgnore
+    private ICipher cipher;
 
     public ConversationModel() {
 
@@ -72,5 +77,15 @@ public class ConversationModel {
     public void setMessages(Map<String, MessageModel> messages) {
 
         this.messages = messages;
+    }
+
+    public ICipher getCipher() {
+
+        return cipher;
+    }
+
+    public void setCipher(ICipher cipher) {
+
+        this.cipher = cipher;
     }
 }
