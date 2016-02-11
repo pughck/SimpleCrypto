@@ -1,7 +1,5 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,7 +14,6 @@ import com.firebase.client.Firebase;
 
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.ConversationAdapter;
-import edu.rosehulman.pughck.simplecrypto.adapters.SavedStringsAdapter;
 import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
@@ -29,8 +26,6 @@ public class ConversationFragment extends Fragment {
     private static final String ARG_CONVERSATION_KEY = "conversation_key";
 
     private String mConversationKey;
-
-    private OnFragmentInteractionListener mListener;
 
     public ConversationFragment() {
 
@@ -106,32 +101,5 @@ public class ConversationFragment extends Fragment {
         });
 
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-
-        super.onAttach(context);
-
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-    }
-
-    @Override
-    public void onDetach() {
-
-        super.onDetach();
-
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
     }
 }
