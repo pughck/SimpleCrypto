@@ -73,6 +73,8 @@ public class ConversationFragment extends Fragment {
 
         final EditText messageText = (EditText) rootView.findViewById(R.id.message_edit_text);
 
+        // TODO long press brings up saved strings with correct encryption if any
+
         View send = rootView.findViewById(R.id.send_message);
         send.setOnClickListener(new View.OnClickListener() {
 

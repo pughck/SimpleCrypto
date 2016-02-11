@@ -38,6 +38,8 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
         mActivity = activity;
 
+        // TODO have the firebase be from the conversations using a query if possible so that we can see the updates
+
         Firebase firebase = new Firebase(Constants.FIREBASE_URL);
         Firebase userConversationsRef = new Firebase(Constants.FIREBASE_USERS_URL
                 + "/" + firebase.getAuth().getUid() + Constants.FIREBASE_USER_CONVERSATIONS);
