@@ -1,6 +1,9 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -31,21 +34,22 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
 
+    private Context mContext;
+
     private Firebase mMessagesRef;
 
-    private String mConversationKey;
     private String myUid;
 
     private List<MessageModel> mMessages;
 
-    public ConversationAdapter(String conversationKey) {
+    public ConversationAdapter(Context context, String conversationKey) {
 
-        mConversationKey = conversationKey;
+        mContext = context;
 
         mMessages = new ArrayList<>();
 
         mMessagesRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
-                + "/" + mConversationKey + Constants.FIREBASE_MESSAGES_URL);
+                + "/" + conversationKey + Constants.FIREBASE_MESSAGES_URL);
 
         myUid = mMessagesRef.getAuth().getUid();
 
@@ -128,9 +132,14 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.mMessage.setText(message.getMessage());
 
         if (message.getUser().equals(myUid)) {
-            holder.mMessage.setBackgroundColor(Color.CYAN);
+            holder.mCard.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorPrimaryDark));
+            holder.mMessage.setTextColor(Color.WHITE);
+
+            holder.mWrapper.setGravity(Gravity.START);
         } else {
-            holder.mMessage.setBackgroundColor(Color.RED);
+            holder.mCard.setBackgroundColor(ContextCompat.getColor(mContext, R.color.purple));
+            holder.mMessage.setTextColor(Color.BLACK);
+
             holder.mWrapper.setGravity(Gravity.END);
         }
     }
@@ -157,7 +166,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        public LinearLayout mWrapper;
+        private LinearLayout mWrapper;
+        private View mCard;
         private TextView mMessage;
 
         public ViewHolder(final View itemView) {
@@ -165,6 +175,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             super(itemView);
 
             mWrapper = (LinearLayout) itemView.findViewById(R.id.message_view_wrapper);
+
+            mCard = itemView.findViewById(R.id.message_card_view);
 
             mMessage = (TextView) itemView.findViewById(R.id.message);
             itemView.setOnClickListener(new View.OnClickListener() {

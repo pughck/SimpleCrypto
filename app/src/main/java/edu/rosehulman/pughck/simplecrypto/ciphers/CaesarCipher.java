@@ -3,8 +3,6 @@ package edu.rosehulman.pughck.simplecrypto.ciphers;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 
 /**
- * TODO
- * <p/>
  * Created by gateslm on 1/17/2016.
  */
 public class CaesarCipher implements ICipher {
@@ -62,6 +60,7 @@ public class CaesarCipher implements ICipher {
                 int index = mAlphabet.getIndex(c);
                 int newIndex = (index - mKey) % mAlphabet.size();
                 newIndex = newIndex < 0 ? newIndex + mAlphabet.size() : newIndex;
+
                 c = mAlphabet.getCharacter(newIndex);
             }
 

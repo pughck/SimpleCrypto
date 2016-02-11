@@ -18,8 +18,6 @@
         android:gravity="center"
         android:visibility="gone" />
 
-    <!-- TODO more styling -->
-
     <LinearLayout
         android:id="@+id/create_account_form"
         android:layout_width="match_parent"

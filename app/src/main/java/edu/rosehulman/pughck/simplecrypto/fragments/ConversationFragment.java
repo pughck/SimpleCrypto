@@ -67,7 +67,7 @@ public class ConversationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.conversation_recycler_view);
-        ConversationAdapter adapter = new ConversationAdapter(mConversationKey);
+        ConversationAdapter adapter = new ConversationAdapter(getContext(), mConversationKey);
         rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);

@@ -10,8 +10,6 @@ import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.ExtendedAlphabet;
 
 /**
- * TODO
- * <p/>
  * Created by gateslm on 1/17/2016.
  */
 public class SavedSchemeModel {
@@ -139,7 +137,6 @@ public class SavedSchemeModel {
 
         ICipher cipher;
 
-        // TODO make this better code
         Alphabet alphabet;
         if (this.alphabet.equals("basic")) {
             alphabet = new BasicAlphabet();
