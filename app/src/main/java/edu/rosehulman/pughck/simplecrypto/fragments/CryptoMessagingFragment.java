@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -104,7 +107,10 @@ public class CryptoMessagingFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
+
                 DialogFragment df = new DialogFragment() {
+
+                    private EditText mMessage;
 
                     private int mSelectedScheme;
 
@@ -129,8 +135,7 @@ public class CryptoMessagingFragment extends Fragment {
                                 view.findViewById(R.id.other_user);
                         username.setAdapter(possibleUsers);
 
-                        final EditText message = (EditText) view.findViewById(R.id.initial_message);
-                        // TODO enable / disable ok button based on this or equivalent
+                        mMessage = (EditText) view.findViewById(R.id.initial_message);
 
                         final ArrayAdapter<SavedSchemeModel> possibleSchemes =
                                 new SchemesArrayAdapter(getContext(), R.layout.drop_down_view);
@@ -172,8 +177,13 @@ public class CryptoMessagingFragment extends Fragment {
 
                                         UserModel userVal = possibleUsersModels.get(usernameVal);
                                         if (userVal == null) {
-                                            // TODO error - notify that user does not exist
+                                            Toast.makeText(getContext(),
+                                                    R.string.invalid_user_selected,
+                                                    Toast.LENGTH_LONG).show();
+
                                             Log.e(Constants.error, "user does not exist");
+
+                                            return;
                                         }
 
                                         String uidVal = userVal.getKey();
@@ -216,7 +226,7 @@ public class CryptoMessagingFragment extends Fragment {
                                                 ICipher cipher = scheme.convertToCipher();
 
                                                 String encryptedMessage = cipher.encrypt(
-                                                        message.getText().toString());
+                                                        mMessage.getText().toString());
 
                                                 MessageModel firstMessage = new MessageModel(
                                                         newConversation.getUser1(),
@@ -237,7 +247,39 @@ public class CryptoMessagingFragment extends Fragment {
 
                         builder.setNegativeButton(android.R.string.cancel, null);
 
-                        return builder.create();
+                        final AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+
+                        TextWatcher watcher = new TextWatcher() {
+
+                            @Override
+                            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                                // not used
+                            }
+
+                            @Override
+                            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                                // not used
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                                if (mMessage.getText().toString().isEmpty()) {
+                                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(false);
+                                } else {
+                                    dialog.getButton(AlertDialog.BUTTON_POSITIVE).setEnabled(true);
+                                }
+                            }
+                        };
+
+                        mMessage.addTextChangedListener(watcher);
+
+                        return dialog;
                     }
                 };
 

@@ -38,7 +38,10 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
         mActivity = activity;
 
-        // TODO have the firebase be from the conversations using a query if possible so that we can see the updates
+        // TODO
+        // have the firebase be from the conversations using a query if possible so that we can see the updates
+        // query would need to be based on user1 or user2 or list of conversations that updates
+        // may cause issues with deleting them...
 
         Firebase firebase = new Firebase(Constants.FIREBASE_URL);
         Firebase userConversationsRef = new Firebase(Constants.FIREBASE_USERS_URL
