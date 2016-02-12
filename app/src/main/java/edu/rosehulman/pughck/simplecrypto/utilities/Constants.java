@@ -14,8 +14,6 @@ public class Constants {
     public static final String login_fragment_tag = "login";
     public static final String create_account_fragment_tag = "create_account";
 
-    public static final String DEFAULT_PROFILE_PIC = "https://www.bankofenglandearlycareers.co.uk/media/2747/blank-profile.jpg";
-
     public static final String FIREBASE_URL = "https://csse483-simple-crypto.firebaseio.com";
     public static final String FIREBASE_USERS_URL = FIREBASE_URL + "/users";
     public static final String FIREBASE_SCHEMES_URL = FIREBASE_URL + "/schemes";

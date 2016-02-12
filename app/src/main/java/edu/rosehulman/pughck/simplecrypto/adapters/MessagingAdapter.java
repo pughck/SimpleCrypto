@@ -8,20 +8,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.ConversationFragment;
 import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
+import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
+import edu.rosehulman.pughck.simplecrypto.utilities.GetProfilePicTask;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
@@ -61,11 +65,37 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(MessagingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final MessagingAdapter.ViewHolder holder, int position) {
 
         MessagesModel messagesModel = mConversations.get(position);
 
         holder.mUser.setText(messagesModel.getUsername());
+
+        // find user and get pic
+        Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + messagesModel.getUid());
+        userRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                UserModel user = dataSnapshot.getValue(UserModel.class);
+
+                String profilePicUrl = user.getProfilePic();
+
+                if (profilePicUrl.isEmpty()) {
+                    holder.mUserPic.setImageResource(R.drawable.default_profile);
+                } else {
+                    new GetProfilePicTask(holder.mUserPic).execute(profilePicUrl);
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
     }
 
     @Override
@@ -95,11 +125,14 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
+        private ImageView mUserPic;
         private TextView mUser;
 
         public ViewHolder(final View itemView) {
 
             super(itemView);
+
+            mUserPic = (ImageView) itemView.findViewById(R.id.user_image);
 
             mUser = (TextView) itemView.findViewById(R.id.user);
 

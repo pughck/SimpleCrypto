@@ -8,12 +8,20 @@
 
     card_view:cardCornerRadius="10dp">
 
+    <ImageView
+        android:id="@+id/user_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:contentDescription="@string/profile_pic"
+        android:src="@drawable/default_profile" />
+
     <TextView
         android:id="@+id/user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginStart="5dp"
+        android:layout_marginLeft="75dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="10dp"
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
