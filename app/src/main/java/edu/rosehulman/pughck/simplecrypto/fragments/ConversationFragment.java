@@ -10,12 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.firebase.client.Firebase;
-
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.adapters.ConversationAdapter;
-import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
-import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
@@ -62,7 +58,7 @@ public class ConversationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.conversation_recycler_view);
-        final ConversationAdapter adapter = new ConversationAdapter(getContext(), mConversationKey);
+        final ConversationAdapter adapter = new ConversationAdapter(getActivity(), mConversationKey);
         rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
@@ -73,7 +69,16 @@ public class ConversationFragment extends Fragment {
 
         final EditText messageText = (EditText) rootView.findViewById(R.id.message_edit_text);
 
-        // TODO long press brings up saved strings with correct encryption if any
+        messageText.setOnLongClickListener(new View.OnLongClickListener() {
+
+            @Override
+            public boolean onLongClick(View v) {
+
+                adapter.showSavedStrings(messageText);
+
+                return true;
+            }
+        });
 
         View send = rootView.findViewById(R.id.send_message);
         send.setOnClickListener(new View.OnClickListener() {
