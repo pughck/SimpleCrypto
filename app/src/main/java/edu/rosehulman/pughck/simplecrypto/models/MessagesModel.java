@@ -82,10 +82,4 @@ public class MessagesModel {
         this.conversation = conversation.conversation;
         this.notifications = conversation.notifications;
     }
-
-    @Override
-    public String toString() {
-
-        return username + "\t" + conversation + "\t" + notifications + "\n";
-    }
 }

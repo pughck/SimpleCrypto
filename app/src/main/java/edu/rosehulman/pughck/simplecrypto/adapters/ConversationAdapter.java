@@ -1,6 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -246,13 +247,15 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.mMessage.setText(message.getMessage());
 
         if (message.getUser().equals(myUid)) {
-            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
+//            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
             holder.mMessage.setTextColor(Color.WHITE);
+            holder.mMessage.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
 
             holder.mWrapper.setGravity(Gravity.START);
         } else {
-            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.purple));
+//            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.purple));
             holder.mMessage.setTextColor(Color.BLACK);
+            holder.mMessage.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.purple));
 
             holder.mWrapper.setGravity(Gravity.END);
         }
