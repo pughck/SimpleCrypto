@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 1;
 
+    private int backPressedCheck = 0;
+    private CryptoMessagingFragment messagingFragment;
+
     private Firebase mFirebaseRef;
     private GoogleApiClient mGoogleApiClient;
 
@@ -319,6 +322,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (backPressedCheck == 1) {
+            messagingFragment.onBackPressed();
+        }
+
+        super.onBackPressed();
+    }
+
     // For main menu fragment
     @Override
     public void onClick(View v) {
@@ -326,11 +339,17 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment = null;
 
+        backPressedCheck = 0;
+
         switch (v.getId()) {
 
             case R.id.messaging:
                 // messaging fragment
-                fragment = new CryptoMessagingFragment();
+                messagingFragment = new CryptoMessagingFragment();
+                backPressedCheck = 1;
+
+                fragment = messagingFragment;
+
                 break;
 
             case R.id.writer:

@@ -13,6 +13,7 @@ public class MessagesModel {
     private String uid;
     private String username;
     private String conversation;
+    private int notifications;
 
     public MessagesModel() {
 
@@ -59,10 +60,32 @@ public class MessagesModel {
         this.conversation = conversation;
     }
 
+    public int getNotifications() {
+
+        return notifications;
+    }
+
+    public void setNotifications(int notifications) {
+
+        this.notifications = notifications;
+    }
+
+    public void incrementNotifications() {
+
+        this.notifications++;
+    }
+
     public void setValues(MessagesModel conversation) {
 
         this.uid = conversation.uid;
         this.username = conversation.username;
         this.conversation = conversation.conversation;
+        this.notifications = conversation.notifications;
+    }
+
+    @Override
+    public String toString() {
+
+        return username + "\t" + conversation + "\t" + notifications + "\n";
     }
 }

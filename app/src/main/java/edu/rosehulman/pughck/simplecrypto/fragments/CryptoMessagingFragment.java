@@ -56,6 +56,8 @@ public class CryptoMessagingFragment extends Fragment {
 
     private Map<String, UserModel> possibleUsersModels;
 
+    private MessagingAdapter mAdapter;
+
     public CryptoMessagingFragment() {
 
         // Required empty public constructor
@@ -85,6 +87,11 @@ public class CryptoMessagingFragment extends Fragment {
         });
     }
 
+    public void onBackPressed() {
+
+        mAdapter.onBackPressed();
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,12 +100,12 @@ public class CryptoMessagingFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_crypto_messaging, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.messaging_recycler_view);
-        MessagingAdapter adapter = new MessagingAdapter(getActivity());
-        rView.setAdapter(adapter);
+        mAdapter = new MessagingAdapter(getActivity());
+        rView.setAdapter(mAdapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
 
-        ItemTouchHelper.Callback callback = new SwipeCallback(adapter);
+        ItemTouchHelper.Callback callback = new SwipeCallback(mAdapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rView);
 
@@ -198,6 +205,7 @@ public class CryptoMessagingFragment extends Fragment {
                                         MessagesModel messageModel = new MessagesModel();
 
                                         messageModel.setConversation(conversationRef.getKey());
+                                        messageModel.setNotifications(0);
                                         messageModel.setUid(newConversation.getUser2());
                                         messageModel.setUsername(usernameVal);
                                         usersRef.child(newConversation.getUser1())
