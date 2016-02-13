@@ -127,6 +127,12 @@ public class SavedSchemeModel {
         return sb.toString();
     }
 
+    @Override
+    public String toString() {
+
+        return this.name;
+    }
+
     public ICipher convertToCipher() {
 
         ICipher cipher;
