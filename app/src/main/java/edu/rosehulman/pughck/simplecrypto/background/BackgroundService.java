@@ -30,6 +30,8 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
  *
  * https://gist.github.com/vikrum/6170193
  *
+ * http://developer.android.com/training/run-background-service/create-service.html
+ *
  *
  * helper methods.
  */
