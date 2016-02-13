@@ -14,7 +14,6 @@ public class BasicAlphabet extends Alphabet {
 
     public BasicAlphabet() {
 
-        // TODO maybe not the best way to do this
         List<Character> alphabetList = new ArrayList<>();
         for (char c : alphabet) {
             alphabetList.add(c);

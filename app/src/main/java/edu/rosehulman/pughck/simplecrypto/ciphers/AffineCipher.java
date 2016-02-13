@@ -7,8 +7,6 @@ import java.math.BigInteger;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 
 /**
- * TODO
- * <p/>
  * Created by gateslm on 1/17/2016.
  */
 public class AffineCipher implements ICipher {

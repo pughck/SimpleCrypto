@@ -1,7 +1,5 @@
 package edu.rosehulman.pughck.simplecrypto.models;
 
-import android.net.Uri;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.HashMap;
@@ -10,7 +8,7 @@ import java.util.Map;
 /**
  * Created by pughck on 1/21/2016.
  */
-public class User {
+public class UserModel {
 
     @JsonIgnore
     private String key;
@@ -22,13 +20,14 @@ public class User {
     private String profilePic;
 
     private Map<String, SavedStringModel> saved_strings;
+    private Map<String, MessagesModel> conversations;
 
-    public User() {
+    public UserModel() {
 
         // empty default constructor for jackson
     }
 
-    public User(String email, String fistName, String lastName, String username, String profilePic) {
+    public UserModel(String email, String fistName, String lastName, String username, String profilePic) {
 
         this.email = email;
         this.fistName = fistName;
@@ -37,6 +36,7 @@ public class User {
         this.profilePic = profilePic;
 
         this.saved_strings = new HashMap<>();
+        this.conversations = new HashMap<>();
     }
 
     public String getKey() {
@@ -107,5 +107,28 @@ public class User {
     public void setSaved_strings(Map<String, SavedStringModel> saved_strings) {
 
         this.saved_strings = saved_strings;
+    }
+
+    public Map<String, MessagesModel> getConversations() {
+
+        return conversations;
+    }
+
+    public void setConversations(Map<String, MessagesModel> conversations) {
+
+        this.conversations = conversations;
+    }
+
+    @JsonIgnore
+    public void setValues(UserModel user) {
+
+        this.email = user.email;
+        this.username = user.username;
+        this.fistName = user.fistName;
+        this.lastName = user.lastName;
+        this.profilePic = user.profilePic;
+
+        this.saved_strings = user.saved_strings;
+        this.conversations = user.conversations;
     }
 }

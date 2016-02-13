@@ -73,7 +73,7 @@
     <string name="delete_scheme_warning_message">Strings using this scheme will be deleted. Are you sure you want to continue?</string>
     <string name="choose_alphabet">Choose an Alphabet:</string>
 
-    <!-- Settings String -->
+    <!-- settings strings -->
     <string name="change_user_info">Change User Info</string>
     <string name="first_name">First Name:</string>
     <string name="enter_f_name">Enter First Name</string>
@@ -81,6 +81,15 @@
     <string name="enter_l_name">Enter Last Name</string>
     <string name="user_name">Username:</string>
     <string name="enter_uname">Enter Username</string>
+
+    <!-- crypto messaging strings -->
+    <string name="new_conversation">New</string>
+    <string name="enter_message_hint">Enter message</string>
+    <string name="send_message">Send</string>
+    <string name="enter_username_hint">Enter username</string>
+    <string name="invalid_user_selected">You did not select a valid user!</string>
+    <string name="profile_pic">profile pic</string>
+    <string name="message_notification">%1$d</string>
 
     <string-array name="cipher_options">
         <item>Caesar</item>

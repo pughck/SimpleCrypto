@@ -36,13 +36,6 @@ public abstract class Alphabet {
 
     public char getCharacter(int index) {
 
-        if (index >= mAlphabet.size()) {
-            Log.e(Constants.error, "Invalid index");
-
-            // TODO throw exception ??
-            return 0;
-        }
-
         return mAlphabet.get(index);
     }
 
