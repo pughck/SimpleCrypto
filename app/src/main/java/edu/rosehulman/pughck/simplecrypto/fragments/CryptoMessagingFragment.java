@@ -87,11 +87,6 @@ public class CryptoMessagingFragment extends Fragment {
         });
     }
 
-    public void onBackPressed() {
-
-        mAdapter.onBackPressed();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -214,6 +209,7 @@ public class CryptoMessagingFragment extends Fragment {
                                                 .setValue(messageModel);
 
                                         messageModel.setUid(newConversation.getUser1());
+                                        messageModel.setNotifications(1);
                                         messageModel.setUsername(mUsername);
                                         usersRef.child(newConversation.getUser2())
                                                 .child(Constants.FIREBASE_USER_CONVERSATIONS)
