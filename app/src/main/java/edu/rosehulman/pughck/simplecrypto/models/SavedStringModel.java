@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
 
 /**
- * Created by gateslm on 1/17/2016.
+ *
  */
 public class SavedStringModel {
 

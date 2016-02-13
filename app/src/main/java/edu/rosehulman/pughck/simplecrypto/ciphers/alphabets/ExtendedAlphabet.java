@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by pughck on 1/18/2016.
+ *
  */
 public class ExtendedAlphabet extends Alphabet {
 

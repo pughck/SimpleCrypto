@@ -126,5 +126,4 @@
             android:text="@string/run_cipher_button" />
 
     </RelativeLayout>
-
 </RelativeLayout>

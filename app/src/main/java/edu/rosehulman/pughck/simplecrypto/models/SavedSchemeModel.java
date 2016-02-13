@@ -10,7 +10,7 @@ import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.ExtendedAlphabet;
 
 /**
- * Created by gateslm on 1/17/2016.
+ *
  */
 public class SavedSchemeModel {
 
@@ -108,12 +108,6 @@ public class SavedSchemeModel {
         this.uid = newScheme.uid;
     }
 
-    @Override
-    public String toString() {
-
-        return this.name;
-    }
-
     @JsonIgnore
     public String getInfoString() {
 
@@ -131,6 +125,12 @@ public class SavedSchemeModel {
         sb.append("\talphabet: ").append(this.alphabet);
 
         return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+
+        return this.name;
     }
 
     public ICipher convertToCipher() {

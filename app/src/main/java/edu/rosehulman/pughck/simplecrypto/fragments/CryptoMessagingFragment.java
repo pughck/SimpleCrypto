@@ -53,10 +53,7 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 public class CryptoMessagingFragment extends Fragment {
 
     private String mUsername;
-
     private Map<String, UserModel> possibleUsersModels;
-
-    private MessagingAdapter mAdapter;
 
     public CryptoMessagingFragment() {
 
@@ -87,11 +84,6 @@ public class CryptoMessagingFragment extends Fragment {
         });
     }
 
-    public void onBackPressed() {
-
-        mAdapter.onBackPressed();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -100,12 +92,12 @@ public class CryptoMessagingFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_crypto_messaging, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.messaging_recycler_view);
-        mAdapter = new MessagingAdapter(getActivity());
-        rView.setAdapter(mAdapter);
+        MessagingAdapter adapter = new MessagingAdapter(getActivity());
+        rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
 
-        ItemTouchHelper.Callback callback = new SwipeCallback(mAdapter);
+        ItemTouchHelper.Callback callback = new SwipeCallback(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(rView);
 
@@ -118,7 +110,6 @@ public class CryptoMessagingFragment extends Fragment {
                 DialogFragment df = new DialogFragment() {
 
                     private EditText mMessage;
-
                     private int mSelectedScheme;
 
                     @NonNull
@@ -214,6 +205,7 @@ public class CryptoMessagingFragment extends Fragment {
                                                 .setValue(messageModel);
 
                                         messageModel.setUid(newConversation.getUser1());
+                                        messageModel.setNotifications(1);
                                         messageModel.setUsername(mUsername);
                                         usersRef.child(newConversation.getUser2())
                                                 .child(Constants.FIREBASE_USER_CONVERSATIONS)

@@ -1,7 +1,7 @@
 package edu.rosehulman.pughck.simplecrypto.ciphers;
 
 /**
- * Created by gateslm on 1/17/2016.
+ *
  */
 public interface ICipher {
 

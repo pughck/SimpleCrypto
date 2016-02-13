@@ -8,7 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+
+import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
 
@@ -75,6 +82,40 @@ public class MenuFragment extends Fragment {
         View logout = view.findViewById(R.id.logout);
         logout.setOnClickListener(mClickListener);
 
+        TextView notificationsView = (TextView) view.findViewById(R.id.notification_view);
+        notificationsView.setVisibility(View.INVISIBLE);
+        setNotifications(notificationsView);
+
         return view;
+    }
+
+    private void setNotifications(final TextView notificationsView) {
+
+        Firebase messagesRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + new Firebase(Constants.FIREBASE_URL).getAuth().getUid()
+                + Constants.FIREBASE_USER_CONVERSATIONS);
+        messagesRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int notificationsCount = 0;
+
+                for (DataSnapshot child : dataSnapshot.getChildren()) {
+                    MessagesModel conversation = child.getValue(MessagesModel.class);
+
+                    notificationsCount += conversation.getNotifications();
+                }
+
+                notificationsView.setVisibility(notificationsCount == 0 ? View.INVISIBLE : View.VISIBLE);
+                notificationsView.setText(getString(R.string.message_notification, notificationsCount));
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
     }
 }

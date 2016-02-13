@@ -7,7 +7,7 @@ import java.util.List;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 /**
- * Created by pughck on 1/18/2016.
+ *
  */
 public abstract class Alphabet {
 

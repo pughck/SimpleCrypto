@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by pughck on 2/11/2016.
+ *
  */
 public class GetProfilePicTask extends AsyncTask<String, Void, Bitmap> {
 

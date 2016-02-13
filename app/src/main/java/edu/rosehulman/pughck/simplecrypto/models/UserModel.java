@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by pughck on 1/21/2016.
+ *
  */
 public class UserModel {
 
@@ -18,13 +18,12 @@ public class UserModel {
     private String fistName;
     private String lastName;
     private String profilePic;
-
     private Map<String, SavedStringModel> saved_strings;
     private Map<String, MessagesModel> conversations;
 
     public UserModel() {
 
-        // empty default constructor for jackson
+        // empty default constructor
     }
 
     public UserModel(String email, String fistName, String lastName, String username, String profilePic) {
@@ -34,7 +33,6 @@ public class UserModel {
         this.lastName = lastName;
         this.username = username;
         this.profilePic = profilePic;
-
         this.saved_strings = new HashMap<>();
         this.conversations = new HashMap<>();
     }
@@ -127,7 +125,6 @@ public class UserModel {
         this.fistName = user.fistName;
         this.lastName = user.lastName;
         this.profilePic = user.profilePic;
-
         this.saved_strings = user.saved_strings;
         this.conversations = user.conversations;
     }

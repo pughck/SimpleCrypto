@@ -18,12 +18,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import edu.rosehulman.pughck.simplecrypto.fragments.ConversationFragment;
-import edu.rosehulman.pughck.simplecrypto.models.ConversationModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
@@ -32,18 +29,13 @@ import edu.rosehulman.pughck.simplecrypto.utilities.GetProfilePicTask;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
- * Created by pughck on 2/07/2016.
+ *
  */
 public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
 
     private FragmentActivity mActivity;
-
     private List<MessagesModel> mConversations;
-
-    private Map<String, ViewHolder> mConversationsMap;
-
-    Map<Firebase, ConversationListener> mListeners;
 
     public MessagingAdapter(FragmentActivity activity) {
 
@@ -55,19 +47,6 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
         userConversationsRef.addChildEventListener(new MessagingChildEventListener());
 
         mConversations = new ArrayList<>();
-        mConversationsMap = new HashMap<>();
-        mListeners = new HashMap<>();
-    }
-
-    public void onBackPressed() {
-
-        // update notifications count
-        String uid = new Firebase(Constants.FIREBASE_URL).getAuth().getUid();
-        for (MessagesModel model : mConversations) {
-            new Firebase(Constants.FIREBASE_USERS_URL + "/" + uid
-                    + "/" + Constants.FIREBASE_USER_CONVERSATIONS + "/" + model.getKey())
-                    .setValue(model);
-        }
     }
 
     @Override
@@ -89,23 +68,6 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
         int notifications = messagesModel.getNotifications();
         holder.mNotificationView.setVisibility(notifications == 0 ? View.INVISIBLE : View.VISIBLE);
         holder.mNotificationView.setText(mActivity.getString(R.string.message_notification, notifications));
-
-        Firebase conversationRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
-                + "/" + messagesModel.getConversation());
-        for (Firebase ref : mListeners.keySet()) {
-            if (ref.toString().equals(conversationRef.toString())) {
-                ref.removeEventListener(mListeners.get(ref));
-
-                break;
-            }
-        }
-
-        ConversationListener conversationListener = new ConversationListener();
-        mListeners.put(conversationRef, conversationListener);
-        conversationRef.addValueEventListener(conversationListener);
-
-        mConversationsMap.remove(messagesModel.getConversation());
-        mConversationsMap.put(messagesModel.getConversation(), holder);
 
         // find user and get pic
         Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
@@ -184,18 +146,12 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
                     messagesModel.setNotifications(0);
                     mNotificationView.setVisibility(View.INVISIBLE);
 
-                    // remove listeners
-                    for (Firebase ref : mListeners.keySet()) {
-                        ref.removeEventListener(mListeners.get(ref));
-                    }
-
                     // update notifications count
                     String uid = new Firebase(Constants.FIREBASE_URL).getAuth().getUid();
-                    for (MessagesModel model : mConversations) {
-                        new Firebase(Constants.FIREBASE_USERS_URL + "/" + uid
-                                + "/" + Constants.FIREBASE_USER_CONVERSATIONS + "/" + model.getKey())
-                                .setValue(model);
-                    }
+                    new Firebase(Constants.FIREBASE_USERS_URL + "/" + uid
+                            + "/" + Constants.FIREBASE_USER_CONVERSATIONS
+                            + "/" + messagesModel.getKey())
+                            .setValue(messagesModel);
 
                     // go to that conversation fragment
                     FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
@@ -243,8 +199,6 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
 
-            // TODO update map ??
-
             String key = dataSnapshot.getKey();
 
             for (MessagesModel conversation : mConversations) {
@@ -262,46 +216,6 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
         public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             // not used
-        }
-
-        @Override
-        public void onCancelled(FirebaseError firebaseError) {
-
-            Log.e(Constants.error, firebaseError.getMessage());
-        }
-    }
-
-    private class ConversationListener implements ValueEventListener {
-
-        private boolean mIgnore;
-
-        public ConversationListener() {
-
-            mIgnore = true;
-        }
-
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-
-            if (mIgnore) {
-                mIgnore = false;
-
-                return;
-            }
-
-            ConversationModel conversation = dataSnapshot.getValue(ConversationModel.class);
-            conversation.setKey(dataSnapshot.getKey());
-
-            ViewHolder holder = mConversationsMap.get(dataSnapshot.getKey());
-
-            if (holder != null) {
-
-                MessagesModel messagesModel = mConversations.get(holder.getAdapterPosition());
-
-                messagesModel.incrementNotifications();
-
-                notifyDataSetChanged();
-            }
         }
 
         @Override

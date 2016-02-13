@@ -51,13 +51,13 @@ public class CryptoLessonsFragment extends Fragment {
 
         for (int i = 0; i < lessonButtons.size(); i++) {
             final int index = i;
+
             Button b = lessonButtons.get(i);
             b.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
 
-                    Button button = (Button) v;
                     launchDialogFragment(Html.fromHtml(mDocs.get(index).getText()));
                 }
             });

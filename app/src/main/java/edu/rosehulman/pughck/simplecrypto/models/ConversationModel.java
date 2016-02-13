@@ -15,10 +15,8 @@ public class ConversationModel {
     private String key;
 
     private String encryption;
-
     private String user1;
     private String user2;
-
     private Map<String, MessageModel> messages;
 
     @JsonIgnore
