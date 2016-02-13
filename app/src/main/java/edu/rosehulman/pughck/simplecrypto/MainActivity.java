@@ -1,5 +1,6 @@
 package edu.rosehulman.pughck.simplecrypto;
 
+import android.app.Service;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 
+import edu.rosehulman.pughck.simplecrypto.background.BackgroundService;
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.CreateAccountFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.CryptoLessonsFragment;
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity
         CreateAccountFragment.CreateAccountListener,
         View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
+    private Intent serviceIntent;
+
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 1;
 
     private Firebase mFirebaseRef;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+        serviceIntent = new Intent(this, BackgroundService.class);
 
         setContentView(R.layout.activity_main);
 
@@ -94,6 +100,8 @@ public class MainActivity extends AppCompatActivity
         } else {
             // go to main menu
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            startService(serviceIntent);
+
             ft.add(R.id.fragment_container, new MenuFragment());
             ft.commit();
         }
