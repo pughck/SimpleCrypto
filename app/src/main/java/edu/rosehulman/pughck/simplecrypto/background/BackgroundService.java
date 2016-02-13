@@ -37,10 +37,22 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
  */
 public class BackgroundService extends Service {
 
-    private Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+//    private Firebase firebase = new Firebase(Constants.FIREBASE_URL);
+    private Firebase firebase;
     private ValueEventListener listener;
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return Service.START_STICKY;
+    }
+
     public BackgroundService() {
+        super();
+        Log.d("********", "In constructor");
+
+        // Application is null here
+//        Firebase.setAndroidContext(this);
+//        this.firebase = new Firebase(Constants.FIREBASE_URL);
 
     }
 
@@ -53,6 +65,9 @@ public class BackgroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("ONCREATE", "In on create");
+        Firebase.setAndroidContext(this);
+        this.firebase = new Firebase(Constants.FIREBASE_URL);
         this.listener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
