@@ -30,8 +30,10 @@ public class AboutFragment extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_about, container, false);
+
         TextView about = (TextView) view.findViewById(R.id.about_content);
         about.setText(Html.fromHtml(DocUtils.getAbout(getContext()).getText()));
+
         Button send_feedback = (Button) view.findViewById(R.id.send_feedback_button);
         send_feedback.setOnClickListener(new View.OnClickListener() {
 
@@ -45,9 +47,7 @@ public class AboutFragment extends Fragment {
                 email.putExtra(Intent.EXTRA_EMAIL, Constants.send_to);
                 email.putExtra(Intent.EXTRA_CC, Constants.cc_to);
                 email.putExtra(Intent.EXTRA_BCC, Constants.bcc_to);
-
                 email.putExtra(Intent.EXTRA_SUBJECT, Constants.feedback_subject);
-
                 email.putExtra(Intent.EXTRA_TEXT, "replace with your feedback");
 
                 startActivity(Intent.createChooser(email, "Choose an Email client :"));

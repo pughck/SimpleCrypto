@@ -39,7 +39,7 @@ import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
- * Created by pughck on 2/8/2016.
+ *
  */
 public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
@@ -49,9 +49,7 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private Firebase mMessagesRef;
 
     private String myUid;
-
     private ConversationModel mConversation;
-
     private List<MessageModel> mMessages;
 
     public ConversationAdapter(FragmentActivity activity, String conversationKey) {
@@ -247,13 +245,11 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         holder.mMessage.setText(message.getMessage());
 
         if (message.getUser().equals(myUid)) {
-//            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
             holder.mMessage.setTextColor(Color.WHITE);
             holder.mMessage.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.colorPrimaryDark));
 
             holder.mWrapper.setGravity(Gravity.START);
         } else {
-//            holder.mCard.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.purple));
             holder.mMessage.setTextColor(Color.BLACK);
             holder.mMessage.setBackgroundColor(ContextCompat.getColor(mActivity, R.color.purple));
 

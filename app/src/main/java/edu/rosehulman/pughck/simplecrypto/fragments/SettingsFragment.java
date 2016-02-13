@@ -50,8 +50,8 @@ public class SettingsFragment extends Fragment {
 
     private void changeUserInfo(Button changeNameButton) {
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_USERS_URL);
-        final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL + "/" + firebase.getAuth().getUid());
+        final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + new Firebase(Constants.FIREBASE_URL).getAuth().getUid());
 
         userRef.addValueEventListener(new ValueEventListener() {
 

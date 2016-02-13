@@ -10,7 +10,7 @@ import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.ExtendedAlphabet;
 
 /**
- * Created by gateslm on 1/17/2016.
+ *
  */
 public class SavedSchemeModel {
 
@@ -106,12 +106,6 @@ public class SavedSchemeModel {
         this.key1 = newScheme.key1;
         this.key2 = newScheme.key2;
         this.uid = newScheme.uid;
-    }
-
-    @Override
-    public String toString() {
-
-        return this.name;
     }
 
     @JsonIgnore

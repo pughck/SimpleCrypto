@@ -24,7 +24,7 @@ import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 import edu.rosehulman.pughck.simplecrypto.models.SavedStringModel;
 
 /**
- * Created by pughck on 1/26/2016.
+ *
  */
 public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
@@ -35,9 +35,9 @@ public class SavedStringsAdapter extends RecyclerView.Adapter<SavedStringsAdapte
 
     public SavedStringsAdapter() {
 
-        Firebase firebase = new Firebase(Constants.FIREBASE_URL);
         savedStringsRef = new Firebase(Constants.FIREBASE_USERS_URL
-                + "/" + firebase.getAuth().getUid() + Constants.FIREBASE_SAVED_STRINGS);
+                + "/" + new Firebase(Constants.FIREBASE_URL).getAuth().getUid()
+                + Constants.FIREBASE_SAVED_STRINGS);
         savedStringsRef.addChildEventListener(new SavedStringsChildEventListener());
 
         mSavedStrings = new ArrayList<>();

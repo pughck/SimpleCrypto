@@ -3,7 +3,7 @@ package edu.rosehulman.pughck.simplecrypto.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
- * Created by gateslm on 1/17/2016.
+ *
  */
 public class MessagesModel {
 

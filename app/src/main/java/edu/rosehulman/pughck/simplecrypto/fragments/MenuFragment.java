@@ -15,7 +15,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 import edu.rosehulman.pughck.simplecrypto.R;
@@ -100,16 +99,16 @@ public class MenuFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int notifcationsCount = 0;
+                int notificationsCount = 0;
 
                 for (DataSnapshot child : dataSnapshot.getChildren()) {
                     MessagesModel conversation = child.getValue(MessagesModel.class);
 
-                    notifcationsCount += conversation.getNotifications();
+                    notificationsCount += conversation.getNotifications();
                 }
 
-                notificationsView.setVisibility(notifcationsCount == 0 ? View.INVISIBLE : View.VISIBLE);
-                notificationsView.setText(getString(R.string.message_notification, notifcationsCount));
+                notificationsView.setVisibility(notificationsCount == 0 ? View.INVISIBLE : View.VISIBLE);
+                notificationsView.setText(getString(R.string.message_notification, notificationsCount));
             }
 
             @Override

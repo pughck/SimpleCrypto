@@ -29,13 +29,12 @@ import edu.rosehulman.pughck.simplecrypto.utilities.GetProfilePicTask;
 import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 
 /**
- * Created by pughck on 2/07/2016.
+ *
  */
 public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
 
     private FragmentActivity mActivity;
-
     private List<MessagesModel> mConversations;
 
     public MessagingAdapter(FragmentActivity activity) {

@@ -31,7 +31,7 @@ import edu.rosehulman.pughck.simplecrypto.utilities.SwipeCallback;
 import edu.rosehulman.pughck.simplecrypto.models.SavedSchemeModel;
 
 /**
- * Created by pughck on 1/26/2016.
+ *
  */
 public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdapter.ViewHolder>
         implements SwipeCallback.ItemTouchHelperAdapter {
@@ -182,17 +182,6 @@ public class SchemeLibraryAdapter extends RecyclerView.Adapter<SchemeLibraryAdap
                     };
 
                     df.show(mActivity.getSupportFragmentManager(), "details");
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-
-                @Override
-                public boolean onLongClick(View v) {
-
-                    // edit
-                    Log.d("TTT", "long click - edit");
-                    return true;
                 }
             });
         }

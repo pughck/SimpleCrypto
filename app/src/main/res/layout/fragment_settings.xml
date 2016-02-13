@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="20dp"
-                tools:context="edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
+
+    tools:context="edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment">
 
     <View
         android:id="@+id/side_bar"
@@ -12,7 +14,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/side_bar"/>
+        android:background="@drawable/side_bar" />
 
     <TextView
         android:id="@+id/title_bar_settings"
@@ -20,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/side_bar"
         android:layout_toRightOf="@+id/side_bar"
-        android:text="@string/settings"/>
+        android:text="@string/settings" />
 
     <ScrollView
         android:id="@+id/scrollView"
@@ -55,10 +57,8 @@
                 android:background="@drawable/black_border_solid"
                 android:text="@string/change_user_info"
                 android:textAllCaps="false"
-                android:textSize="32sp"
-                />
+                android:textSize="32sp" />
 
         </LinearLayout>
-
     </ScrollView>
 </RelativeLayout>

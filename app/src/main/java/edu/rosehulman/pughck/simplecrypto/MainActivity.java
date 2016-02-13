@@ -57,8 +57,6 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_CODE_GOOGLE_SIGN_IN = 1;
 
-    public static Fragment currentFragment;
-
     private Firebase mFirebaseRef;
     private GoogleApiClient mGoogleApiClient;
 
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             getSupportActionBar().setCustomView(R.layout.abs_layout);
+
             TextView abTv = (TextView) findViewById(R.id.action_bar_text);
             abTv.setText(Html.fromHtml(getString(R.string.title_bar)));
         } else {
@@ -356,7 +355,6 @@ public class MainActivity extends AppCompatActivity
                 final Firebase conversationRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
                         + "/" + messagesModel.getConversation() + Constants.FIREBASE_MESSAGES_URL);
 
-                // kind of hacky ??
                 final Set<String> currentMessageKeys = new HashSet<>();
 
                 conversationRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -473,8 +471,6 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment fragment;
 
-//        backPressedCheck = 0;
-
         switch (v.getId()) {
 
             case R.id.messaging:
@@ -523,8 +519,6 @@ public class MainActivity extends AppCompatActivity
                 Log.e(Constants.error, "invalid main menu click");
                 return;
         }
-
-        currentFragment = fragment;
 
         ft.replace(R.id.fragment_container, fragment);
         if (v.getId() != R.id.logout) {

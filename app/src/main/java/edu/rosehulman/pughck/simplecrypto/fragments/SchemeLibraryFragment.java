@@ -62,8 +62,6 @@ public class SchemeLibraryFragment extends Fragment {
             public void onClick(View v) {
 
                 // dialog fragment with custom view to create scheme
-                Log.d("TTT", "create scheme button clicked");
-
                 DialogFragment df = new DialogFragment() {
 
                     @NonNull
