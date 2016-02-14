@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -30,11 +29,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
+import edu.rosehulman.pughck.simplecrypto.background.BackgroundService;
 import edu.rosehulman.pughck.simplecrypto.fragments.AboutFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.CreateAccountFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.CryptoLessonsFragment;
@@ -45,8 +41,6 @@ import edu.rosehulman.pughck.simplecrypto.fragments.MenuFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SavedStringsFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SchemeLibraryFragment;
 import edu.rosehulman.pughck.simplecrypto.fragments.SettingsFragment;
-import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
-import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
@@ -101,7 +95,7 @@ public class MainActivity extends AppCompatActivity
             ft.commit();
         } else {
             // set up conversation listener
-            setUpMessagingListener(mFirebaseRef.getAuth().getUid());
+            startService(new Intent(this, BackgroundService.class));
 
             // go to main menu
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -300,7 +294,7 @@ public class MainActivity extends AppCompatActivity
                             userRef.setValue(user);
                         }
 
-                        setUpMessagingListener(authData.getUid());
+                        startService(new Intent(MainActivity.this, BackgroundService.class));
                     }
 
                     @Override
@@ -310,7 +304,7 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
             } else {
-                setUpMessagingListener(authData.getUid());
+                startService(new Intent(MainActivity.this, BackgroundService.class));
             }
 
             // clear backstack
@@ -330,138 +324,6 @@ public class MainActivity extends AppCompatActivity
 
             showLoginError(firebaseError.getMessage());
         }
-    }
-
-    // listen on this users messages in conversations section to update notifications
-    // then other listeners watch for notification count change and update UI accordingly
-    private void setUpMessagingListener(final String myUid) {
-
-        final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
-                + "/" + myUid + Constants.FIREBASE_USER_CONVERSATIONS);
-        userRef.addChildEventListener(new ChildEventListener() {
-
-            private List<MessagesModel> mConversations = new ArrayList<>();
-
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                final MessagesModel messagesModel = dataSnapshot.getValue(MessagesModel.class);
-
-                messagesModel.setKey(dataSnapshot.getKey());
-
-                mConversations.add(messagesModel);
-
-                // set up listener on actual conversation
-                final Firebase conversationRef = new Firebase(Constants.FIREBASE_CONVERSATIONS_URL
-                        + "/" + messagesModel.getConversation() + Constants.FIREBASE_MESSAGES_URL);
-
-                final Set<String> currentMessageKeys = new HashSet<>();
-
-                conversationRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                        for (DataSnapshot child : dataSnapshot.getChildren()) {
-                            currentMessageKeys.add(child.getKey());
-                        }
-
-                        conversationRef.addChildEventListener(new ChildEventListener() {
-
-                            @Override
-                            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                                // update notifications count if from other user
-                                MessageModel message = dataSnapshot.getValue(MessageModel.class);
-                                message.setKey(dataSnapshot.getKey());
-
-                                if (!(message.getUser().equals(myUid)
-                                        || currentMessageKeys.contains(message.getKey()))) {
-
-                                    messagesModel.incrementNotifications();
-
-                                    userRef.child(messagesModel.getKey()).setValue(messagesModel);
-                                }
-
-                                currentMessageKeys.add(message.getKey());
-                            }
-
-                            @Override
-                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                                // ignore
-                            }
-
-                            @Override
-                            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                                // ignore
-                            }
-
-                            @Override
-                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                                // not used
-                            }
-
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
-
-                                Log.e(Constants.error, firebaseError.getMessage());
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onCancelled(FirebaseError firebaseError) {
-
-                        Log.e(Constants.error, firebaseError.getMessage());
-                    }
-                });
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-                String key = dataSnapshot.getKey();
-
-                MessagesModel newMessagesModel = dataSnapshot.getValue(MessagesModel.class);
-
-                for (MessagesModel messagesModel : mConversations) {
-                    if (key.equals(messagesModel.getKey())) {
-                        messagesModel.setValues(newMessagesModel);
-
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                String key = dataSnapshot.getKey();
-
-                for (MessagesModel messagesModel : mConversations) {
-                    if (key.equals(messagesModel.getKey())) {
-                        mConversations.remove(messagesModel);
-
-                        return;
-                    }
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                // not used;
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-                Log.e(Constants.error, firebaseError.getMessage());
-            }
-        });
     }
 
     // For main menu fragment
