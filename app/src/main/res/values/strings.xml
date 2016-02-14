@@ -94,6 +94,8 @@
     <string name="invalid_user_selected">You did not select a valid user!</string>
     <string name="profile_pic">profile pic</string>
     <string name="message_notification">%1$d</string>
+    <string name="profile_picture_title">Profile Picture</string>
+    <string name="picture_link_enter">Enter Picture Link</string>
 
     <string-array name="cipher_options">
         <item>Caesar</item>

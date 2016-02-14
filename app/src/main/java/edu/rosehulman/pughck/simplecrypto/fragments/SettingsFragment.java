@@ -44,8 +44,61 @@ public class SettingsFragment extends Fragment {
 
         Button changeNameButton = (Button) rootView.findViewById(R.id.user_name_change);
         changeUserInfo(changeNameButton);
+        Button profilePictureChange = (Button) rootView.findViewById(R.id.user_picture_change);
+        changeProfilePictureLink(profilePictureChange);
 
         return rootView;
+    }
+
+    private void changeProfilePictureLink(Button profilePictureChange) {
+        final Firebase userRef = new Firebase(Constants.FIREBASE_USERS_URL
+                + "/" + new Firebase(Constants.FIREBASE_URL).getAuth().getUid());
+        userRef.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                mUser = dataSnapshot.getValue(UserModel.class);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+                Log.e(Constants.error, firebaseError.getMessage());
+            }
+        });
+
+        profilePictureChange.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mUser != null) {
+                    DialogFragment df = new DialogFragment() {
+                        @NonNull
+                        @Override
+                        public Dialog onCreateDialog(Bundle savedInstanceState) {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            View view = getActivity().getLayoutInflater().inflate(R.layout
+                                    .account_profile_picture_change_dialog, null, false);
+                            builder.setView(view);
+                            final EditText pictureEdit = (EditText) view.findViewById(R.id.picture_edit);
+                            pictureEdit.setText(mUser.getProfilePic());
+                            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mUser.setProfilePic(pictureEdit.getText().toString());
+                                    userRef.setValue(mUser);
+                                }
+                            });
+                            builder.setNegativeButton(android.R.string.cancel, null);
+
+                            return builder.create();
+                        }
+                    };
+                    df.show(getActivity().getSupportFragmentManager(), "edit profile picture");
+                }
+            }
+        });
+
     }
 
     private void changeUserInfo(Button changeNameButton) {
