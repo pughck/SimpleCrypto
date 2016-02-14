@@ -3,6 +3,7 @@ package edu.rosehulman.pughck.simplecrypto.fragments;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -13,15 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.io.IOException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.concurrent.ExecutionException;
+
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.PictureChecker;
 
 /**
  *
@@ -90,8 +98,33 @@ public class SettingsFragment extends Fragment {
                             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    mUser.setProfilePic(pictureEdit.getText().toString());
-                                    userRef.setValue(mUser);
+                                    String picture = pictureEdit.getText().toString();
+                                    if(picture.isEmpty()){
+                                        Log.d("PICTURE_URL", "Empty Picture Link");
+                                    } else{
+                                         Log.d("PICTURE_URL", picture + "");
+                                        if(picture.toLowerCase().contains(".jpg")){
+                                            Log.d("PICTURE_URL", "Picture contains jpg");
+                                            AsyncTask<String, Void, Boolean> result = new PictureChecker().execute(picture);
+                                            boolean imageResult = false;
+                                            try {
+                                                imageResult = result.get();
+                                                Log.d("PICTURE_URL", "Is image " + imageResult);
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                            }
+                                            if(!imageResult){
+                                                Log.d("PICTURE_URL", "Should show toast");
+                                                Toast.makeText(getContext(), "Not valid image. Image not" +
+                                                        " saved to profile", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Log.d("PICTURE_URL", "Save picture");
+                                                mUser.setProfilePic(pictureEdit.getText().toString());
+                                                userRef.setValue(mUser);
+                                            }
+
+                                        }
+                                    }
                                 }
                             });
                             builder.setNegativeButton(android.R.string.cancel, null);
