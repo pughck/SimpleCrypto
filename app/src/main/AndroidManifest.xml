@@ -24,12 +24,6 @@
             android:exported="false">
         </service>
 
-        <receiver
-            android:name=".background.FirebaseReciever"
-            android:enabled="true"
-            android:exported="true">
-        </receiver>
-
     </application>
 
 </manifest>

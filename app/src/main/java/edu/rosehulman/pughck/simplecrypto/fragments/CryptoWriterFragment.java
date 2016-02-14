@@ -175,6 +175,10 @@ public class CryptoWriterFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
+                if (output.getText().toString().isEmpty()) {
+                    return;
+                }
+
                 Firebase savedStringRef = new Firebase(
                         Constants.FIREBASE_USERS_URL + "/" +
                                 new Firebase(Constants.FIREBASE_URL).getAuth().getUid() +
@@ -190,9 +194,6 @@ public class CryptoWriterFragment extends Fragment {
                 savedStringRef.push().setValue(string);
             }
         });
-
-        // TODO what is this for?
-        Button export = (Button) rootView.findViewById(R.id.export_button);
 
         return rootView;
     }

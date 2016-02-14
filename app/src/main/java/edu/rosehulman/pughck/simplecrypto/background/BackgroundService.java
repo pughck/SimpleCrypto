@@ -1,6 +1,5 @@
 package edu.rosehulman.pughck.simplecrypto.background;
 
-import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -30,17 +29,8 @@ import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
 
 /**
- * An {@link IntentService} subclass for handling asynchronous task requests in
- * a service on a separate handler thread.
- * <p/>
- * TODO: Customize class - update intent actions, extra parameters and static
- * <p/>
  * https://gist.github.com/vikrum/6170193
- * <p/>
  * http://developer.android.com/training/run-background-service/create-service.html
- * <p/>
- * <p/>
- * helper methods.
  */
 public class BackgroundService extends Service {
 
@@ -230,7 +220,7 @@ public class BackgroundService extends Service {
                 Notification n = new Notification.Builder(BackgroundService.this)
                         .setContentTitle("New CryptoMessage")
                         .setContentText(user.getUsername() + ": " + message)
-                        .setSmallIcon(R.drawable.default_profile)
+                        .setSmallIcon(R.drawable.ic_launcher)
                         .setContentIntent(contentIntent)
                         .setAutoCancel(true)
                         .build();
