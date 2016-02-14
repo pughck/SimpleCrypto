@@ -43,22 +43,52 @@
         android:background="@drawable/stroke_bg"
         android:padding="5dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <Button
-                android:id="@+id/user_change"
+            <LinearLayout
+                android:id="@+id/linear_user_name_change"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:height="75dp"
-                android:background="@drawable/black_border_solid"
-                android:text="@string/change_user_info"
-                android:textAllCaps="false"
-                android:textSize="32sp" />
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <Button
+                    android:id="@+id/user_name_change"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:height="75dp"
+                    android:background="@drawable/black_border_solid"
+                    android:text="@string/change_user_name"
+                    android:textAllCaps="false"
+                    android:textSize="32sp"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linear_profile_picture_change"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/linear_user_name_change"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/user_picture_change"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:height="75dp"
+                    android:background="@drawable/black_border_solid"
+                    android:text="@string/change_profile_picture"
+                    android:textAllCaps="false"
+                    android:textSize="32sp"
+                    />
+
+            </LinearLayout>
+        </RelativeLayout>
+
+
     </ScrollView>
 </RelativeLayout>

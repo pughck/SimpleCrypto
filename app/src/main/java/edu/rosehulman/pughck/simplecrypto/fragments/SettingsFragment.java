@@ -42,7 +42,7 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        Button changeNameButton = (Button) rootView.findViewById(R.id.user_change);
+        Button changeNameButton = (Button) rootView.findViewById(R.id.user_name_change);
         changeUserInfo(changeNameButton);
 
         return rootView;
