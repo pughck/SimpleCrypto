@@ -1,5 +1,6 @@
 package edu.rosehulman.pughck.simplecrypto.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import edu.rosehulman.pughck.simplecrypto.R;
@@ -58,7 +60,8 @@ public class ConversationFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_conversation, container, false);
 
         RecyclerView rView = (RecyclerView) rootView.findViewById(R.id.conversation_recycler_view);
-        final ConversationAdapter adapter = new ConversationAdapter(getActivity(), mConversationKey);
+        final ConversationAdapter adapter = new ConversationAdapter(getActivity(),
+                mConversationKey, rView);
         rView.setAdapter(adapter);
         rView.setLayoutManager(new LinearLayoutManager(getContext()));
         rView.setHasFixedSize(true);
@@ -95,9 +98,18 @@ public class ConversationFragment extends Fragment {
                 adapter.sendMessage(messageVal);
 
                 messageText.setText("");
+
+                hideKeyboard();
             }
         });
 
         return rootView;
+    }
+
+    private void hideKeyboard() {
+
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getView().getWindowToken(), 0);
     }
 }

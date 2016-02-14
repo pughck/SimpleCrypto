@@ -147,15 +147,18 @@ public class MessagingAdapter extends RecyclerView.Adapter<MessagingAdapter.View
                     mNotificationView.setVisibility(View.INVISIBLE);
 
                     // update notifications count
-                    String uid = new Firebase(Constants.FIREBASE_URL).getAuth().getUid();
-                    new Firebase(Constants.FIREBASE_USERS_URL + "/" + uid
+                    Firebase notificationRef = new Firebase(Constants.FIREBASE_USERS_URL
+                            + "/" + new Firebase(Constants.FIREBASE_URL).getAuth().getUid()
                             + "/" + Constants.FIREBASE_USER_CONVERSATIONS
-                            + "/" + messagesModel.getKey())
-                            .setValue(messagesModel);
+                            + "/" + messagesModel.getKey()
+                            + "/notifications");
+
+                    notificationRef.setValue(messagesModel.getNotifications());
 
                     // go to that conversation fragment
                     FragmentTransaction ft = mActivity.getSupportFragmentManager().beginTransaction();
-                    Fragment fragment = ConversationFragment.newInstance(messagesModel.getConversation());
+                    Fragment fragment = ConversationFragment
+                            .newInstance(messagesModel.getConversation());
                     ft.replace(R.id.fragment_container, fragment);
                     ft.addToBackStack(Constants.conversations_added);
                     ft.commit();

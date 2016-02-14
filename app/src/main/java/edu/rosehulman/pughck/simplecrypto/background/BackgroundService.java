@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -27,12 +28,13 @@ import edu.rosehulman.pughck.simplecrypto.models.MessageModel;
 import edu.rosehulman.pughck.simplecrypto.models.MessagesModel;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
+import edu.rosehulman.pughck.simplecrypto.utilities.GetNotificationImageTask;
 
 /**
  * https://gist.github.com/vikrum/6170193
  * http://developer.android.com/training/run-background-service/create-service.html
  */
-public class BackgroundService extends Service {
+public class BackgroundService extends Service implements GetNotificationImageTask.NotificationImageCallback {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -100,8 +102,6 @@ public class BackgroundService extends Service {
 
                             @Override
                             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-                                Log.d("TTT", "child added");
 
                                 // update notifications count if from other user
                                 MessageModel message = dataSnapshot.getValue(MessageModel.class);
@@ -214,19 +214,16 @@ public class BackgroundService extends Service {
                 Intent notificationIntent = new Intent(context, MainActivity.class);
                 PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
 
-                NotificationManager notificationManager = (NotificationManager) getSystemService(Context
-                        .NOTIFICATION_SERVICE);
-
-                Notification n = new Notification.Builder(BackgroundService.this)
+                Notification.Builder notification = new Notification.Builder(BackgroundService.this)
                         .setContentTitle("New CryptoMessage")
                         .setContentText(user.getUsername() + ": " + message)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentIntent(contentIntent)
-                        .setAutoCancel(true)
-                        .build();
-                n.flags |= Notification.FLAG_AUTO_CANCEL;
+                        .setAutoCancel(true);
 
-                notificationManager.notify(0, n);
+                // service
+                new GetNotificationImageTask(BackgroundService.this, notification)
+                        .execute(user.getProfilePic());
             }
 
             @Override
@@ -235,5 +232,17 @@ public class BackgroundService extends Service {
                 Log.e(Constants.error, firebaseError.getMessage());
             }
         });
+    }
+
+    @Override
+    public void setNotificationImage(Bitmap image, Notification.Builder notification) {
+
+        notification.setLargeIcon(image);
+        Notification n = notification.build();
+        n.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context
+                .NOTIFICATION_SERVICE);
+        notificationManager.notify(0, n);
     }
 }

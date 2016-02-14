@@ -1,7 +1,6 @@
 package edu.rosehulman.pughck.simplecrypto.adapters;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -52,7 +51,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     private ConversationModel mConversation;
     private List<MessageModel> mMessages;
 
-    public ConversationAdapter(FragmentActivity activity, String conversationKey) {
+    public ConversationAdapter(FragmentActivity activity, String conversationKey,
+                               final RecyclerView rView) {
 
         mActivity = activity;
 
@@ -111,6 +111,8 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
                 mMessages.add(message);
 
                 notifyDataSetChanged();
+
+                rView.scrollToPosition(mMessages.size() - 1);
             }
 
             @Override
@@ -280,7 +282,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
 
         private LinearLayout mWrapper;
-        private View mCard;
         private TextView mMessage;
 
         private boolean showPlain;
@@ -290,7 +291,6 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
             super(itemView);
 
             mWrapper = (LinearLayout) itemView.findViewById(R.id.message_view_wrapper);
-            mCard = itemView.findViewById(R.id.message_card_view);
             mMessage = (TextView) itemView.findViewById(R.id.message);
 
             showPlain = true;
