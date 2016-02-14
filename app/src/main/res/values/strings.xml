@@ -96,6 +96,7 @@
     <string name="message_notification">%1$d</string>
     <string name="profile_picture_title">Profile Picture</string>
     <string name="picture_link_enter">Enter Picture Link</string>
+    <string name="picture_link_invalid">Picture does not end in correct file type!!! JPG and PNG are only accepted.</string>
 
     <string-array name="cipher_options">
         <item>Caesar</item>

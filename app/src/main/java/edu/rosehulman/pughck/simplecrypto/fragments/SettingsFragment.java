@@ -82,6 +82,11 @@ public class SettingsFragment extends Fragment {
                             builder.setView(view);
                             final EditText pictureEdit = (EditText) view.findViewById(R.id.picture_edit);
                             pictureEdit.setText(mUser.getProfilePic());
+                            if(!pictureEdit.getText().toString().contains(".jpg") || !pictureEdit
+                                    .getText().toString().contains(".png")){
+                                Log.d("CONTAINS", pictureEdit.getText().toString() + "");
+                                pictureEdit.setError(getContext().getString(R.string.picture_link_invalid));
+                            }
                             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
