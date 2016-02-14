@@ -8,6 +8,12 @@ import java.net.URL;
 import java.net.URLConnection;
 
 /**
+ * Links used: <br/>
+ * <a>http://stackoverflow.com/questions/6343166/android-os-networkonmainthreadexception</a>
+ * <br/>
+ * <a>http://stackoverflow.com/questions/3453641/detect-if-specified-url-is-an-image-in-android</a>
+ *
+ *
  * Created by gateslm on 2/13/2016.
  */
 public class PictureChecker extends AsyncTask<String, Void, Boolean> {
@@ -19,10 +25,10 @@ public class PictureChecker extends AsyncTask<String, Void, Boolean> {
                     .openConnection();
             String contentType = connection.getHeaderField
                     ("Content-Type");
-            boolean image = contentType.startsWith("image/");
-            Log.d("PICTURE_URL", "valid picture");
-            return image;
+            return contentType.startsWith("image/");
+//            Log.d("PICTURE_URL", "valid picture");
         } catch (IOException e) {
+            Log.d("PICTURE_URL", "Not valid picture");
             return false;
         }
     }

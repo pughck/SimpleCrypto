@@ -98,34 +98,43 @@ public class SettingsFragment extends Fragment {
                             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
+                                    String tagLocation = getContext().getString(R.string
+                                            .picture_url_tag);
+                                    boolean imageResult = false;
                                     String picture = pictureEdit.getText().toString();
-                                    if(picture.isEmpty()){
-                                        Log.d("PICTURE_URL", "Empty Picture Link");
-                                    } else{
-                                         Log.d("PICTURE_URL", picture + "");
-                                        if(picture.toLowerCase().contains(".jpg")){
-                                            Log.d("PICTURE_URL", "Picture contains jpg");
+                                    if (picture.isEmpty()) {
+                                        Log.d(tagLocation, "Empty Picture Link");
+                                        mUser.setProfilePic(pictureEdit.getText().toString());
+                                        userRef.setValue(mUser);
+                                        imageResult = true;
+                                    } else {
+                                        Log.d(tagLocation, picture + "");
+                                        if (picture.toLowerCase().contains(".jpg")) {
+                                            Log.d(tagLocation, "Picture contains jpg");
                                             AsyncTask<String, Void, Boolean> result = new PictureChecker().execute(picture);
-                                            boolean imageResult = false;
                                             try {
                                                 imageResult = result.get();
-                                                Log.d("PICTURE_URL", "Is image " + imageResult);
+                                                Log.d(tagLocation, "Is image " + imageResult);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
-                                            if(!imageResult){
-                                                Log.d("PICTURE_URL", "Should show toast");
-                                                Toast.makeText(getContext(), "Not valid image. Image not" +
-                                                        " saved to profile", Toast.LENGTH_SHORT).show();
+                                            if (!imageResult) {
+                                                Log.d(tagLocation, "Should show toast");
                                             } else {
-                                                Log.d("PICTURE_URL", "Save picture");
+                                                Log.d(tagLocation, "Save picture");
                                                 mUser.setProfilePic(pictureEdit.getText().toString());
                                                 userRef.setValue(mUser);
                                             }
 
                                         }
                                     }
+                                    if (!imageResult) {
+                                        Toast.makeText(SettingsFragment.this.getContext(),
+                                                R.string.image_not_saved,
+                                                Toast.LENGTH_LONG).show();
+                                    }
                                 }
+
                             });
                             builder.setNegativeButton(android.R.string.cancel, null);
 
