@@ -103,7 +103,7 @@ public class SchemeLibraryFragment extends Fragment {
 
                                     key2Prompt.setVisibility(View.INVISIBLE);
                                     key2.setVisibility(View.INVISIBLE);
-                                } else {
+                                } else if (position == 1) {
                                     key1Prompt.setVisibility(View.VISIBLE);
                                     key1Prompt.setText(R.string.key1_prompt_affine);
                                     key1.setVisibility(View.VISIBLE);
@@ -111,6 +111,13 @@ public class SchemeLibraryFragment extends Fragment {
                                     key2Prompt.setVisibility(View.VISIBLE);
                                     key2Prompt.setText(R.string.key2_prompt_affine);
                                     key2.setVisibility(View.VISIBLE);
+                                } else {
+                                    key1Prompt.setVisibility(View.VISIBLE);
+                                    key1Prompt.setText(R.string.key1_prompt_vigenere);
+                                    key1.setVisibility(View.VISIBLE);
+
+                                    key2Prompt.setVisibility(View.INVISIBLE);
+                                    key2.setVisibility(View.INVISIBLE);
                                 }
                             }
 

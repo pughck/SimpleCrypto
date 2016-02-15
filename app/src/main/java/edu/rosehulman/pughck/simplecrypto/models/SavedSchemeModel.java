@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import edu.rosehulman.pughck.simplecrypto.ciphers.AffineCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.CaesarCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.ICipher;
+import edu.rosehulman.pughck.simplecrypto.ciphers.VigenereCipher;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.Alphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.BasicAlphabet;
 import edu.rosehulman.pughck.simplecrypto.ciphers.alphabets.ExtendedAlphabet;
@@ -146,8 +147,10 @@ public class SavedSchemeModel {
 
         if (this.type.equals("caesar")) {
             cipher = new CaesarCipher(Integer.parseInt(this.key1), alphabet);
-        } else {
+        } else if (this.type.equals("affine")) {
             cipher = new AffineCipher(Integer.parseInt(this.key1), Integer.parseInt(this.key2), alphabet);
+        } else {
+            cipher = new VigenereCipher(this.key1, alphabet);
         }
 
         return cipher;

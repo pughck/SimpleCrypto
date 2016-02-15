@@ -67,11 +67,11 @@
     <string name="key1_prompt_caesar">Please enter a shift amount:</string>
     <string name="key1_prompt_affine">Please enter a value for alpha:</string>
     <string name="key2_prompt_affine">Please enter a value for beta:</string>
+    <string name="key1_prompt_vigenere">Please enter an encryption string</string>
     <string name="create_scheme_name_hint">Enter a name</string>
     <string name="delete_scheme_warning">Warning!!!</string>
     <string name="delete_scheme_warning_message">Strings using this scheme will be deleted. Are you sure you want to continue?</string>
     <string name="choose_alphabet">Choose an Alphabet:</string>
-
 
     <!-- Settings String -->
     <string name="change_user_name">Change User Info</string>
@@ -102,6 +102,7 @@
     <string-array name="cipher_options">
         <item>Caesar</item>
         <item>Affine</item>
+        <item>Vigenere</item>
     </string-array>
 
     <string-array name="alphabet_options">

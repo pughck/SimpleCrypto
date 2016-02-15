@@ -47,7 +47,7 @@
         android:layout_marginTop="-15dp"
         android:layout_toEndOf="@+id/create_scheme_key1_prompt"
         android:layout_toRightOf="@+id/create_scheme_key1_prompt"
-        android:inputType="number" />
+        android:inputType="text" />
 
     <TextView
         android:id="@+id/create_scheme_key2_prompt"
