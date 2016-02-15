@@ -21,11 +21,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.concurrent.ExecutionException;
-
 import edu.rosehulman.pughck.simplecrypto.R;
 import edu.rosehulman.pughck.simplecrypto.models.UserModel;
 import edu.rosehulman.pughck.simplecrypto.utilities.Constants;
@@ -188,7 +183,7 @@ public class SettingsFragment extends Fragment {
                             builder.setView(view);
 
                             final EditText fName = (EditText) view.findViewById(R.id.first_name_edit);
-                            fName.setText(mUser.getFistName());
+                            fName.setText(mUser.getFirstName());
                             final EditText lName = (EditText) view.findViewById(R.id.last_name_edit);
                             lName.setText(mUser.getLastName());
                             final EditText userName = (EditText) view.findViewById(R.id.username_edit);
@@ -199,7 +194,7 @@ public class SettingsFragment extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
-                                    mUser.setFistName(fName.getText().toString());
+                                    mUser.setFirstName(fName.getText().toString());
                                     mUser.setLastName(lName.getText().toString());
                                     mUser.setUsername(userName.getText().toString());
 

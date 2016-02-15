@@ -15,7 +15,7 @@ public class UserModel {
 
     private String email;
     private String username;
-    private String fistName;
+    private String firstName;
     private String lastName;
     private String profilePic;
     private Map<String, SavedStringModel> saved_strings;
@@ -26,10 +26,10 @@ public class UserModel {
         // empty default constructor
     }
 
-    public UserModel(String email, String fistName, String lastName, String username, String profilePic) {
+    public UserModel(String email, String firstName, String lastName, String username, String profilePic) {
 
         this.email = email;
-        this.fistName = fistName;
+        this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.profilePic = profilePic;
@@ -67,14 +67,14 @@ public class UserModel {
         this.username = username;
     }
 
-    public String getFistName() {
+    public String getFirstName() {
 
-        return fistName;
+        return firstName;
     }
 
-    public void setFistName(String fistName) {
+    public void setFirstName(String firstName) {
 
-        this.fistName = fistName;
+        this.firstName = firstName;
     }
 
     public String getLastName() {
@@ -122,7 +122,7 @@ public class UserModel {
 
         this.email = user.email;
         this.username = user.username;
-        this.fistName = user.fistName;
+        this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.profilePic = user.profilePic;
         this.saved_strings = user.saved_strings;
